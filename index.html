@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ultimate CV Builder Pro - Mobile Friendly</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js">
+    </script>
+    <!-- Carregar apenas as fontes essenciais primeiro -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&family=Lora:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Merriweather:wght@400;700&family=EB+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&family=Bebas+Neue&family=Oswald:wght@400;500;700&family=Cinzel:wght@400;700&family=Josefin+Sans:wght@400;500;700&family=Crimson+Text:wght@400;600;700&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --accent: #3b82f6;
+            --mobile-cv-scale: 0.35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 2px;
+        }
+
+        /* Paper styles */
+        .paper-white {
+            background-color: #ffffff;
+            color: #111827;
+        }
+        .paper-cream {
+            background-color: #faf8f5;
+            color: #1c1917;
+        }
+        .paper-ivory {
+            background-color: #fffff0;
+            color: #1e1b4b;
+        }
+        .paper-gray {
+            background-color: #f8f9fa;
+            color: #1a1a2e;
+        }
+        .paper-dark {
+            background-color: #1a1a2e;
+            color: #e2e8f0;
+        }
+        .paper-warm {
+            background-color: #fdf6e3;
+            color: #1a1a1a;
+        }
+        .paper-cool {
+            background-color: #f0f4f8;
+            color: #1a202c;
+        }
+
+        .no-print {
+            display: block;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                overflow: auto !important;
+            }
+            #cv-capture-area {
+                box-shadow: none !important;
+                margin: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                padding: 15mm !important;
+                font-size: 11pt !important;
+                transform: none !important;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        .animate-slideUp {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .template-btn.active {
+            background: #3b82f6 !important;
+            color: white !important;
+            border-color: #60a5fa !important;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .section-editor:hover {
+            border-color: #3b82f6;
+        }
+
+        textarea:focus,
+        input:focus,
+        select:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        /* Mobile Tab Bar */
+        .mobile-tab-bar {
+            display: none;
+        }
+        .mobile-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 8px 4px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+        }
+        .mobile-tab.active {
+            color: #3b82f6;
+        }
+        .mobile-tab svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 13px;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Mobile bottom sheet */
+        .bottom-sheet-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+        }
+        .bottom-sheet-overlay.show {
+            display: flex;
+        }
+        .bottom-sheet {
+            background: #1e293b;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            animation: slideUp 0.3s ease-out;
+        }
+        .bottom-sheet-handle {
+            width: 40px;
+            height: 4px;
+            background: #475569;
+            border-radius: 2px;
+            margin: 0 auto 16px;
+        }
+
+        /* Font list */
+        .font-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #0f172a;
+            border: 1.5px solid #334155;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+        .font-list-item.active {
+            border-color: #3b82f6;
+            background: #1e3a5f;
+        }
+        .font-list-item:active {
+            transform: scale(0.98);
+        }
+        .font-preview-box {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1e293b;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 20px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .font-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .font-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .font-desc {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        .font-check {
+            color: #3b82f6;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Template card */
+        .template-card-mobile {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+        }
+        .template-card-mobile.active {
+            border-color: #3b82f6;
+            background: #1e3a5f;
+        }
+        .template-card-mobile:active {
+            transform: scale(0.97);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+        .hamburger span {
+            width: 22px;
+            height: 2px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(4px, -4px);
+        }
+
+        /* Export actions dropdown */
+        .export-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* Spinner */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .hamburger {
+                display: flex;
+            }
+            .export-actions {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #1e293b;
+                padding: 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+                border-bottom: 1px solid #334155;
+                z-index: 50;
+            }
+            .export-actions.show {
+                display: flex;
+            }
+            .mobile-tab-bar {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #1e293b;
+                border-top: 1px solid #334155;
+                z-index: 50;
+                padding: 4px 0;
+                padding-bottom: env(safe-area-inset-bottom, 8px);
+            }
+            #editor-panel {
+                display: none;
+                position: fixed;
+                inset: 0;
+                top: 56px;
+                bottom: 60px;
+                z-index: 40;
+                background: #0f172a;
+                overflow-y: auto;
+                padding: 16px;
+            }
+            #editor-panel.show {
+                display: block;
+            }
+            #preview-panel {
+                display: block;
+                width: 100%;
+                height: calc(100vh - 116px);
+                height: calc(100dvh - 116px);
+                overflow: auto;
+                padding: 12px;
+            }
+            #preview-panel.hidden-mobile {
+                display: none;
+            }
+            #cv-preview-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+            #cv-capture-area {
+                width: 210mm !important;
+                min-height: 297mm !important;
+                padding: 15mm !important;
+                font-size: 11pt !important;
+                transform: scale(var(--mobile-cv-scale));
+                transform-origin: top center;
+                margin-bottom: calc((var(--mobile-cv-scale) - 1) * 297mm);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            :root {
+                --mobile-cv-scale: 0.33;
+            }
+            #cv-capture-area {
+                font-size: 10pt !important;
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) {
+            :root {
+                --mobile-cv-scale: 0.48;
+            }
+            #cv-capture-area {
+                font-size: 11pt !important;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <!-- Header -->
+    <header class="no-print bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 px-4 py-3 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-black text-base shadow-lg">CV</div>
+            <h1 class="font-black text-sm hidden sm:block">CV BUILDER <span class="text-blue-500">PRO</span></h1>
+        </div>
+        <div class="export-actions" id="exportActions">
+            <select id="paperColor" onchange="changePaperColor(this.value)" class="bg-slate-800 border border-slate-700 rounded px-2 py-1.5 text-[11px] font-medium cursor-pointer hover:bg-slate-700 text-white">
+                <option value="white">📄 White</option>
+                <option value="cream">📜 Cream</option>
+                <option value="ivory">📝 Ivory</option>
+                <option value="gray">📋 Gray</option>
+                <option value="warm">☕ Warm</option>
+                <option value="cool">❄️ Cool</option>
+                <option value="dark">🌙 Dark</option>
+            </select>
+            <button onclick="openFontSelector()" class="bg-purple-600 px-3 py-1.5 rounded text-[11px] font-bold uppercase tracking-wider hover:bg-purple-500 transition-all flex items-center gap-1 text-white">
+                🎨 Fontes
+            </button>
+            <button onclick="exportToWord()" class="bg-blue-700 px-3 py-1.5 rounded text-[11px] font-bold uppercase tracking-wider hover:bg-blue-600 transition-all flex items-center gap-1 text-white">
+                📝 Word
+            </button>
+            <button onclick="exportToPDF()" class="bg-red-600 px-3 py-1.5 rounded text-[11px] font-bold uppercase tracking-wider hover:bg-red-500 transition-all flex items-center gap-1 text-white">
+                📄 PDF
+            </button>
+            <button onclick="printCV()" class="bg-slate-700 px-3 py-1.5 rounded text-[11px] font-bold uppercase tracking-wider hover:bg-slate-600 transition-all flex items-center gap-1 text-white">
+                🖨️
+            </button>
+        </div>
+    </header>
+
+    <!-- Font Bottom Sheet -->
+    <div id="fontSheet" class="bottom-sheet-overlay" onclick="closeFontSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+            <div class="bottom-sheet-handle"></div>
+            <h3 class="text-lg font-bold text-white mb-4">🎨 Seletor de Fontes</h3>
+            <p class="text-xs text-slate-400 mb-4">Escolha a fonte para o seu CV</p>
+            <div id="fontSheetContent"></div>
+        </div>
+    </div>
+
+    <!-- Template Bottom Sheet -->
+    <div id="templateSheet" class="bottom-sheet-overlay" onclick="closeTemplateSheet(event)">
+        <div class="bottom-sheet" onclick="event.stopPropagation()">
+            <div class="bottom-sheet-handle"></div>
+            <h3 class="text-lg font-bold text-white mb-3">🎯 Templates</h3>
+            <div class="flex flex-wrap gap-2 mb-4" id="templateSheetFilters"></div>
+            <div class="grid grid-cols-2 gap-2" id="templateSheetGrid"></div>
+        </div>
+    </div>
+
+    <!-- PDF Export Overlay -->
+    <div id="pdf-export-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+        <div class="spinner"></div>
+        <p style="color:white;font-size:14px;font-weight:600">A preparar o PDF...</p>
+        <p style="font-size:11px;color:#94a3b8;max-width:280px;text-align:center">Use <strong style="color:white">Ctrl+P</strong> → Guardar como PDF</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+        <!-- Editor Panel -->
+        <aside id="editor-panel" class="w-full lg:w-[420px] xl:w-[480px] bg-slate-900 border-r border-slate-800 overflow-y-auto no-print flex-shrink-0 lg:block">
+            <div class="p-4 sm:p-6 space-y-5 pb-24 lg:pb-6">
+                <!-- Quick Templates -->
+                <div class="bg-slate-800/50 rounded-xl p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">🎨 Templates</h3>
+                        <button onclick="openTemplateSelector()" class="text-[10px] bg-blue-600 px-3 py-1.5 rounded hover:bg-blue-500 transition-all text-white font-bold">32 Modelos</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2" id="quickTemplateGrid">
+                        <button onclick="setTemplate('classic')" class="template-btn active bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">📜 Classic</button>
+                        <button onclick="setTemplate('corporate')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">🏢 Corporate</button>
+                        <button onclick="setTemplate('academic')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">🎓 Academic</button>
+                        <button onclick="setTemplate('executive')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">👔 Executive</button>
+                        <button onclick="setTemplate('traditional')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">📜 Traditional</button>
+                        <button onclick="setTemplate('law-firm')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">⚖️ Law Firm</button>
+                        <button onclick="setTemplate('consulting')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">💼 Consulting</button>
+                        <button onclick="setTemplate('finance')" class="template-btn bg-slate-700 p-2.5 text-[10px] uppercase font-bold rounded-lg border border-transparent hover:border-blue-500 transition-all text-white">📊 Finance</button>
+                    </div>
+                </div>
+                <!-- Personal Info -->
+                <div class="bg-slate-800/50 rounded-xl p-4 section-editor border-2 border-transparent">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">👤 Dados Pessoais</h3>
+                    <div class="space-y-3" id="personalEditor"></div>
+                </div>
+                <!-- Experience -->
+                <div class="bg-slate-800/50 rounded-xl p-4 section-editor border-2 border-transparent">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">💼 Experiência</h3>
+                    <div class="space-y-3" id="experienceEditor"></div>
+                    <button onclick="addExperience()" class="w-full mt-3 bg-slate-700 p-2.5 rounded text-xs font-bold hover:bg-slate-600 transition-all text-white">+ Adicionar Experiência</button>
+                </div>
+                <!-- Education -->
+                <div class="bg-slate-800/50 rounded-xl p-4 section-editor border-2 border-transparent">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">🎓 Formação</h3>
+                    <div class="space-y-3" id="educationEditor"></div>
+                    <button onclick="addEducation()" class="w-full mt-3 bg-slate-700 p-2.5 rounded text-xs font-bold hover:bg-slate-600 transition-all text-white">+ Adicionar Formação</button>
+                </div>
+                <!-- Skills -->
+                <div class="bg-slate-800/50 rounded-xl p-4 section-editor border-2 border-transparent">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">🛠️ Competências</h3>
+                    <textarea id="skillsInput" oninput="state.skills = this.value.split(',').map(s => s.trim()).filter(Boolean); renderCV();" rows="2" placeholder="Competência 1, Competência 2..." class="w-full bg-slate-700 p-3 rounded-lg text-sm border border-slate-600 focus:border-blue-500 outline-none resize-none text-white placeholder-slate-400"></textarea>
+                </div>
+                <!-- Languages -->
+                <div class="bg-slate-800/50 rounded-xl p-4 section-editor border-2 border-transparent">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">🌐 Idiomas</h3>
+                    <textarea id="languagesInput" oninput="state.languages = this.value.split(',').map(s => s.trim()).filter(Boolean); renderCV();" rows="2" placeholder="Inglês, Português..." class="w-full bg-slate-700 p-3 rounded-lg text-sm border border-slate-600 focus:border-blue-500 outline-none resize-none text-white placeholder-slate-400"></textarea>
+                </div>
+                <!-- Certifications -->
+                <div class="bg-slate-800/50 rounded-xl p-4 section-editor border-2 border-transparent">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">📜 Certificações</h3>
+                    <textarea id="certificationsInput" oninput="state.certifications = this.value.split(',').map(s => s.trim()).filter(Boolean); renderCV();" rows="2" placeholder="PMP, MBA, CPA..." class="w-full bg-slate-700 p-3 rounded-lg text-sm border border-slate-600 focus:border-blue-500 outline-none resize-none text-white placeholder-slate-400"></textarea>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Preview Panel -->
+        <main id="preview-panel" class="flex-1 overflow-auto bg-slate-950 p-4 sm:p-6 lg:p-8 flex flex-col items-center">
+            <div class="w-full max-w-[210mm] mx-auto" id="cv-preview-wrapper">
+                <div id="cv-capture-area" class="w-[210mm] min-h-[297mm] paper-white p-[15mm] shadow-2xl animate-fadeIn transition-all duration-300 mx-auto"></div>
+            </div>
+            <p class="text-center text-[10px] text-slate-600 mt-4 no-print hidden lg:block">Formato A4 • 210×297mm • Preview em Tempo Real</p>
+        </main>
+    </div>
+
+    <!-- Mobile Tab Bar -->
+    <nav class="mobile-tab-bar no-print">
+        <button class="mobile-tab active" id="tabEdit" onclick="switchTab('edit')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Editar
+        </button>
+        <button class="mobile-tab" id="tabPreview" onclick="switchTab('preview')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            Preview
+        </button>
+        <button class="mobile-tab" id="tabTemplates" onclick="switchTab('templates')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg>
+            Templates
+        </button>
+        <button class="mobile-tab" id="tabExport" onclick="switchTab('export')">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Exportar
+        </button>
+    </nav>
+
+    <div id="toastContainer"></div>
+
+    <script>
+        // ==================== FONT SYSTEM (Simplificado para carregamento rápido) ====================
+        const fontCategories = {
+            serif: [
+                { name: 'Playfair Display', family: "'Playfair Display', serif", preview: 'Elegante & Clássica' },
+                { name: 'EB Garamond', family: "'EB Garamond', serif", preview: 'Clássica & Refinada' },
+                { name: 'Cormorant Garamond', family: "'Cormorant Garamond', serif", preview: 'Luxuosa & Distinta' },
+                { name: 'Libre Baskerville', family: "'Libre Baskerville', serif", preview: 'Tradicional & Sóbria' },
+                { name: 'Merriweather', family: "'Merriweather', serif", preview: 'Profissional & Legível' },
+                { name: 'Lora', family: "'Lora', serif", preview: 'Acadêmica & Sofisticada' },
+                { name: 'Crimson Text', family: "'Crimson Text', serif", preview: 'Literária & Elegante' },
+            ],
+            sans: [
+                { name: 'Inter', family: "'Inter', sans-serif", preview: 'Moderna & Clean' },
+                { name: 'IBM Plex Sans', family: "'IBM Plex Sans', sans-serif", preview: 'Corporativa & Sólida' },
+                { name: 'Plus Jakarta Sans', family: "'Plus Jakarta Sans', sans-serif", preview: 'Moderna & Fluida' },
+                { name: 'Outfit', family: "'Outfit', sans-serif", preview: 'Geométrica & Moderna' },
+                { name: 'DM Sans', family: "'DM Sans', sans-serif", preview: 'Clean & Geométrica' },
+                { name: 'Montserrat', family: "'Montserrat', sans-serif", preview: 'Geométrica & Bold' },
+                { name: 'Raleway', family: "'Raleway', sans-serif", preview: 'Elegante & Fina' },
+                { name: 'Poppins', family: "'Poppins', sans-serif", preview: 'Moderna & Versátil' },
+                { name: 'Space Grotesk', family: "'Space Grotesk', sans-serif", preview: 'Futurista & Tech' },
+            ],
+            display: [
+                { name: 'Bebas Neue', family: "'Bebas Neue', sans-serif", preview: 'Impactante & Bold' },
+                { name: 'Oswald', family: "'Oswald', sans-serif", preview: 'Condensada & Forte' },
+                { name: 'Cinzel', family: "'Cinzel', serif", preview: 'Luxuosa & Decorativa' },
+                { name: 'Josefin Sans', family: "'Josefin Sans', sans-serif", preview: 'Geométrica & Estilosa' },
+                { name: 'Quicksand', family: "'Quicksand', sans-serif", preview: 'Arredondada & Amigável' },
+            ],
+        };
+
+        // ==================== STATE ====================
+        const state = {
+            template: 'classic',
+            paperColor: 'white',
+            selectedFont: "'Inter', sans-serif",
+            selectedFontName: 'Inter',
+            personal: {
+                name: "PETER ROSENBLUM, PMP",
+                title: "SENIOR PROJECT MANAGER",
+                email: "prosenblum27@email.me",
+                phone: "+1 (555) 123-4567",
+                location: "New York, NY",
+                linkedin: "linkedin.com/in/peterrosenblum",
+                website: "peterrosenblum.com",
+                summary: "Certified project management professional with 11+ years of success leading complex digital transformation initiatives across Fortune 500 companies."
+            },
+            experience: [
+                { title: "Senior Project Manager", company: "TechCorp Solutions", period: "2020 - Present",
+                    description: "Lead digital transformation projects for enterprise clients. Managed $5M+ budgets." },
+                { title: "Project Manager", company: "InnovateTech Inc.", period: "2016 - 2020",
+                    description: "Managed software development lifecycle for 15+ projects." },
+            ],
+            education: [
+                { degree: "MBA, Project Management", school: "Stanford University", year: "2015" },
+                { degree: "B.S. Computer Science", school: "MIT", year: "2012" },
+            ],
+            skills: ["Project Management", "Agile/Scrum", "Risk Management", "Team Leadership", "JIRA", "MS Project"],
+            languages: ["English (Native)", "Portuguese (Fluent)", "Spanish (Intermediate)"],
+            certifications: ["PMP", "CSM", "ITIL"],
+        };
+
+        // ==================== MOBILE NAVIGATION ====================
+        let currentTab = 'edit';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const editorPanel = document.getElementById('editor-panel');
+            const previewPanel = document.getElementById('preview-panel');
+            const tabs = document.querySelectorAll('.mobile-tab');
+
+            tabs.forEach(t => t.classList.remove('active'));
+
+            if (tab === 'edit') {
+                editorPanel.classList.add('show');
+                previewPanel.classList.add('hidden-mobile');
+                document.getElementById('tabEdit').classList.add('active');
+            } else if (tab === 'preview') {
+                editorPanel.classList.remove('show');
+                previewPanel.classList.remove('hidden-mobile');
+                document.getElementById('tabPreview').classList.add('active');
+            } else if (tab === 'templates') {
+                openTemplateSelector();
+                document.getElementById('tabTemplates').classList.add('active');
+                // Switch back to edit after selection
+                setTimeout(() => {
+                    document.getElementById('tabEdit').classList.add('active');
+                    document.getElementById('tabTemplates').classList.remove('active');
+                }, 500);
+            } else if (tab === 'export') {
+                showExportSheet();
+                document.getElementById('tabExport').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('tabEdit').classList.add('active');
+                    document.getElementById('tabExport').classList.remove('active');
+                }, 500);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const actions = document.getElementById('exportActions');
+            const hamburger = document.getElementById('hamburgerBtn');
+            actions.classList.toggle('show');
+            hamburger.classList.toggle('open');
+        }
+
+        function showExportSheet() {
+            const overlay = document.createElement('div');
+            overlay.className = 'bottom-sheet-overlay show';
+            overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+            overlay.innerHTML = `
+                <div class="bottom-sheet" onclick="event.stopPropagation()">
+                    <div class="bottom-sheet-handle"></div>
+                    <h3 class="text-lg font-bold text-white mb-4">📤 Exportar CV</h3>
+                    <div class="space-y-3">
+                        <button onclick="this.closest('.bottom-sheet-overlay').remove(); exportToPDF()" class="w-full bg-red-600 p-4 rounded-xl text-white font-bold flex items-center gap-3 hover:bg-red-500 transition-all active:scale-95">
+                            <span class="text-2xl">📄</span><div class="text-left"><p class="text-sm">Exportar PDF</p><p class="text-[10px] opacity-70">Texto seleccionável • A4</p></div>
+                        </button>
+                        <button onclick="this.closest('.bottom-sheet-overlay').remove(); exportToWord()" class="w-full bg-blue-700 p-4 rounded-xl text-white font-bold flex items-center gap-3 hover:bg-blue-600 transition-all active:scale-95">
+                            <span class="text-2xl">📝</span><div class="text-left"><p class="text-sm">Exportar Word</p><p class="text-[10px] opacity-70">Fiel ao layout • .doc</p></div>
+                        </button>
+                        <button onclick="this.closest('.bottom-sheet-overlay').remove(); printCV()" class="w-full bg-slate-700 p-4 rounded-xl text-white font-bold flex items-center gap-3 hover:bg-slate-600 transition-all active:scale-95">
+                            <span class="text-2xl">🖨️</span><div class="text-left"><p class="text-sm">Imprimir</p><p class="text-[10px] opacity-70">Directamente para impressora</p></div>
+                        </button>
+                        <button onclick="this.closest('.bottom-sheet-overlay').remove()" class="w-full bg-slate-600 p-3 rounded-xl text-white text-sm hover:bg-slate-500 transition-all active:scale-95">Cancelar</button>
+                    </div>
+                </div>`;
+            document.body.appendChild(overlay);
+        }
+
+        // ==================== FONT SELECTOR ====================
+        function openFontSelector() {
+            const sheet = document.getElementById('fontSheet');
+            const content = document.getElementById('fontSheetContent');
+
+            let html = '';
+            const categories = [
+                { key: 'serif', title: '🔤 Serif • Clássicas & Elegantes' },
+                { key: 'sans', title: '✨ Sans-Serif • Modernas & Clean' },
+                { key: 'display', title: '🎯 Display & Especiais' },
+            ];
+
+            categories.forEach(cat => {
+                html +=
+                    `<p style="font-size:12px;font-weight:700;text-transform:uppercase;color:#94a3b8;margin:16px 0 8px 0;letter-spacing:0.05em">${cat.title}</p>`;
+                fontCategories[cat.key].forEach(font => {
+                    const isActive = state.selectedFont === font.family;
+                    html += `
+                        <div class="font-list-item ${isActive ? 'active' : ''}" onclick="selectFont('${font.family.replace(/'/g, "\\'")}', '${font.name}')">
+                            <div class="font-preview-box" style="font-family:${font.family}">Aa</div>
+                            <div class="font-info">
+                                <p class="font-name" style="font-family:${font.family}">${font.name}</p>
+                                <p class="font-desc">${font.preview}</p>
+                            </div>
+                            ${isActive ? '<span class="font-check">✓</span>' : ''}
+                        </div>`;
+                });
+            });
+
+            content.innerHTML = html;
+            sheet.classList.add('show');
+        }
+
+        function closeFontSheet(event) {
+            if (event && event.target !== document.getElementById('fontSheet')) return;
+            document.getElementById('fontSheet').classList.remove('show');
+        }
+
+        function selectFont(fontFamily, fontName) {
+            state.selectedFont = fontFamily;
+            state.selectedFontName = fontName;
+            document.getElementById('cv-capture-area').style.fontFamily = fontFamily;
+            document.getElementById('fontSheet').classList.remove('show');
+            renderCV();
+            showToast(`Fonte: ${fontName} ✓`);
+        }
+
+        // ==================== TEMPLATE SELECTOR ====================
+        const templateDefinitions = [
+            { id: 'classic', name: 'Classic', icon: '📜', category: 'classico' },
+            { id: 'corporate', name: 'Corporate', icon: '🏢', category: 'corporativo' },
+            { id: 'executive', name: 'Executive', icon: '👔', category: 'corporativo' },
+            { id: 'traditional', name: 'Traditional', icon: '📜', category: 'classico' },
+            { id: 'law-firm', name: 'Law Firm', icon: '⚖️', category: 'corporativo' },
+            { id: 'consulting', name: 'Consulting', icon: '💼', category: 'corporativo' },
+            { id: 'finance', name: 'Finance', icon: '📊', category: 'corporativo' },
+            { id: 'modern-corporate', name: 'Modern Corp', icon: '🏛️', category: 'corporativo' },
+            { id: 'fortune500', name: 'Fortune 500', icon: '⭐', category: 'corporativo' },
+            { id: 'academic', name: 'Academic', icon: '🎓', category: 'academico' },
+            { id: 'research', name: 'Research', icon: '🔬', category: 'academico' },
+            { id: 'professor', name: 'Professor', icon: '📚', category: 'academico' },
+            { id: 'medical', name: 'Medical', icon: '🏥', category: 'academico' },
+            { id: 'modern', name: 'Modern', icon: '⚡', category: 'moderno' },
+            { id: 'minimalist', name: 'Minimalist', icon: '◽', category: 'moderno' },
+            { id: 'sidebar', name: 'Sidebar', icon: '📑', category: 'moderno' },
+            { id: 'two-column', name: 'Two Column', icon: '📋', category: 'moderno' },
+            { id: 'bold', name: 'Bold Impact', icon: '💥', category: 'moderno' },
+            { id: 'gradient', name: 'Gradient', icon: '🌈', category: 'moderno' },
+            { id: 'elegant', name: 'Elegant', icon: '✨', category: 'elegante' },
+            { id: 'luxury', name: 'Luxury', icon: '💎', category: 'elegante' },
+            { id: 'old-money', name: 'Old Money', icon: '🕰️', category: 'classico' },
+            { id: 'ivy-league', name: 'Ivy League', icon: '🏆', category: 'academico' },
+            { id: 'architect', name: 'Architect', icon: '🏛️', category: 'moderno' },
+        ];
+
+        function openTemplateSelector() {
+            const sheet = document.getElementById('templateSheet');
+            const filterDiv = document.getElementById('templateSheetFilters');
+            const grid = document.getElementById('templateSheetGrid');
+
+            const categories = ['all', 'corporativo', 'academico', 'classico', 'moderno', 'elegante'];
+            const catNames = { all: 'Todos', corporativo: '🏢 Corp', academico: '🎓 Acad', classico: '📜 Clás',
+                moderno: '✨ Mod', elegante: '💎 Eleg' };
+
+            filterDiv.innerHTML = categories.map(c =>
+                `<button onclick="filterTemplateSheet('${c}')" class="filter-sheet-btn px-3 py-1.5 rounded text-[11px] font-bold transition-all text-white" style="background:${c==='all'?'#3b82f6':'#334155'}">${catNames[c]}</button>`
+                ).join('');
+
+            renderTemplateSheetGrid('all');
+            sheet.classList.add('show');
+        }
+
+        function closeTemplateSheet(event) {
+            if (event && event.target !== document.getElementById('templateSheet')) return;
+            document.getElementById('templateSheet').classList.remove('show');
+        }
+
+        function filterTemplateSheet(category) {
+            document.querySelectorAll('.filter-sheet-btn').forEach(b => b.style.background = '#334155');
+            event.target.style.background = '#3b82f6';
+            renderTemplateSheetGrid(category);
+        }
+
+        function renderTemplateSheetGrid(category) {
+            const grid = document.getElementById('templateSheetGrid');
+            const filtered = category === 'all' ? templateDefinitions : templateDefinitions.filter(t => t.category ===
+                category);
+            grid.innerHTML = filtered.map(t => `
+                <button onclick="setTemplate('${t.id}'); document.getElementById('templateSheet').classList.remove('show');" class="template-card-mobile ${state.template===t.id?'active':''}">
+                    <span style="font-size:24px">${t.icon}</span>
+                    <p style="font-weight:700;font-size:13px;color:white;margin-top:6px">${t.name}</p>
+                    <p style="font-size:10px;color:#94a3b8;margin-top:2px">${t.category}</p>
+                </button>`).join('');
+        }
+
+        // ==================== RENDERERS ====================
+        function renderSkillsBadges(skills) {
+            if (!skills || skills.length === 0) return '';
+            return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">${skills.map(s => `<span style="display:inline-block;padding:3px 10px;background:#f3f4f6;color:#374151;border-radius:4px;font-size:11px">${s}</span>`).join('')}</div>`;
+        }
+
+        function renderCertifications(certs) {
+            if (!certs || certs.length === 0) return '';
+            return `<div style="margin-top:6px">${certs.map(c => `<span style="display:inline-block;padding:2px 8px;background:#eff6ff;color:#1e40af;border-radius:4px;font-size:10px;margin-right:6px;margin-bottom:6px;font-weight:600">${c}</span>`).join('')}</div>`;
+        }
+
+        function renderExp(exp, style) {
+            if (!exp || exp.length === 0) return '';
+            return exp.map(e => {
+                if (style === 'law-firm' || style === 'traditional') {
+                    return `<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:baseline"><p style="font-weight:700;font-size:13px">${e.title}</p><p style="font-size:11px;font-style:italic;color:#6b7280">${e.period}</p></div><p style="font-size:11px;font-style:italic;color:#6b7280">${e.company}</p><p style="margin-top:4px;font-size:12px;line-height:1.5">${e.description}</p></div>`;
+                }
+                return `<div style="margin-bottom:14px"><p style="font-weight:700;font-size:13px">${e.title}</p><p style="font-size:11px;font-style:italic">${e.company} | ${e.period}</p><p style="margin-top:3px;font-size:12px">${e.description}</p></div>`;
+            }).join('');
+        }
+
+        function renderEdu(edu) {
+            if (!edu || edu.length === 0) return '';
+            return edu.map(e =>
+                `<div style="margin-bottom:6px"><p style="font-weight:700;font-size:13px">${e.degree}</p><p style="font-size:11px">${e.school}, ${e.year}</p></div>`
+                ).join('');
+        }
+
+        const paperBg = { white: '#ffffff', cream: '#faf8f5', ivory: '#fffff0', gray: '#f8f9fa', dark: '#1a1a2e',
+            warm: '#fdf6e3', cool: '#f0f4f8' };
+        const paperFg = { white: '#111827', cream: '#1c1917', ivory: '#1e1b4b', gray: '#1a1a2e', dark: '#e2e8f0',
+            warm: '#1a1a1a', cool: '#1a202c' };
+
+        const renderers = {
+            corporate: (p, exp, edu, skills, langs, certs) => `
+                <div style="font-family:${state.selectedFont};font-size:11pt">
+                    <div style="background:#1e3a8a;color:white;padding:30px;margin:-15mm -15mm 0 -15mm">
+                        <h1 style="font-size:24pt;font-weight:700;margin:0">${p.name}</h1>
+                        <p style="color:#bfdbfe;font-size:13pt;margin-top:6px">${p.title}</p>
+                        <div style="display:flex;gap:12px;margin-top:10px;font-size:10pt;color:#93c5fd"><span>${p.email}</span><span>${p.phone}</span></div>
+                    </div>
+                    <div style="padding:30px;margin:0 -15mm">
+                        <h2 style="font-weight:700;border-bottom:2px solid #1e3a8a;padding-bottom:6px;color:#1e3a8a;font-size:12pt">Professional Summary</h2>
+                        <p style="margin-top:16px;line-height:1.6;font-size:11pt">${p.summary}</p>
+                        ${exp.length ? `<h2 style="font-weight:700;border-bottom:2px solid #1e3a8a;padding-bottom:6px;color:#1e3a8a;font-size:12pt;margin-top:24px">Experience</h2><div style="margin-top:16px">${renderExp(exp,'corporate')}</div>` : ''}
+                        ${edu.length ? `<h2 style="font-weight:700;border-bottom:2px solid #1e3a8a;padding-bottom:6px;color:#1e3a8a;font-size:12pt;margin-top:24px">Education</h2><div style="margin-top:16px">${renderEdu(edu)}</div>` : ''}
+                        ${skills.length ? `<h2 style="font-weight:700;border-bottom:2px solid #1e3a8a;padding-bottom:6px;color:#1e3a8a;font-size:12pt;margin-top:24px">Skills</h2>${renderSkillsBadges(skills)}` : ''}
+                        ${certs.length ? `<h2 style="font-weight:700;border-bottom:2px solid #1e3a8a;padding-bottom:6px;color:#1e3a8a;font-size:12pt;margin-top:24px">Certifications</h2>${renderCertifications(certs)}` : ''}
+                    </div>
+                </div>`,
+            classic: (p, exp, edu, skills, langs, certs) => `
+                <div style="text-align:center;font-family:${state.selectedFont};font-size:11pt">
+                    <h1 style="font-size:26pt;text-transform:uppercase;letter-spacing:3px;font-weight:700;margin:0">${p.name}</h1>
+                    <p style="font-size:14pt;font-style:italic;color:#4b5563;margin-top:6px">${p.title}</p>
+                    <div style="display:flex;justify-content:center;gap:12px;margin-top:10px;font-size:10pt;color:#6b7280"><span>📧 ${p.email}</span><span>📱 ${p.phone}</span></div>
+                    <hr style="margin:20px 0;border-color:#111827">
+                    <h2 style="font-weight:700;font-size:12pt;border-bottom:2px solid #111827;padding-bottom:6px;text-align:left">PROFESSIONAL SUMMARY</h2>
+                    <p style="margin-top:12px;font-style:italic;line-height:1.6;text-align:left;font-size:11pt">${p.summary}</p>
+                    ${exp.length ? `<h2 style="margin-top:24px;font-weight:700;font-size:12pt;border-bottom:2px solid #111827;padding-bottom:6px;text-align:left">EXPERIENCE</h2><div style="text-align:left;margin-top:12px">${renderExp(exp,'classic')}</div>` : ''}
+                    ${edu.length ? `<h2 style="margin-top:24px;font-weight:700;font-size:12pt;border-bottom:2px solid #111827;padding-bottom:6px;text-align:left">EDUCATION</h2><div style="text-align:left;margin-top:12px">${renderEdu(edu)}</div>` : ''}
+                    ${skills.length ? `<h2 style="margin-top:24px;font-weight:700;font-size:12pt;border-bottom:2px solid #111827;padding-bottom:6px;text-align:left">SKILLS</h2>${renderSkillsBadges(skills)}` : ''}
+                </div>`,
+            modern: (p, exp, edu, skills, langs, certs) => `
+                <div style="font-family:${state.selectedFont};font-size:11pt">
+                    <div style="border-left:8px solid #2563eb;padding-left:20px"><h1 style="font-size:24pt;font-weight:800;color:#0f172a;margin:0">${p.name}</h1><p style="color:#2563eb;font-weight:700;text-transform:uppercase;margin-top:6px;font-size:13pt">${p.title}</p><div style="display:flex;gap:12px;margin-top:10px;font-size:10pt;color:#6b7280"><span>${p.email}</span><span>${p.phone}</span></div></div>
+                    <h2 style="margin-top:24px;font-weight:700;border-bottom:2px solid #e5e7eb;padding-bottom:6px;font-size:12pt">PROFILE</h2>
+                    <p style="margin-top:12px;line-height:1.6;font-size:11pt">${p.summary}</p>
+                    ${exp.length ? `<h2 style="margin-top:24px;font-weight:700;border-bottom:2px solid #e5e7eb;padding-bottom:6px;font-size:12pt">EXPERIENCE</h2><div style="margin-top:12px">${renderExp(exp,'modern')}</div>` : ''}
+                    ${edu.length ? `<h2 style="margin-top:24px;font-weight:700;border-bottom:2px solid #e5e7eb;padding-bottom:6px;font-size:12pt">EDUCATION</h2><div style="margin-top:12px">${renderEdu(edu)}</div>` : ''}
+                    ${skills.length ? `<h2 style="margin-top:24px;font-weight:700;border-bottom:2px solid #e5e7eb;padding-bottom:6px;font-size:12pt">SKILLS</h2>${renderSkillsBadges(skills)}` : ''}
+                </div>`,
+            minimalist: (p, exp, edu, skills, langs, certs) => `
+                <div style="font-family:${state.selectedFont};letter-spacing:-0.01em;padding-top:30px;font-size:11pt">
+                    <h1 style="font-size:22pt;font-weight:700;margin:0">${p.name}</h1>
+                    <p style="font-size:10pt;text-transform:uppercase;letter-spacing:3px;margin-top:6px;color:#6b7280">${p.title}</p>
+                    <div style="display:flex;gap:12px;margin-top:10px;font-size:9pt;color:#9ca3af"><span>${p.email}</span><span>${p.phone}</span></div>
+                    <div style="margin:36px 0;border-top:1px solid #e5e7eb;padding-top:30px"><p style="line-height:1.7;color:#4b5563;font-size:11pt">${p.summary}</p></div>
+                    ${exp.length ? `<h2 style="font-size:10pt;text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:12px">Experience</h2><div>${renderExp(exp,'minimalist')}</div>` : ''}
+                    ${edu.length ? `<h2 style="font-size:10pt;text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:12px;margin-top:24px">Education</h2><div>${renderEdu(edu)}</div>` : ''}
+                </div>`,
+        };
+
+        // Fallback para templates não definidos
+        templateDefinitions.forEach(t => { if (!renderers[t.id]) renderers[t.id] = renderers['classic']; });
+
+        function renderCV() {
+            const preview = document.getElementById('cv-capture-area');
+            const paperClassMap = { white: 'paper-white', cream: 'paper-cream', ivory: 'paper-ivory', gray: 'paper-gray',
+                dark: 'paper-dark', warm: 'paper-warm', cool: 'paper-cool' };
+            preview.className =
+                `w-[210mm] min-h-[297mm] ${paperClassMap[state.paperColor]||'paper-white'} p-[15mm] shadow-2xl animate-fadeIn transition-all duration-300`;
+            preview.style.fontFamily = state.selectedFont;
+            preview.innerHTML = (renderers[state.template] || renderers['classic'])(
+                state.personal, state.experience, state.education, state.skills, state.languages, state
+                .certifications
+            );
+            updateTemplateButtons();
+        }
+
+        function updateTemplateButtons() {
+            document.querySelectorAll('.template-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if ((btn.getAttribute('onclick') || '').includes(`'${state.template}'`)) btn.classList.add(
+                'active');
+            });
+        }
+
+        function setTemplate(t) { state.template = t;
+            renderCV();
+            showToast(`Template: ${t}`); }
+
+        function changePaperColor(color) { state.paperColor = color;
+            renderCV(); }
+
+        // ==================== EXPORT ====================
+        function buildPrintHTML() {
+            const cvInner = document.getElementById('cv-capture-area').innerHTML;
+            const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+                .map(l => `<link rel="stylesheet" href="${l.href}">`).join('\n');
+            return `<!DOCTYPE html><html lang="pt"><head><meta charset="UTF-8"><title>CV - ${state.personal.name}</title>${fontLinks}<style>@page{size:A4 portrait;margin:15mm}*{box-sizing:border-box;margin:0;padding:0}body{width:210mm;background:${paperBg[state.paperColor]||'#fff'};color:${paperFg[state.paperColor]||'#111'};font-family:${state.selectedFont};-webkit-print-color-adjust:exact;print-color-adjust:exact;min-height:297mm;font-size:11pt}</style></head><body>${cvInner}</body></html>`;
+        }
+
+        function exportToPDF() {
+            const overlay = document.getElementById('pdf-export-overlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                try {
+                    const w = window.open('', '_blank', 'width=900,height=700');
+                    if (!w) { overlay.style.display = 'none';
+                        showToast('⚠️ Permita pop-ups'); return; }
+                    w.document.write(buildPrintHTML());
+                    w.document.close();
+                    w.onload = () => { setTimeout(() => { overlay.style.display = 'none';
+                            w.focus();
+                            w.print(); }, 600); };
+                    setTimeout(() => { overlay.style.display = 'none'; if (w && !w.closed) { w.focus();
+                            w.print(); } }, 2000);
+                } catch (e) { overlay.style.display = 'none';
+                    showToast('Erro: ' + e.message); }
+            }, 200);
+        }
+
+        function exportToWord() {
+            showToast('A gerar Word...');
+            const cvInner = document.getElementById('cv-capture-area').innerHTML;
+            const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+                .map(l => `<link rel="stylesheet" href="${l.href}">`).join('\n');
+            const html = `<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="UTF-8">${fontLinks}<style>@page{size:210mm 297mm;margin:15mm}body{font-family:${state.selectedFont};font-size:11pt;background:${paperBg[state.paperColor]||'#fff'};color:${paperFg[state.paperColor]||'#111'}}</style></head><body>${cvInner}</body></html>`;
+            const blob = new Blob(['\ufeff' + html], { type: 'application/msword;charset=utf-8' });
+            saveAs(blob, `${state.personal.name.replace(/[^a-zA-Z0-9]/g, '_')}_CV.doc`);
+            setTimeout(() => showToast('Word exportado! ✅'), 500);
+        }
+
+        function printCV() { exportToPDF(); }
+
+        // ==================== EDITORS ====================
+        function initPersonalEditor() {
+            const editor = document.getElementById('personalEditor');
+            const fields = [
+                { id: 'name', label: 'Nome Completo', type: 'text' },
+                { id: 'title', label: 'Cargo/Título', type: 'text' },
+                { id: 'email', label: 'Email', type: 'email' },
+                { id: 'phone', label: 'Telefone', type: 'tel' },
+                { id: 'location', label: 'Localização', type: 'text' },
+                { id: 'summary', label: 'Resumo Profissional', type: 'textarea' },
+            ];
+            editor.innerHTML = fields.map(f => f.type === 'textarea' ?
+                `<div><label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">${f.label}</label><textarea oninput="state.personal['${f.id}']=this.value; renderCV()" rows="2" class="w-full bg-slate-700 p-3 rounded-lg text-sm border border-slate-600 focus:border-blue-500 outline-none resize-none text-white placeholder-slate-400">${state.personal[f.id]||''}</textarea></div>` :
+                `<div><label class="block text-[10px] uppercase font-bold text-slate-500 mb-1">${f.label}</label><input type="${f.type}" value="${(state.personal[f.id]||'').replace(/"/g,'&quot;')}" oninput="state.personal['${f.id}']=this.value; renderCV()" class="w-full bg-slate-700 p-3 rounded-lg text-sm border border-slate-600 focus:border-blue-500 outline-none text-white"></div>`
+            ).join('');
+        }
+
+        function renderExperienceEditor() {
+            const editor = document.getElementById('experienceEditor');
+            editor.innerHTML = state.experience.map((exp, i) => `
+                <div class="bg-slate-700/50 p-3 rounded-lg border border-slate-600">
+                    <div class="flex justify-between items-center mb-2"><span class="text-[10px] font-bold text-slate-400">Exp #${i+1}</span><button onclick="removeExperience(${i})" class="text-red-400 hover:text-red-300 text-xs font-bold px-1">✕</button></div>
+                    <input value="${(exp.title||'').replace(/"/g,'&quot;')}" oninput="state.experience[${i}].title=this.value; renderCV()" placeholder="Cargo" class="w-full bg-slate-600 p-2 rounded text-xs mb-2 border border-slate-500 outline-none text-white placeholder-slate-400">
+                    <input value="${(exp.company||'').replace(/"/g,'&quot;')}" oninput="state.experience[${i}].company=this.value; renderCV()" placeholder="Empresa" class="w-full bg-slate-600 p-2 rounded text-xs mb-2 border border-slate-500 outline-none text-white placeholder-slate-400">
+                    <input value="${(exp.period||'').replace(/"/g,'&quot;')}" oninput="state.experience[${i}].period=this.value; renderCV()" placeholder="Período (ex: 2020-2024)" class="w-full bg-slate-600 p-2 rounded text-xs mb-2 border border-slate-500 outline-none text-white placeholder-slate-400">
+                    <textarea oninput="state.experience[${i}].description=this.value; renderCV()" rows="2" placeholder="Descrição das responsabilidades" class="w-full bg-slate-600 p-2 rounded text-xs border border-slate-500 outline-none resize-none text-white placeholder-slate-400">${exp.description||''}</textarea>
+                </div>`).join('');
+        }
+
+        function renderEducationEditor() {
+            const editor = document.getElementById('educationEditor');
+            editor.innerHTML = state.education.map((edu, i) => `
+                <div class="bg-slate-700/50 p-3 rounded-lg border border-slate-600">
+                    <div class="flex justify-between items-center mb-2"><span class="text-[10px] font-bold text-slate-400">Form #${i+1}</span><button onclick="removeEducation(${i})" class="text-red-400 hover:text-red-300 text-xs font-bold px-1">✕</button></div>
+                    <input value="${(edu.degree||'').replace(/"/g,'&quot;')}" oninput="state.education[${i}].degree=this.value; renderCV()" placeholder="Curso/Grau Académico" class="w-full bg-slate-600 p-2 rounded text-xs mb-2 border border-slate-500 outline-none text-white placeholder-slate-400">
+                    <input value="${(edu.school||'').replace(/"/g,'&quot;')}" oninput="state.education[${i}].school=this.value; renderCV()" placeholder="Instituição" class="w-full bg-slate-600 p-2 rounded text-xs mb-2 border border-slate-500 outline-none text-white placeholder-slate-400">
+                    <input value="${(edu.year||'').replace(/"/g,'&quot;')}" oninput="state.education[${i}].year=this.value; renderCV()" placeholder="Ano de Conclusão" class="w-full bg-slate-600 p-2 rounded text-xs border border-slate-500 outline-none text-white placeholder-slate-400">
+                </div>`).join('');
+        }
+
+        function addExperience() {
+            state.experience.push({ title: '', company: '', period: '', description: '' });
+            renderExperienceEditor();
+            renderCV();
+            showToast('Experiência adicionada ✓');
+        }
+
+        function removeExperience(i) {
+            state.experience.splice(i, 1);
+            renderExperienceEditor();
+            renderCV();
+        }
+
+        function addEducation() {
+            state.education.push({ degree: '', school: '', year: '' });
+            renderEducationEditor();
+            renderCV();
+            showToast('Formação adicionada ✓');
+        }
+
+        function removeEducation(i) {
+            state.education.splice(i, 1);
+            renderEducationEditor();
+            renderCV();
+        }
+
+        function showToast(m) {
+            const c = document.getElementById('toastContainer');
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = m;
+            c.appendChild(t);
+            setTimeout(() => { t.style.opacity = '0';
+                t.style.transition = 'opacity 0.3s';
+                setTimeout(() => t.remove(), 300); }, 2000);
+        }
+
+        function init() {
+            initPersonalEditor();
+            renderExperienceEditor();
+            renderEducationEditor();
+            document.getElementById('skillsInput').value = state.skills.join(', ');
+            document.getElementById('languagesInput').value = state.languages.join(', ');
+            document.getElementById('certificationsInput').value = state.certifications.join(', ');
+            document.getElementById('cv-capture-area').style.fontFamily = state.selectedFont;
+            renderCV();
+
+            // Mobile: mostrar editor primeiro
+            if (window.innerWidth <= 1024) {
+                document.getElementById('editor-panel').classList.add('show');
+                document.getElementById('preview-panel').classList.add('hidden-mobile');
+            }
+        }
+
+        window.onload = init;
+
+        // Fechar sheets com Escape
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.getElementById('fontSheet').classList.remove('show');
+                document.getElementById('templateSheet').classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
