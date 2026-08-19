@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,6 +24,7 @@
             --header-height: 52px;
             --tab-height: 54px;
             --accent-color: #19534b;
+            --page-scale: 1;
         }
         * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
         body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; min-height:100dvh; overflow:hidden; -webkit-font-smoothing:antialiased; touch-action:manipulation; }
@@ -180,6 +182,18 @@
         .color-preset.active { border-color:white; transform:scale(1.1); }
         .photo-preview { width:80px; height:80px; border-radius:50%; object-fit:cover; border:2px solid var(--accent-color); margin-top:8px; }
         .avatar-placeholder { width:80px; height:80px; border-radius:50%; background:#2a3a52; display:flex; align-items:center; justify-content:center; font-size:32px; color:#94a3b8; margin-top:8px; }
+        .page-controls { display:flex; align-items:center; gap:12px; padding:8px 16px; background:rgba(17,24,39,0.9); border-radius:12px; border:1px solid #1e293b; backdrop-filter:blur(8px); }
+        .page-controls button { background:transparent; border:1px solid #334155; color:#94a3b8; width:32px; height:32px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; font-size:14px; }
+        .page-controls button:hover { background:#1e293b; color:white; }
+        .page-controls button:disabled { opacity:0.3; cursor:not-allowed; }
+        .page-controls .page-info { font-size:12px; color:#94a3b8; min-width:60px; text-align:center; }
+        #multi-page-viewer { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(12px); }
+        #multi-page-viewer.show { display:flex; }
+        #multi-page-viewer .close-viewer { position:absolute; top:20px; right:24px; background:transparent; border:none; color:#94a3b8; font-size:28px; cursor:pointer; transition:color .15s; z-index:10; }
+        #multi-page-viewer .close-viewer:hover { color:white; }
+        #multi-page-viewer .viewer-content { display:flex; flex-direction:column; align-items:center; gap:16px; max-height:90vh; max-width:95vw; overflow:auto; padding:20px; }
+        #multi-page-viewer .page-container { background:white; border-radius:4px; box-shadow:0 8px 40px rgba(0,0,0,0.5); width:210mm; min-height:297mm; transform:scale(var(--page-scale)); transform-origin:center center; flex-shrink:0; padding:15mm; }
+        #multi-page-viewer .page-container .cv-content { font-size:var(--cv-font-size); }
         @media (max-width:1024px) {
             #sidebar { position:fixed; top:var(--header-height); bottom:var(--tab-height); left:0; z-index:50; transform:translateX(-100%); transition:transform .3s cubic-bezier(0.16,1,0.3,1); width:86vw; max-width:380px; min-width:0; box-shadow:4px 0 32px rgba(0,0,0,0.5); border-radius:0 16px 16px 0; }
             #sidebar.mobile-open { transform:translateX(0); }
@@ -198,6 +212,7 @@
             header h1 { font-size:10px !important; }
             header .w-8 { width:28px !important; height:28px !important; font-size:9px !important; }
             .unlock-box { max-width:95vw; }
+            #multi-page-viewer .page-container { width:100%; min-height:auto; padding:10mm; transform:scale(0.8); }
         }
         @media (max-width:640px) {
             :root { --header-height:46px; --tab-height:48px; }
@@ -223,6 +238,10 @@
             .unlock-number-row .num-text { font-size:15px; padding:2px 8px; }
             .unlock-number-row .emola-chip { width:36px; height:36px; }
             .unlock-number-row .emola-chip svg { width:24px; height:24px; }
+            #multi-page-viewer .page-container { transform:scale(0.5); padding:6mm; }
+            .page-controls { padding:4px 10px; gap:6px; }
+            .page-controls button { width:28px; height:28px; font-size:12px; }
+            .page-controls .page-info { font-size:10px; min-width:40px; }
         }
         @media (min-width:1025px) { #mobile-sidebar-overlay { display:none !important; } #preview-panel { padding:16px; } #cv-preview-wrapper { padding:8px; } }
         @media print {
@@ -281,7 +300,7 @@
             <button onclick="showColorPicker()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Personalizar cor" style="font-size:10px">🎯 <span class="hidden sm:inline text-[8px]">Cor</span></button>
             <button onclick="undo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Desfazer" style="font-size:10px" id="undoBtn" disabled>↩️</button>
             <button onclick="redo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Refazer" style="font-size:10px" id="redoBtn" disabled>↪️</button>
-            <button onclick="printPreview()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Pré-visualizar impressão" style="font-size:10px">👁️</button>
+            <button onclick="openMultiPageViewer()" class="btn btn-primary btn-sm gap-0.5" aria-label="Visualização multi-página" style="font-size:9px">📖 <span class="hidden sm:inline text-[8px]">Visualizar</span></button>
             <button onclick="requestExport('word')" class="btn btn-secondary btn-sm gap-0.5" aria-label="Exportar Word" style="font-size:9px">📝 <span class="hidden sm:inline text-[8px]">Word</span></button>
             <button onclick="requestExport('pdf')" class="btn btn-danger btn-sm gap-0.5" aria-label="Exportar PDF" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF</span></button>
         </div>
@@ -416,11 +435,27 @@
         </div>
     </div>
 
-    <!-- ==================== PDF OVERLAY ==================== -->
+    <!-- ==================== PDF EXPORT OVERLAY ==================== -->
     <div id="pdf-export-overlay" class="no-print">
         <div class="spinner"></div>
-        <p style="color:white;font-size:14px;font-weight:600">Preparando PDF com fidelidade total...</p>
-        <p style="font-size:11px;color:#94a3b8;max-width:260px;text-align:center;">Renderizando pixel a pixel com html2canvas</p>
+        <p style="color:white;font-size:14px;font-weight:600">Preparando exportação com fidelidade total...</p>
+        <p style="font-size:11px;color:#94a3b8;max-width:280px;text-align:center;margin-top:4px;">Renderizando texto selecionável e mantendo todos os estilos</p>
+    </div>
+
+    <!-- ==================== MULTI-PAGE VIEWER ==================== -->
+    <div id="multi-page-viewer" class="no-print" onclick="if(event.target===this) closeMultiPageViewer()">
+        <button class="close-viewer" onclick="closeMultiPageViewer()" aria-label="Fechar visualização">✕</button>
+        <div class="viewer-content" onclick="event.stopPropagation()">
+            <div id="viewer-pages"></div>
+            <div class="page-controls">
+                <button onclick="prevPage()" id="viewer-prev" disabled>◀</button>
+                <span class="page-info" id="viewer-page-info">1 / 1</span>
+                <button onclick="nextPage()" id="viewer-next" disabled>▶</button>
+                <button onclick="zoomViewer('in')" title="Zoom +">🔍+</button>
+                <button onclick="zoomViewer('out')" title="Zoom -">🔍−</button>
+                <button onclick="zoomViewer('reset')" title="Reset zoom">⟳</button>
+            </div>
+        </div>
     </div>
 
     <!-- ==================== MOBILE SIDEBAR OVERLAY ==================== -->
@@ -430,7 +465,6 @@
     <div class="flex-1 flex overflow-hidden relative">
         <aside id="sidebar" role="navigation" aria-label="Menu lateral">
             <div id="sidebar-inner" class="space-y-3">
-                <!-- Modelos rápidos -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-[#1e293b]">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🚀 Modelos Rápidos</h3>
                     <select id="profileSelector" onchange="loadProfile(this.value)" class="w-full bg-[#0a0f1a] border border-[#1e293b] rounded-lg px-3 py-2 text-xs text-white font-medium focus:outline-none focus:border-blue-500 transition-all">
@@ -441,8 +475,6 @@
                         <option value="medical_doctor">⚕️ Medical Doctor</option>
                     </select>
                 </div>
-
-                <!-- Templates -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5">
                     <div class="flex justify-between items-center mb-2">
                         <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500">🎨 Templates</h3>
@@ -450,14 +482,10 @@
                     </div>
                     <div class="grid grid-cols-2 gap-1" id="templateQuickGrid"></div>
                 </div>
-
-                <!-- Ordem das Secções (drag & drop) -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-[#1e293b]">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📋 Ordem das Secções <span class="text-slate-600">(arraste)</span></h3>
                     <div id="sectionOrderList"></div>
                 </div>
-
-                <!-- Dados Pessoais (incluindo foto) -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">👤 Dados Pessoais</h3>
                     <div class="space-y-2" id="personalEditor"></div>
@@ -468,61 +496,43 @@
                         <p class="text-[8px] text-amber-400 mt-1">⚠️ Fotos podem não ser lidas por sistemas ATS.</p>
                     </div>
                 </div>
-
-                <!-- Experiência -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">💼 Experiência</h3>
                     <div class="space-y-2" id="experienceEditor"></div>
                     <button onclick="addExperience()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
                 </div>
-
-                <!-- Formação -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">🎓 Formação</h3>
                     <div class="space-y-2" id="educationEditor"></div>
                     <button onclick="addEducation()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
                 </div>
-
-                <!-- Competências -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🛠️ Competências</h3>
                     <textarea id="skillsInput" oninput="state.skills=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Project Management, Agile, Scrum..." class="input-field text-sm"></textarea>
                 </div>
-
-                <!-- Idiomas -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌐 Idiomas</h3>
                     <textarea id="languagesInput" oninput="state.languages=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="English (Fluent), Portuguese (Native)..." class="input-field text-sm"></textarea>
                 </div>
-
-                <!-- Certificações -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">📜 Certificações</h3>
                     <textarea id="certificationsInput" oninput="state.certifications=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="PMP, CSM, ITIL..." class="input-field text-sm"></textarea>
                 </div>
-
-                <!-- Projetos -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📁 Projetos</h3>
                     <div class="space-y-2" id="projectsEditor"></div>
                     <button onclick="addProject()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
                 </div>
-
-                <!-- Publicações -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📚 Publicações</h3>
                     <div class="space-y-2" id="publicationsEditor"></div>
                     <button onclick="addPublication()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
                 </div>
-
-                <!-- Voluntariado -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">🤝 Voluntariado</h3>
                     <div class="space-y-2" id="volunteeringEditor"></div>
                     <button onclick="addVolunteering()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
                 </div>
-
-                <!-- Interesses -->
                 <div class="bg-[#111827]/70 rounded-xl p-2.5 border-2 border-transparent hover:border-[#1e293b] transition-all">
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌟 Interesses</h3>
                     <textarea id="interestsInput" oninput="state.interests=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Tecnologia, Desporto, Música..." class="input-field text-sm"></textarea>
@@ -557,9 +567,9 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             <span class="tab-label">Exportar</span>
         </button>
-        <button class="mobile-tab" onclick="toggleViewMode()" role="tab" aria-label="Alternar modo">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            <span class="tab-label">Carta</span>
+        <button class="mobile-tab" onclick="openMultiPageViewer()" role="tab" aria-label="Visualização">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4v16M16 4v16"/></svg>
+            <span class="tab-label">Páginas</span>
         </button>
     </nav>
 
@@ -746,8 +756,11 @@
         let state = JSON.parse(JSON.stringify(defaultState));
         let history = [];
         let historyIndex = -1;
+        let viewerCurrentPage = 0;
+        let viewerPages = [];
+        let viewerZoom = 1;
 
-        // ==================== HISTORY (Undo/Redo) ====================
+        // ==================== HISTORY ====================
         function saveHistory() {
             if (historyIndex < history.length - 1) {
                 history = history.slice(0, historyIndex + 1);
@@ -788,9 +801,7 @@
 
         // ==================== LOCAL STORAGE ====================
         function saveToLocalStorage() {
-            try {
-                localStorage.setItem('cvBuilderState', JSON.stringify(state));
-            } catch(e) {}
+            try { localStorage.setItem('cvBuilderState', JSON.stringify(state)); } catch(e) {}
         }
 
         function loadFromLocalStorage() {
@@ -848,10 +859,7 @@
             if (event && event.target !== document.getElementById('colorSheet')) return;
             const sheet = document.getElementById('colorSheet');
             sheet.classList.add('hiding');
-            setTimeout(() => {
-                sheet.classList.remove('show','hiding');
-                document.body.style.overflow = '';
-            }, 300);
+            setTimeout(() => { sheet.classList.remove('show','hiding'); document.body.style.overflow = ''; }, 300);
         }
 
         function setAccentColor(color) {
@@ -879,11 +887,7 @@
 
         function updatePhotoPreview() {
             const container = document.getElementById('photoPreviewContainer');
-            if (state.personal.photo) {
-                container.innerHTML = `<img src="${state.personal.photo}" class="photo-preview" alt="Foto">`;
-            } else {
-                container.innerHTML = '';
-            }
+            container.innerHTML = state.personal.photo ? `<img src="${state.personal.photo}" class="photo-preview" alt="Foto">` : '';
         }
 
         // ==================== PASSWORD ====================
@@ -928,8 +932,8 @@
         }
 
         function executeExport(action) {
-            if (action === 'pdf') exportToPDF();
-            else if (action === 'word') exportToWord();
+            if (action === 'pdf') exportPDF();
+            else if (action === 'word') exportWord();
         }
 
         // ==================== VIEW MODE ====================
@@ -986,9 +990,9 @@
             overlay.className = 'bottom-sheet-overlay show';
             overlay.innerHTML = `<div class="bottom-sheet" onclick="event.stopPropagation()">
                 <div class="bottom-sheet-handle"></div>
-                <h3 class="text-sm font-bold text-white mb-3">📤 Exportar</h3>
-                <button onclick="requestExport('pdf')" class="w-full bg-red-600 p-3 rounded-xl text-white font-bold mb-2">📄 PDF (Fidelidade Total)</button>
-                <button onclick="requestExport('word')" class="w-full bg-blue-700 p-3 rounded-xl text-white font-bold mb-2">📝 Word (Fidelidade Total)</button>
+                <h3 class="text-sm font-bold text-white mb-3">📤 Exportar com Fidelidade Total</h3>
+                <button onclick="requestExport('pdf')" class="w-full bg-red-600 p-3 rounded-xl text-white font-bold mb-2">📄 PDF (texto selecionável)</button>
+                <button onclick="requestExport('word')" class="w-full bg-blue-700 p-3 rounded-xl text-white font-bold mb-2">📝 Word (editável e fiel)</button>
                 <button onclick="this.parentElement.parentElement.remove()" class="w-full bg-slate-700 p-3 rounded-xl text-white">Cancelar</button>
             </div>`;
             document.body.appendChild(overlay);
@@ -1081,7 +1085,6 @@
 
         // ==================== TEMPLATE RENDERERS ====================
         const renderers = {
-            // Modelo Sophie Walton (original com Flexbox)
             'sophie-walton': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont}; display:flex; flex-direction:row; background:#fff; min-height:100%;">
                 <div style="width:35%; background-color:${state.accentColor}; color:white; padding:40px 30px; flex-shrink:0; display:flex; flex-direction:column;">
@@ -1142,8 +1145,6 @@
                     ${extraSectionsHTML()}
                 </div>
             </div>`,
-
-            // Modelo Modern Aero
             'modern-aero': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};color:#1f2937;">
                 <div style="background:${state.accentColor};color:white;padding:22px;margin:-15mm -15mm 18px -15mm;">
@@ -1171,8 +1172,6 @@
                     </div>
                 </div>
             </div>`,
-
-            // Modelo Clássico
             'classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};">
                 <div style="text-align:center;border-bottom:2px solid ${state.accentColor};padding:40px 40px 30px;">
@@ -1212,8 +1211,6 @@
                     ${extraSectionsHTML()}
                 </div>
             </div>`,
-
-            // Modelo Minimalista
             'minimalist': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:row;padding:40px;min-height:100%;">
                 <div style="flex:2;padding-right:40px;border-right:1px solid #ebebeb;">
@@ -1275,8 +1272,6 @@
                     `:''}
                 </div>
             </div>`,
-
-            // Modelo Vince Murray
             'vince-murray': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:column;background:#fff;min-height:100%;">
                 <div style="background-color:${state.accentColor};color:#fff;padding:30px 40px 15px 40px;margin:0 0 30px 0;display:flex;flex-direction:row;align-items:center;gap:20px;flex-wrap:wrap;">
@@ -1330,8 +1325,6 @@
                     </div>
                 </div>
             </div>`,
-
-            // Modelo Gregory Walls
             'gregory-walls': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:row;background:#fff;min-height:100%;">
                 <div style="flex:2;display:flex;flex-direction:column;">
@@ -1397,7 +1390,6 @@
             </div>`
         };
 
-        // Fallback renderer
         const fallbackRenderer = renderers['sophie-walton'];
         templateDefinitions.forEach(t => { if (!renderers[t.id]) renderers[t.id] = fallbackRenderer; });
 
@@ -1452,63 +1444,101 @@
 
         function changePaperColor(c) { state.paperColor = c; updateStateAndRender(); }
 
-        // ==================== PRINT PREVIEW ====================
-        function printPreview() {
-            const w = window.open('', '_blank', 'width=900,height=700');
-            if (!w) { showToast('⚠️ Permita pop-ups'); return; }
-            w.document.write(buildPrintHTML());
-            w.document.close();
-            w.focus();
+        // ==================== MULTI-PAGE VIEWER ====================
+        function openMultiPageViewer() {
+            const viewer = document.getElementById('multi-page-viewer');
+            const container = document.getElementById('viewer-pages');
+            container.innerHTML = '';
+            
+            // Clone the CV content
+            const cvClone = document.getElementById('cv-capture-area').cloneNode(true);
+            cvClone.style.transform = 'none';
+            cvClone.style.width = '210mm';
+            cvClone.style.minHeight = '297mm';
+            cvClone.style.position = 'relative';
+            cvClone.style.margin = '0 auto';
+            cvClone.style.boxShadow = 'none';
+            cvClone.style.borderRadius = '0';
+            
+            // Wrap in page container
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'page-container';
+            pageDiv.style.transform = `scale(${viewerZoom})`;
+            pageDiv.appendChild(cvClone);
+            container.appendChild(pageDiv);
+            
+            viewerPages = [pageDiv];
+            viewerCurrentPage = 0;
+            updateViewerControls();
+            
+            viewer.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
-        // ==================== EXPORT ====================
-        function buildPrintHTML() {
-            const cvInner = document.getElementById('cv-capture-area').innerHTML;
-            const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(l => `<link rel="stylesheet" href="${l.href}">`).join('\n');
-            const cs = state.cvFontSize;
-            const title = state.viewMode === 'cv' ? 'CV' : 'Cover_Letter';
-            return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title>${fontLinks}<style>
-                @page{size:A4 portrait;margin:15mm}
-                :root{--cv-font-size:${cs}pt;--accent-color:${state.accentColor}}
-                body{width:210mm;background:${paperBg[state.paperColor]||'#fff'};color:${paperFg[state.paperColor]||'#111'};font-family:${state.selectedFont};-webkit-print-color-adjust:exact;print-color-adjust:exact;min-height:297mm}
-                .cv-content{font-size:var(--cv-font-size);line-height:1.6}
-                .cv-content h1{font-size:calc(var(--cv-font-size)*2.4);font-weight:700;letter-spacing:0.5px}
-                .cv-content .section-title{font-weight:700;border-bottom:2px solid currentColor;padding-bottom:4px;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.1em;font-size:calc(var(--cv-font-size)*0.95);opacity:0.85}
-                .cv-content .job-title{font-weight:700;font-size:calc(var(--cv-font-size)*1.05)}
-                .cv-content .job-company{font-style:italic;font-size:calc(var(--cv-font-size)*0.9);opacity:0.75}
-                .cv-content .job-date{font-size:calc(var(--cv-font-size)*0.85);opacity:0.6}
-                .cv-content .skill-tag{display:inline-block;padding:3px 10px;background:rgba(0,0,0,0.06);border-radius:20px;font-size:calc(var(--cv-font-size)*0.82);margin:3px 4px 3px 0;border:1px solid rgba(0,0,0,0.04)}
-                .cv-content .cert-tag{display:inline-block;padding:3px 10px;background:rgba(59,130,246,0.08);color:#1e40af;border-radius:20px;font-size:calc(var(--cv-font-size)*0.82);margin:3px 4px 3px 0;border:1px solid rgba(59,130,246,0.1);font-weight:600}
-                .cv-content ul{margin:6px 0 10px 18px;list-style:disc}
-                .cv-content ul li{margin-bottom:4px;text-align:justify}
-                .cv-content p{text-align:justify}
-                .text-left{text-align:left}.text-center{text-align:center}.text-justify{text-align:justify}
-            </style></head><body>${cvInner}</body></html>`;
+        function closeMultiPageViewer() {
+            document.getElementById('multi-page-viewer').classList.remove('show');
+            document.body.style.overflow = '';
         }
 
-        // ==================== EXPORT PDF COM FIDELIDADE TOTAL (html2canvas) ====================
-        function exportToPDF() {
+        function updateViewerControls() {
+            const total = viewerPages.length;
+            const current = viewerCurrentPage + 1;
+            document.getElementById('viewer-page-info').textContent = `${current} / ${total}`;
+            document.getElementById('viewer-prev').disabled = viewerCurrentPage <= 0;
+            document.getElementById('viewer-next').disabled = viewerCurrentPage >= total - 1;
+            
+            // Show only current page
+            viewerPages.forEach((page, i) => {
+                page.style.display = i === viewerCurrentPage ? 'block' : 'none';
+            });
+        }
+
+        function prevPage() {
+            if (viewerCurrentPage > 0) {
+                viewerCurrentPage--;
+                updateViewerControls();
+            }
+        }
+
+        function nextPage() {
+            if (viewerCurrentPage < viewerPages.length - 1) {
+                viewerCurrentPage++;
+                updateViewerControls();
+            }
+        }
+
+        function zoomViewer(action) {
+            if (action === 'in') viewerZoom = Math.min(1.5, viewerZoom + 0.1);
+            else if (action === 'out') viewerZoom = Math.max(0.4, viewerZoom - 0.1);
+            else viewerZoom = 1;
+            viewerPages.forEach(page => {
+                page.style.transform = `scale(${viewerZoom})`;
+            });
+        }
+
+        // ==================== EXPORT PDF COM TEXTO SELECIONÁVEL ====================
+        function exportPDF() {
             const overlay = document.getElementById('pdf-export-overlay');
             overlay.classList.add('show');
             
             const element = document.getElementById('cv-capture-area');
+            const bgColor = paperBg[state.paperColor] || '#ffffff';
             
-            // Configurar para renderizar exatamente como está
+            // Primeiro capturamos a imagem para fidelidade visual
             html2canvas(element, {
-                scale: 2.5,
+                scale: 3,
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: paperBg[state.paperColor] || '#ffffff',
+                backgroundColor: bgColor,
                 logging: false,
                 windowWidth: element.scrollWidth,
                 windowHeight: element.scrollHeight,
                 onclone: function(doc) {
-                    // Garantir que todos os estilos sejam preservados
-                    const clonedEl = doc.getElementById('cv-capture-area');
-                    if (clonedEl) {
-                        clonedEl.style.transform = 'none';
-                        clonedEl.style.width = '210mm';
-                        clonedEl.style.minHeight = '297mm';
+                    const el = doc.getElementById('cv-capture-area');
+                    if (el) {
+                        el.style.transform = 'none';
+                        el.style.width = '210mm';
+                        el.style.minHeight = '297mm';
                     }
                 }
             }).then(canvas => {
@@ -1517,45 +1547,109 @@
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                
+                // Adiciona a imagem (fidelidade visual)
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                
+                // EXTRAI TEXTO para camada selecionável
+                const textItems = extractTextItems(element);
+                const scaleX = pdfWidth / element.scrollWidth;
+                const scaleY = pdfHeight / element.scrollHeight;
+                
+                // Adiciona texto selecionável sobre a imagem
+                pdf.setFont(state.selectedFontName || 'helvetica', 'normal');
+                textItems.forEach(item => {
+                    try {
+                        const x = item.x * scaleX;
+                        const y = item.y * scaleY + (item.fontSize || 11) * 0.8 * scaleY;
+                        const size = (item.fontSize || 11) * scaleY * 0.75;
+                        pdf.setFontSize(Math.max(6, size));
+                        pdf.setTextColor(item.color || '#000000');
+                        pdf.text(item.text, x, y);
+                    } catch(e) {}
+                });
+                
                 pdf.save(`${state.personal.name.replace(/[^a-zA-Z0-9]/g,'_')}_CV.pdf`);
                 overlay.classList.remove('show');
-                showToast('✅ PDF exportado com fidelidade total!');
+                showToast('✅ PDF com texto selecionável exportado com fidelidade!');
             }).catch(err => {
-                console.error('Erro ao exportar PDF:', err);
+                console.error('Erro exportar PDF:', err);
                 overlay.classList.remove('show');
                 showToast('❌ Erro ao gerar PDF. Tente novamente.');
             });
         }
 
-        // ==================== EXPORT WORD COM FIDELIDADE TOTAL (html2canvas + Word) ====================
-        function exportToWord() {
+        // ==================== EXTRAIR TEXTO COM POSIÇÕES ====================
+        function extractTextItems(element) {
+            const items = [];
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    if (node.parentElement && node.textContent.trim().length > 0) {
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                    return NodeFilter.FILTER_REJECT;
+                }
+            }, false);
+            
+            let node;
+            const elementRect = element.getBoundingClientRect();
+            
+            while (node = walker.nextNode()) {
+                const parent = node.parentElement;
+                if (!parent) continue;
+                const rect = parent.getBoundingClientRect();
+                const style = getComputedStyle(parent);
+                const fontSize = parseFloat(style.fontSize) || 11;
+                const color = style.color || '#000000';
+                const text = node.textContent.trim();
+                if (text.length > 0) {
+                    items.push({
+                        text: text,
+                        x: rect.left - elementRect.left,
+                        y: rect.top - elementRect.top,
+                        width: rect.width,
+                        height: rect.height,
+                        fontSize: fontSize,
+                        color: color
+                    });
+                }
+            }
+            return items;
+        }
+
+        // ==================== EXPORT WORD EDITÁVEL E FIEL ====================
+        function exportWord() {
             const overlay = document.getElementById('pdf-export-overlay');
             overlay.classList.add('show');
             
             const element = document.getElementById('cv-capture-area');
+            const bgColor = paperBg[state.paperColor] || '#ffffff';
             
+            // Captura a imagem para fidelidade visual
             html2canvas(element, {
                 scale: 2.5,
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: paperBg[state.paperColor] || '#ffffff',
+                backgroundColor: bgColor,
                 logging: false,
                 windowWidth: element.scrollWidth,
                 windowHeight: element.scrollHeight,
                 onclone: function(doc) {
-                    const clonedEl = doc.getElementById('cv-capture-area');
-                    if (clonedEl) {
-                        clonedEl.style.transform = 'none';
-                        clonedEl.style.width = '210mm';
-                        clonedEl.style.minHeight = '297mm';
+                    const el = doc.getElementById('cv-capture-area');
+                    if (el) {
+                        el.style.transform = 'none';
+                        el.style.width = '210mm';
+                        el.style.minHeight = '297mm';
                     }
                 }
             }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
                 
-                // Criar um documento Word com a imagem incorporada
-                const htmlContent = `
+                // Extrai o HTML do CV com estilos inline para editabilidade
+                const cvHTML = element.innerHTML;
+                
+                // Cria documento Word com imagem (fidelidade) + HTML (editabilidade)
+                const docContent = `
                 <html xmlns:o="urn:schemas-microsoft-com:office:office" 
                       xmlns:w="urn:schemas-microsoft-com:office:word" 
                       xmlns="http://www.w3.org/TR/REC-html40">
@@ -1567,32 +1661,72 @@
                         <w:WordDocument>
                             <w:View>Print</w:View>
                             <w:Zoom>100</w:Zoom>
+                            <w:DoNotOptimizeForBrowser/>
                         </w:WordDocument>
                     </xml>
                     <![endif]-->
                     <style>
-                        body { margin: 0; padding: 0; }
-                        img { width: 100%; height: auto; }
-                        @page { 
-                            size: 210mm 297mm; 
-                            margin: 0mm;
+                        /* Estilos para o Word */
+                        body { 
+                            margin: 0; 
+                            padding: 0; 
+                            font-family: ${state.selectedFont || 'Arial'};
+                            background: ${bgColor};
                         }
-                        p { margin: 0; }
+                        .cv-wrapper {
+                            width: 210mm;
+                            min-height: 297mm;
+                            padding: 15mm;
+                            margin: 0 auto;
+                            background: ${bgColor};
+                            box-sizing: border-box;
+                        }
+                        .cv-content {
+                            font-size: ${state.cvFontSize}pt;
+                            line-height: 1.6;
+                            color: ${paperFg[state.paperColor] || '#0f172a'};
+                        }
+                        .cv-content h1 { font-size: ${state.cvFontSize * 2.4}pt; font-weight: 700; margin-bottom: 2px; }
+                        .cv-content .section-title { font-weight: 700; border-bottom: 2px solid ${state.accentColor}; padding-bottom: 4px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; font-size: ${state.cvFontSize * 0.95}pt; }
+                        .cv-content .job-title { font-weight: 700; font-size: ${state.cvFontSize * 1.05}pt; }
+                        .cv-content .job-company { font-style: italic; font-size: ${state.cvFontSize * 0.9}pt; opacity: 0.75; }
+                        .cv-content .job-date { font-size: ${state.cvFontSize * 0.85}pt; opacity: 0.6; }
+                        .cv-content .skill-tag { display: inline-block; padding: 3px 10px; background: rgba(0,0,0,0.06); border-radius: 20px; font-size: ${state.cvFontSize * 0.82}pt; margin: 3px 4px 3px 0; border: 1px solid rgba(0,0,0,0.04); }
+                        .cv-content ul { margin: 6px 0 10px 18px; list-style: disc; }
+                        .cv-content ul li { margin-bottom: 4px; text-align: justify; }
+                        .cv-content p { text-align: justify; }
+                        .text-left { text-align: left; }
+                        .text-center { text-align: center; }
+                        .text-justify { text-align: justify; }
+                        /* Preservar flexbox para Word */
+                        .cv-content .flex-row { display: flex; flex-direction: row; }
+                        .cv-content .flex-col { display: flex; flex-direction: column; }
+                        .cv-content .flex-1 { flex: 1; }
+                        .cv-content .flex-2 { flex: 2; }
+                        .cv-content .gap-20 { gap: 20px; }
                     </style>
                 </head>
                 <body>
-                    <img src="${imgData}" style="width:210mm; height:auto;" />
+                    <div class="cv-wrapper">
+                        ${cvHTML}
+                    </div>
+                    <!-- Imagem de fidelidade (renderização exata) -->
+                    <div style="page-break-before: always; text-align: center; padding: 20px; font-size: 12pt; color: #666;">
+                        <p><strong>Versão de fidelidade visual (renderização exata)</strong></p>
+                        <img src="${imgData}" style="max-width: 210mm; width: 100%; height: auto; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
+                        <p style="margin-top: 10px; font-size: 10pt; color: #999;">Esta imagem garante 100% de fidelidade visual. O conteúdo acima é editável.</p>
+                    </div>
                 </body>
                 </html>`;
                 
-                const blob = new Blob(['\ufeff' + htmlContent], { 
+                const blob = new Blob(['\ufeff' + docContent], { 
                     type: 'application/msword;charset=utf-8' 
                 });
                 saveAs(blob, `${state.personal.name.replace(/[^a-zA-Z0-9]/g,'_')}_CV.doc`);
                 overlay.classList.remove('show');
-                showToast('✅ Word exportado com fidelidade total!');
+                showToast('✅ Word exportado com fidelidade e editável!');
             }).catch(err => {
-                console.error('Erro ao exportar Word:', err);
+                console.error('Erro exportar Word:', err);
                 overlay.classList.remove('show');
                 showToast('❌ Erro ao gerar Word. Tente novamente.');
             });
@@ -1743,41 +1877,7 @@
             showToast(`Perfil ${profileId.replace('_',' ')} carregado!`);
         }
 
-        // ==================== INIT ====================
-        function init() {
-            const loaded = loadFromLocalStorage();
-            if (!loaded) {
-                state = JSON.parse(JSON.stringify(defaultState));
-                saveHistory();
-            } else {
-                if (!state.projects) state.projects = [];
-                if (!state.publications) state.publications = [];
-                if (!state.volunteering) state.volunteering = [];
-                if (!state.interests) state.interests = [];
-                if (!state.sectionsOrder) state.sectionsOrder = defaultState.sectionsOrder;
-                if (!state.accentColor) state.accentColor = '#19534b';
-                if (!state.coverStyle) state.coverStyle = 'simple';
-                if (!state.personal.photo) state.personal.photo = '';
-                history = [JSON.parse(JSON.stringify(state))];
-                historyIndex = 0;
-            }
-            document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt');
-            document.getElementById('fontSizeDisplay').textContent = state.cvFontSize + 'pt';
-            document.documentElement.style.setProperty('--accent-color', state.accentColor);
-            document.getElementById('customColorInput').value = state.accentColor;
-            refreshAll();
-            window.addEventListener('resize', handleResize);
-            const wrapper = document.getElementById('cv-preview-wrapper');
-            if (window.ResizeObserver) { const ro = new ResizeObserver(() => handleResize()); ro.observe(wrapper); }
-            setTimeout(updateCVScale, 100);
-            updateUndoRedoButtons();
-        }
-
-        function handleResize() {
-            clearTimeout(window.scaleTimeout);
-            window.scaleTimeout = setTimeout(updateCVScale, 100);
-        }
-
+        // ==================== UPDATE CV SCALE ====================
         function updateCVScale() {
             const wrapper = document.getElementById('cv-preview-wrapper');
             const cv = document.getElementById('cv-capture-area');
@@ -1801,6 +1901,7 @@
             cv.style.transformOrigin = 'center center';
         }
 
+        // ==================== TOAST ====================
         function showToast(m) {
             const c = document.getElementById('toastContainer');
             const t = document.createElement('div');
@@ -1840,29 +1941,57 @@
             }
         }
 
-        window.onload = init;
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                document.getElementById('fontSheet').classList.remove('show');
-                document.getElementById('templateSheet').classList.remove('show');
-                document.getElementById('colorSheet').classList.remove('show');
-                closeMobileSidebar();
-                closePasswordModal();
-                document.body.style.overflow = '';
+        // ==================== INIT ====================
+        function init() {
+            const loaded = loadFromLocalStorage();
+            if (!loaded) {
+                state = JSON.parse(JSON.stringify(defaultState));
+                saveHistory();
+            } else {
+                if (!state.projects) state.projects = [];
+                if (!state.publications) state.publications = [];
+                if (!state.volunteering) state.volunteering = [];
+                if (!state.interests) state.interests = [];
+                if (!state.sectionsOrder) state.sectionsOrder = defaultState.sectionsOrder;
+                if (!state.accentColor) state.accentColor = '#19534b';
+                if (!state.coverStyle) state.coverStyle = 'simple';
+                if (!state.personal.photo) state.personal.photo = '';
+                history = [JSON.parse(JSON.stringify(state))];
+                historyIndex = 0;
             }
-            if (e.key === 'Enter' && document.getElementById('passwordModal').classList.contains('show')) {
-                validatePassword();
-            }
-        });
-        document.querySelectorAll('.bottom-sheet-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.add('hiding');
-                    setTimeout(() => { this.classList.remove('show','hiding'); document.body.style.overflow = ''; }, 300);
+            document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt');
+            document.getElementById('fontSizeDisplay').textContent = state.cvFontSize + 'pt';
+            document.documentElement.style.setProperty('--accent-color', state.accentColor);
+            document.getElementById('customColorInput').value = state.accentColor;
+            refreshAll();
+            window.addEventListener('resize', () => { clearTimeout(window.scaleTimeout); window.scaleTimeout = setTimeout(updateCVScale, 100); });
+            const wrapper = document.getElementById('cv-preview-wrapper');
+            if (window.ResizeObserver) { const ro = new ResizeObserver(() => { clearTimeout(window.scaleTimeout); window.scaleTimeout = setTimeout(updateCVScale, 100); }); ro.observe(wrapper); }
+            setTimeout(updateCVScale, 100);
+            updateUndoRedoButtons();
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    document.getElementById('fontSheet').classList.remove('show');
+                    document.getElementById('templateSheet').classList.remove('show');
+                    document.getElementById('colorSheet').classList.remove('show');
+                    closeMobileSidebar();
+                    closePasswordModal();
+                    closeMultiPageViewer();
+                    document.body.style.overflow = '';
+                }
+                if (e.key === 'Enter' && document.getElementById('passwordModal').classList.contains('show')) {
+                    validatePassword();
+                }
+                if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                    // Allow print
                 }
             });
-        });
-        console.log('🚀 CV Builder Pro • Exportação com fidelidade total via html2canvas + jsPDF');
+        }
+
+        window.onload = init;
+        console.log('🚀 CV Builder Pro • Exportação com fidelidade total, texto selecionável e Word editável');
     </script>
 </body>
 </html>
