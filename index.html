@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>CV Builder Pro • 12 Templates</title>
+    <title>CV Builder Pro • 10 Templates</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ===== VARIÁVEIS E RESET ===== */
         :root {
@@ -22,6 +22,7 @@
             --tab-height: 56px;
             --accent-color: #19534b;
             --touch-target: 44px;
+            --a4-height-px: 1122.52px; /* 297mm */
         }
         * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
         body { 
@@ -50,7 +51,8 @@
 
         /* ===== CONTEÚDO DO CV ===== */
         .cv-content { font-size:var(--cv-font-size); line-height:1.6; }
-        .cv-content h1 { font-size:calc(var(--cv-font-size)*2.4); margin-bottom:2px; line-height:1.1; font-weight:700; letter-spacing:0.5px; }
+        .cv-content h1, .cv-content h2, .cv-content h3, .cv-content h4, .cv-content h5, .cv-content h6 { line-height:1.2; }
+        .cv-content h1 { font-size:calc(var(--cv-font-size)*2.2); margin-bottom:2px; letter-spacing:0.5px; }
         .cv-content .section-title { font-weight:700; border-bottom:2px solid currentColor; padding-bottom:4px; margin-bottom:12px; text-transform:uppercase; letter-spacing:0.1em; font-size:calc(var(--cv-font-size)*0.95); opacity:0.85; }
         .cv-content .job-title { font-weight:700; font-size:calc(var(--cv-font-size)*1.05); }
         .cv-content .job-company { font-style:italic; font-size:calc(var(--cv-font-size)*0.9); opacity:0.75; }
@@ -59,7 +61,7 @@
         .cv-content .cert-tag { display:inline-block; padding:3px 10px; background:rgba(59,130,246,0.08); color:#1e40af; border-radius:20px; font-size:calc(var(--cv-font-size)*0.82); margin:3px 4px 3px 0; border:1px solid rgba(59,130,246,0.1); font-weight:600; }
         .cv-content ul { margin:6px 0 10px 18px; list-style:disc; }
         .cv-content ul li { margin-bottom:4px; text-align:justify; }
-        .cv-content p { text-align:justify; }
+        .cv-content p { text-align:justify; font-size:inherit; }
         .cv-content .text-left { text-align:left; }
         .cv-content .text-center { text-align:center; }
         .cv-content .text-justify { text-align:justify; }
@@ -344,12 +346,17 @@
         #cv-capture-area { 
             width:210mm; 
             min-height:297mm; 
-            padding:8mm; 
+            padding:12mm; 
             transform-origin:center center; 
             box-shadow:0 8px 32px rgba(0,0,0,0.5); 
             border-radius:4px; 
             flex-shrink:0; 
             transition:transform .1s ease; 
+            position: relative;
+            background-image: linear-gradient(to bottom, transparent calc(var(--a4-height-px) - 1px), rgba(255,0,0,0.2) calc(var(--a4-height-px) - 1px), rgba(255,0,0,0.2) var(--a4-height-px), transparent var(--a4-height-px));
+            background-size: 100% var(--a4-height-px);
+            background-repeat: repeat-y;
+            background-position: top;
         }
 
         /* ===== MULTI-PAGE VIEWER ===== */
@@ -468,61 +475,85 @@
         }
         .page-controls .page-info strong { color:white; }
 
+        /* ===== UNLOCK MODAL ===== */
+        #passwordModal { 
+            position:fixed; 
+            inset:0; 
+            background:rgba(5,8,16,0.85); 
+            backdrop-filter:blur(12px); 
+            -webkit-backdrop-filter:blur(12px); 
+            z-index:9999; 
+            display:none; 
+            align-items:center; 
+            justify-content:center; 
+            padding:16px; 
+            animation:fadeIn .25s ease; 
+        }
+        #passwordModal.show { display:flex; }
+        .unlock-box { 
+            background:#0d1420; 
+            border:1px solid #1e293b; 
+            border-radius:24px; 
+            max-width:400px; 
+            width:100%; 
+            max-height:92vh; 
+            overflow-y:auto; 
+            box-shadow:0 30px 80px rgba(0,0,0,0.6); 
+            animation:slideUp .35s cubic-bezier(0.16,1,0.3,1); 
+            padding:16px; 
+        }
+        .unlock-head { border-bottom:1px solid #1a2332; padding-bottom:12px; margin-bottom:12px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+        .unlock-close { position:absolute; top:12px; right:12px; background:transparent; border:none; color:#64748b; font-size:18px; cursor:pointer; }
+        .unlock-badge { width:44px; height:44px; border-radius:12px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); display:flex; align-items:center; justify-content:center; margin-bottom:8px; }
+        .unlock-badge svg { width:20px; height:20px; stroke:#60a5fa; }
+        .unlock-head h2 { font-size:17px; font-weight:700; color:white; }
+        .unlock-head p { font-size:12.5px; color:#94a3b8; }
+        .unlock-price { display:inline-flex; align-items:baseline; gap:4px; padding:3px 10px; background:#111827; border:1px solid #1e293b; border-radius:20px; font-size:11px; color:#cbd5e1; }
+        .unlock-price strong { color:#60a5fa; font-size:13px; }
+        .unlock-body { display:flex; flex-direction:column; gap:12px; }
+        .unlock-step { display:flex; gap:8px; align-items:flex-start; }
+        .unlock-step-num { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:#111827; border:1.5px solid #2a3a52; color:#93c5fd; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+        .unlock-step-content { flex:1; }
+        .unlock-step-title { font-size:12px; font-weight:600; color:#e2e8f0; }
+        .unlock-step-desc { font-size:11px; color:#94a3b8; }
+        .unlock-number-row { display:flex; align-items:center; gap:8px; background:#111827; border:1px solid #1e293b; border-radius:10px; padding:8px 12px; flex-wrap:wrap; justify-content:center; }
+        .unlock-number-row .emola-chip { width:36px; height:36px; border-radius:10px; background:#F47B20; display:flex; align-items:center; justify-content:center; }
+        .unlock-number-row .emola-chip svg { width:24px; height:24px; }
+        .unlock-number-row .num-text { font-size:16px; font-weight:700; color:white; font-family:monospace; background:#0a0f1a; padding:2px 10px; border-radius:6px; border:1px solid #2a3a52; }
+        .unlock-copy-btn { display:flex; align-items:center; gap:4px; background:#1a2332; border:1px solid #2a3a52; color:#93c5fd; font-size:11px; font-weight:600; padding:6px 12px; border-radius:8px; cursor:pointer; }
+        .unlock-whatsapp-btn { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; background:var(--whatsapp-green); color:white; font-weight:700; font-size:13px; padding:10px; border-radius:10px; text-decoration:none; }
+        .unlock-divider { display:flex; align-items:center; gap:8px; color:#475569; font-size:10px; font-weight:600; text-transform:uppercase; }
+        .unlock-divider::before, .unlock-divider::after { content:''; flex:1; height:1px; background:#1a2332; }
+        .unlock-input-group { display:flex; align-items:center; background:#111827; border:1.5px solid #1e293b; border-radius:10px; padding:2px 8px; }
+        .unlock-input-group input { flex:1; background:transparent; border:none; padding:10px 4px; font-size:14px; color:white; outline:none; min-height:40px; }
+        .unlock-input-group input::placeholder { color:#475569; }
+        .unlock-toggle-visibility { background:none; border:none; color:#64748b; padding:6px; cursor:pointer; }
+        .unlock-msg { font-size:11px; min-height:18px; }
+        .unlock-msg.error { color:#f87171; }
+        .unlock-msg.success { color:#34d399; }
+        .unlock-actions { display:flex; gap:6px; }
+        .unlock-actions button { padding:10px 14px; border-radius:10px; font-weight:700; font-size:13px; border:none; cursor:pointer; flex:1; }
+        .unlock-actions .btn-confirm { background:#3b82f6; color:white; }
+        .unlock-actions .btn-cancel { background:transparent; color:#94a3b8; border:1px solid #1e293b; }
+
         /* ===== SPINNER ===== */
         .spinner { width:36px; height:36px; border:3px solid rgba(255,255,255,0.12); border-top-color:#3b82f6; border-radius:50%; animation:spin .7s linear infinite; }
 
         /* ===== IMPRESSÃO COM FIDELIDADE TOTAL ===== */
         @media print {
-            @page {
-                size: A4;
-                margin: 0;
-            }
-            body * {
-                visibility: hidden;
-            }
-            #cv-capture-area, #cv-capture-area * {
-                visibility: visible;
-            }
+            @page { size: A4; margin: 0; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body * { visibility: hidden; }
+            #cv-capture-area, #cv-capture-area * { visibility: visible; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             #cv-capture-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 210mm;
-                min-height: 297mm;
-                margin: 0;
-                padding: 12mm;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-                transform: none !important;
+                position: absolute; left:0; top:0; width:210mm; min-height:297mm; margin:0; padding:12mm;
+                box-shadow:none !important; border-radius:0 !important; transform:none !important; overflow:visible !important;
+                background-image: none !important;
             }
-            #cv-capture-area.paper-white { background: #ffffff !important; }
-            #cv-capture-area.paper-cream { background: #faf8f5 !important; }
-            #cv-capture-area.paper-ivory { background: #fffff0 !important; }
-            #cv-capture-area.paper-gray { background: #f8f9fa !important; }
-            #cv-capture-area.paper-dark { background: #1a1a2e !important; color: #e2e8f0 !important; }
-            #cv-capture-area.paper-warm { background: #fdf6e3 !important; }
-            #cv-capture-area.paper-cool { background: #f0f4f8 !important; }
-            .no-print, header, nav, aside, .mobile-tab-bar, #mobile-sidebar-overlay,
-            #passwordModal, #fontSheet, #templateSheet, #colorSheet,
-            #multi-page-viewer, #toastContainer {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-                overflow: visible !important;
-            }
-            #preview-panel {
-                height: auto !important;
-                overflow: visible !important;
-                padding: 0 !important;
-                display: block !important;
-            }
-            #cv-preview-wrapper {
-                width: auto !important;
-                height: auto !important;
-                display: block !important;
-                padding: 0 !important;
-            }
+            .no-print, header, nav, aside, .mobile-tab-bar, #mobile-sidebar-overlay, #passwordModal, #fontSheet, #templateSheet, #colorSheet, #multi-page-viewer, #toastContainer { display:none !important; }
+            body { background: white !important; overflow: visible !important; }
+            #preview-panel { height: auto !important; overflow: visible !important; padding:0 !important; display:block !important; }
+            #cv-preview-wrapper { width:auto !important; height:auto !important; display:block !important; padding:0 !important; overflow:visible !important; }
         }
 
         /* ===== RESPONSIVIDADE ===== */
@@ -534,7 +565,6 @@
             #mobile-sidebar-overlay { display:none !important; }
             #preview-panel { padding:16px; }
             #cv-preview-wrapper { padding:8px; }
-            #cv-capture-area { padding:12mm; }
             .mobile-tab-bar { display:none; }
             header { padding:4px 16px; }
         }
@@ -601,10 +631,90 @@
             <button onclick="undo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Desfazer" style="font-size:10px" id="undoBtn" disabled>↩️</button>
             <button onclick="redo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Refazer" style="font-size:10px" id="redoBtn" disabled>↪️</button>
             <button onclick="openMultiPageViewer()" class="btn btn-primary btn-sm gap-0.5" aria-label="Visualização multi-página" style="font-size:9px">📖 <span class="hidden sm:inline text-[8px]">Páginas</span></button>
-            <!-- Botão único de exportação: impressão fiel -->
-            <button onclick="exportPDF()" class="btn btn-danger btn-sm gap-0.5" aria-label="Exportar PDF (impressão)" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF</span></button>
+            <button onclick="requestExport('pdf')" class="btn btn-danger btn-sm gap-0.5" aria-label="Exportar PDF" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF</span></button>
         </div>
     </header>
+
+    <!-- ==================== UNLOCK MODAL ==================== -->
+    <div id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="unlockTitle">
+        <div class="unlock-box">
+            <div class="unlock-head" style="position:relative;">
+                <button class="unlock-close" onclick="closePasswordModal()" title="Fechar" aria-label="Fechar" style="position:absolute; top:0; right:0;">✕</button>
+                <div class="unlock-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                </div>
+                <h2 id="unlockTitle">Desbloquear download</h2>
+                <p style="font-size:12px;">Contribuição única · <strong style="color:#60a5fa;">100 MT</strong></p>
+            </div>
+            <div class="unlock-body">
+                <div class="unlock-step">
+                    <span class="unlock-step-num">1</span>
+                    <div class="unlock-step-content">
+                        <p class="unlock-step-title">Envie 100 MT para o e-Mola</p>
+                        <div class="unlock-number-row">
+                            <span class="emola-chip">
+                                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;">
+                                    <rect width="300" height="300" fill="#F47B20" />
+                                    <rect x="90" y="60" width="90" height="135" rx="10" fill="#ffffff" />
+                                    <rect x="100" y="75" width="70" height="45" rx="4" fill="#F47B20" />
+                                    <rect x="100" y="135" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="124" y="135" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="148" y="135" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="100" y="153" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="124" y="153" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="148" y="153" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="100" y="171" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="124" y="171" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <rect x="148" y="171" width="18" height="12" rx="2" fill="#F47B20" />
+                                    <g transform="translate(140, 100) rotate(-20)">
+                                        <rect x="0" y="0" width="85" height="45" rx="4" fill="#ffffff" />
+                                        <text x="42.5" y="30" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#F47B20" text-anchor="middle">$</text>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="num-text" id="emolaNumberText">86 215 9003</span>
+                            <button class="unlock-copy-btn" onclick="copyEmolaNumber()" id="copyBtn" type="button" aria-label="Copiar número">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
+                                <span id="copyBtnLabel">Copiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="unlock-step">
+                    <span class="unlock-step-num">2</span>
+                    <div class="unlock-step-content">
+                        <p class="unlock-step-title">Confirme no WhatsApp</p>
+                        <p class="unlock-step-desc">Envie o comprovativo. A senha chega em minutos.</p>
+                        <a href="https://wa.me/258862159003?text=Olá!%20Gostaria%20de%20solicitar%20as%20credenciais%20para%20baixar%20o%20CV.%20Já%20efetuei%20o%20pagamento%20de%20100%20MT%20via%20Emola.%20Aguardo%20a%20senha.%20Obrigado!" target="_blank" class="unlock-whatsapp-btn" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:white;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Confirmar
+                        </a>
+                    </div>
+                </div>
+                <div class="unlock-step">
+                    <span class="unlock-step-num">3</span>
+                    <div class="unlock-step-content">
+                        <p class="unlock-step-title">Insira a senha</p>
+                        <p class="unlock-step-desc">O download é liberado após validação.</p>
+                    </div>
+                </div>
+                <div class="unlock-divider">Já tem a senha</div>
+                <div class="unlock-input-group">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;stroke:#64748b;"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                    <input type="password" id="passwordInput" placeholder="Senha" autocomplete="off" enterkeyhint="done">
+                    <button class="unlock-toggle-visibility" type="button" onclick="togglePasswordVisibility()" id="toggleVisBtn" title="Mostrar senha" aria-label="Mostrar senha">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" id="eyeIcon"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+                <div id="passwordError" class="unlock-msg error"></div>
+                <div id="passwordSuccess" class="unlock-msg success"></div>
+                <div class="unlock-actions">
+                    <button class="btn-cancel" onclick="closePasswordModal()">Cancelar</button>
+                    <button class="btn-confirm" onclick="validatePassword()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ==================== FONT SHEET ==================== -->
     <div id="fontSheet" class="bottom-sheet-overlay" onclick="closeFontSheet(event)">
@@ -745,7 +855,6 @@
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌟 Interesses</h3>
                     <textarea id="interestsInput" oninput="state.interests=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Tecnologia, Desporto..." class="input-field text-sm"></textarea>
                 </div>
-                <!-- Botão de limpar cache -->
                 <div class="mt-4 pt-2 border-t border-[#1e293b]">
                     <button onclick="clearCache()" class="btn btn-ghost btn-sm w-full justify-center text-red-400">🗑️ Limpar Dados</button>
                 </div>
@@ -775,7 +884,7 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg>
             <span class="tab-label">Templates</span>
         </button>
-        <button class="mobile-tab" onclick="exportPDF()" role="tab" aria-label="Exportar">
+        <button class="mobile-tab" onclick="requestExport('pdf')" role="tab" aria-label="Exportar">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             <span class="tab-label">PDF</span>
         </button>
@@ -936,7 +1045,7 @@
 
         // ==================== STATE ====================
         const defaultState = {
-            template: 'sophie-walton',
+            template: 'classic',
             paperColor: 'white',
             selectedFont: "'Inter', sans-serif",
             selectedFontName: 'Inter',
@@ -1023,6 +1132,8 @@
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     if (parsed && parsed.personal && parsed.experience) {
+                        const validTemplates = templateDefinitions.map(t => t.id);
+                        if (!validTemplates.includes(parsed.template)) parsed.template = 'classic';
                         state = parsed;
                         return true;
                     }
@@ -1047,6 +1158,7 @@
             document.getElementById('interestsInput').value = state.interests.join(', ');
             document.getElementById('customColorInput').value = state.accentColor;
             document.documentElement.style.setProperty('--accent-color', state.accentColor);
+            document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt');
             updatePhotoPreview();
             renderCV();
             updateUndoRedoButtons();
@@ -1122,6 +1234,68 @@
             }
         }
 
+        // ==================== PASSWORD ====================
+        const CORRECT_PASSWORD = 'cvpro2026';
+        let pendingExportAction = null;
+        let passwordSession = false;
+
+        function requestExport(action) {
+            if (passwordSession) { executeExport(action); return; }
+            pendingExportAction = action;
+            document.getElementById('passwordModal').classList.add('show');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordError').textContent = '';
+            document.getElementById('passwordSuccess').textContent = '';
+            setTimeout(() => document.getElementById('passwordInput').focus(), 200);
+        }
+
+        function validatePassword() {
+            const input = document.getElementById('passwordInput').value.trim();
+            const errorEl = document.getElementById('passwordError');
+            const successEl = document.getElementById('passwordSuccess');
+            errorEl.textContent = '';
+            successEl.textContent = '';
+            if (!input) { errorEl.textContent = '⚠️ Insira a senha.'; return; }
+            if (input === CORRECT_PASSWORD) {
+                passwordSession = true;
+                successEl.textContent = '✅ Senha correta! Exportando...';
+                setTimeout(() => {
+                    closePasswordModal();
+                    if (pendingExportAction) { executeExport(pendingExportAction); pendingExportAction = null; }
+                }, 400);
+            } else {
+                errorEl.textContent = '❌ Senha incorreta.';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('show');
+            pendingExportAction = null;
+        }
+
+        function executeExport(action) {
+            if (action === 'pdf') exportPDF();
+        }
+
+        // ==================== EXPORT PDF (fiel, múltiplas páginas) ====================
+        function exportPDF() {
+            closePasswordModal();
+            const cv = document.getElementById('cv-capture-area');
+            const currentTransform = cv.style.transform;
+            cv.style.transform = 'none';
+            const contentHeight = cv.offsetHeight;
+            cv.style.transform = currentTransform;
+            const A4_HEIGHT_PX = 1122.52;
+            const pages = Math.ceil(contentHeight / A4_HEIGHT_PX);
+            const pageMsg = pages > 1 ? ` (${pages} páginas)` : ' (1 página)';
+            showToast(`📄 Gerando PDF${pageMsg}. Use o diálogo para salvar.`);
+            setTimeout(() => {
+                window.print();
+            }, 300);
+        }
+
         // ==================== VIEW MODE ====================
         function toggleViewMode() {
             state.viewMode = state.viewMode === 'cv' ? 'cover' : 'cv';
@@ -1170,14 +1344,6 @@
             updateStateAndRender();
         }
 
-        // ==================== EXPORT PDF (fiel) ====================
-        function exportPDF() {
-            showToast('📄 Use o diálogo de impressão e escolha "Salvar como PDF" para obter texto selecionável.');
-            setTimeout(() => {
-                window.print();
-            }, 300);
-        }
-
         // ==================== FONT SELECTOR ====================
         function openFontSelector() {
             const sheet = document.getElementById('fontSheet');
@@ -1212,18 +1378,16 @@
 
         // ==================== TEMPLATES ====================
         const templateDefinitions = [
-            { id: 'sophie-walton', name: 'Sophie Walton', icon: '👩‍💼' },
-            { id: 'modern-aero', name: 'Modern Aero', icon: '✈️' },
             { id: 'classic', name: 'Clássico', icon: '📜' },
             { id: 'minimalist', name: 'Minimalista', icon: '✨' },
             { id: 'vince-murray', name: 'Vince Murray', icon: '👨‍💼' },
-            { id: 'gregory-walls', name: 'Gregory Walls', icon: '🔨' },
             { id: 'executive-classic', name: 'Executive Classic', icon: '🎩' },
-            { id: 'professional-modern', name: 'Professional Modern', icon: '💼' },
-            { id: 'timeless-elegant', name: 'Timeless Elegant', icon: '🕰️' },
             { id: 'compact-pro', name: 'Compact Pro', icon: '📊' },
-            { id: 'creative-classic', name: 'Creative Classic', icon: '🎨' },
-            { id: 'modern-split', name: 'Modern Split', icon: '🔷' }
+            { id: 'modern-split', name: 'Modern Split', icon: '🔷' },
+            { id: 'elegant-pro', name: 'Elegant Pro', icon: '🌸' },
+            { id: 'corporate-classic', name: 'Corporate Classic', icon: '🏢' },
+            { id: 'executive-minimal', name: 'Executive Minimal', icon: '💼' },
+            { id: 'modern-classic', name: 'Modern Classic', icon: '🖋️' }
         ];
 
         function openTemplateSelector() {
@@ -1268,130 +1432,43 @@
             return html;
         }
 
-        // ==================== TEMPLATE RENDERERS ====================
+        // ==================== TEMPLATE RENDERERS (10 modelos) ====================
         const renderers = {
-            'sophie-walton': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont}; display:flex; flex-direction:row; background:#fff; min-height:100%;">
-                <div style="width:35%; background-color:${state.accentColor}; color:white; padding:30px 20px; flex-shrink:0; display:flex; flex-direction:column;">
-                    <div style="text-align:center; margin-bottom:15px;">
-                        ${p.photo ? `<img src="${p.photo}" style="width:80px;height:80px;border-radius:50%;border:3px solid #efefef;object-fit:cover;">` : `<div style="width:80px;height:80px;border-radius:50%;background:#fff;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;color:${state.accentColor};">${p.name.charAt(0)}</div>`}
-                    </div>
-                    <div style="text-align:center; font-size:22px; font-weight:300; margin:5px 0 5px 0; letter-spacing:1px;">
-                        <strong>${p.name.split(' ')[0]}</strong> ${p.name.split(' ').slice(1).join(' ')}
-                    </div>
-                    <div style="text-align:center; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#aebdb9; margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px;">${p.title}</div>
-                    <div style="font-size:14px; font-weight:700; margin-bottom:10px; letter-spacing:1px; color:#fff;">Details</div>
-                    <div style="color:#cfdbd8; font-size:12px;">
-                        <p style="margin:3px 0;">${p.location.replace(/,/g, '<br>')}</p>
-                        <p style="margin:3px 0;">${p.phone}</p>
-                        <p style="margin:3px 0;">${p.email}</p>
-                    </div>
-                    <br>
-                    <div style="font-size:14px; font-weight:700; margin-bottom:10px; letter-spacing:1px; color:#fff;">Skills</div>
-                    ${skills.map(s => `
-                        <div style="margin-bottom:8px;">
-                            <span style="font-size:11px; display:block; margin-bottom:2px; color:#cfdbd8;">${s}</span>
-                            <div style="background-color:rgba(255,255,255,0.15); height:5px; width:100%; border-radius:3px; overflow:hidden;">
-                                <div style="background-color:#dbe5e2; height:100%; width:100%; border-radius:3px;"></div>
-                            </div>
-                        </div>
-                    `).join('')}
-                    ${langs.length ? `
-                        <div style="font-size:14px; font-weight:700; margin:15px 0 10px; letter-spacing:1px; color:#fff;">Languages</div>
-                        <ul style="list-style:none; padding:0; color:#cfdbd8; font-size:12px;">
-                            ${langs.map(l => `<li style="margin:2px 0;">• ${l}</li>`).join('')}
-                        </ul>
-                    ` : ''}
-                </div>
-                <div style="width:65%; padding:30px 35px; color:#333;">
-                    <div style="font-size:16px; font-weight:700; color:${state.accentColor}; margin-bottom:10px; margin-top:0;">Profile</div>
-                    <p style="font-size:13px; line-height:1.5; color:#444; text-align:justify;">${p.summary}</p>
-                    ${exp.length ? `
-                        <div style="font-size:16px; font-weight:700; color:${state.accentColor}; margin-bottom:10px; margin-top:20px;">Employment History</div>
-                        ${exp.map(e => `
-                            <div style="margin-bottom:18px;">
-                                <div style="font-size:14px; font-weight:700; color:#222; margin-bottom:2px;">${e.title}</div>
-                                <div style="font-size:11px; color:#888; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">${e.company}</div>
-                                <ul style="list-style-type:disc; padding-left:18px; margin:0; font-size:12.5px; line-height:1.5; color:#444;">
-                                    ${e.description.split('.').filter(s=>s.trim().length>0).map(s => `<li style="margin-bottom:2px;">${s.trim()}</li>`).join('')}
-                                </ul>
-                            </div>
-                        `).join('')}
-                    ` : ''}
-                    ${edu.length ? `
-                        <div style="font-size:16px; font-weight:700; color:${state.accentColor}; margin-bottom:10px; margin-top:20px;">Education</div>
-                        ${edu.map(e => `
-                            <div style="margin-bottom:12px;">
-                                <div style="font-size:14px; font-weight:700; color:#222; margin-bottom:0px;">${e.degree}</div>
-                                <div style="font-size:11px; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px;">${e.school}</div>
-                            </div>
-                        `).join('')}
-                    ` : ''}
-                    ${extraSectionsHTML()}
-                </div>
-            </div>`,
-            'modern-aero': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont};color:#1f2937;">
-                <div style="background:${state.accentColor};color:white;padding:18px;margin:-15mm -15mm 15px -15mm;">
-                    <h1 style="color:white;font-size:calc(var(--cv-font-size)*2.2);font-weight:600;">${p.name}</h1>
-                    <p style="font-size:calc(var(--cv-font-size)*1.1);opacity:0.9;">${p.title}</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:calc(var(--cv-font-size)*0.75);opacity:0.8;margin-top:4px;">
-                        <span>📧 ${p.email}</span><span>📱 ${p.phone}</span><span>📍 ${p.location}</span>${p.linkedin?`<span>🔗 ${p.linkedin}</span>`:''}
-                    </div>
-                </div>
-                ${p.photo ? `<div style="text-align:center;margin-bottom:12px;"><img src="${p.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid ${state.accentColor};"></div>` : ''}
-                <div style="display:flex;flex-direction:row;gap:15px;">
-                    <div style="flex:1;border-right:1px solid #e5e7eb;padding-right:10px;">
-                        ${skills.length?`<div style="margin-bottom:12px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.8);text-transform:uppercase;letter-spacing:0.5px;color:${state.accentColor};border-bottom:1px solid ${state.accentColor};padding-bottom:2px;">${t('skills_section')}</p><div>${skillBadges(skills)}</div></div>`:''}
-                        ${certs.length?`<div style="margin-bottom:12px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.8);text-transform:uppercase;letter-spacing:0.5px;color:${state.accentColor};border-bottom:1px solid ${state.accentColor};padding-bottom:2px;">${t('certifications_section')}</p><div>${certBadges(certs)}</div></div>`:''}
-                        ${langs.length?`<div><p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.8);text-transform:uppercase;letter-spacing:0.5px;color:${state.accentColor};border-bottom:1px solid ${state.accentColor};padding-bottom:2px;">${t('languages_section')}</p><ul style="list-style:none;padding:0;">${langs.map(l=>`<li style="font-size:calc(var(--cv-font-size)*0.8);">• ${l}</li>`).join('')}</ul></div>`:''}
-                    </div>
-                    <div style="flex:2.2;">
-                        <p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.8);text-transform:uppercase;letter-spacing:0.5px;color:${state.accentColor};border-bottom:1px solid ${state.accentColor};padding-bottom:2px;">${t('professional_summary')}</p>
-                        <p class="${alignClass()}" style="font-size:calc(var(--cv-font-size)*0.85);line-height:1.5;margin-bottom:12px;">${p.summary}</p>
-                        ${exp.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.8);text-transform:uppercase;letter-spacing:0.5px;color:${state.accentColor};border-bottom:1px solid ${state.accentColor};padding-bottom:2px;">${t('professional_experience')}</p>
-                            ${exp.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.95);">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.8);color:#6b7280;">${e.company} | ${e.period}</p><ul class="${alignClass()}" style="font-size:calc(var(--cv-font-size)*0.8);">${e.description.split('.').filter(s=>s.trim().length>0).map(s=>`<li>${s.trim()}</li>`).join('')}</ul></div>`).join('')}`:''}
-                        ${edu.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.8);text-transform:uppercase;letter-spacing:0.5px;color:${state.accentColor};border-bottom:1px solid ${state.accentColor};padding-bottom:2px;margin-top:12px;">${t('education_section')}</p>
-                            ${eduList(edu)}`:''}
-                        ${extraSectionsHTML()}
-                    </div>
-                </div>
-            </div>`,
             'classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};">
                 <div style="text-align:center;border-bottom:2px solid ${state.accentColor};padding:30px 30px 20px;">
-                    <h1 style="font-size:30px;letter-spacing:1px;margin:0;color:#222;font-family:'Times New Roman',serif;">${p.name.toUpperCase()}</h1>
-                    <div style="font-size:14px;color:#555;margin:3px 0 10px;">${p.title}</div>
-                    <div style="display:flex;justify-content:center;gap:15px;font-size:12px;color:#666;flex-wrap:wrap;">
+                    <h1 style="font-size:calc(var(--cv-font-size)*2.2);letter-spacing:1px;margin:0;color:#222;font-family:'Playfair Display', serif;">${p.name.toUpperCase()}</h1>
+                    <div style="font-size:calc(var(--cv-font-size)*1.1);color:#555;margin:3px 0 10px;">${p.title}</div>
+                    <div style="display:flex;justify-content:center;gap:15px;font-size:calc(var(--cv-font-size)*0.85);color:#666;flex-wrap:wrap;">
                         <span>${p.email}</span><span>|</span><span>${p.phone}</span><span>|</span><span>${p.location}</span>
                     </div>
                     ${p.photo ? `<div style="margin-top:10px;"><img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;"></div>` : ''}
                 </div>
                 <div style="padding:20px 25px 30px;">
-                    <div style="color:${state.accentColor};font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('professional_summary')}</div>
-                    <p style="font-size:13px;color:#444;text-align:justify;line-height:1.5;margin-top:0;">${p.summary}</p>
+                    <div style="color:${state.accentColor};font-size:calc(var(--cv-font-size)*1.1);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('professional_summary')}</div>
+                    <p style="font-size:var(--cv-font-size);color:#444;text-align:justify;line-height:1.5;margin-top:0;">${p.summary}</p>
                     ${exp.length?`
-                        <div style="color:${state.accentColor};font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('professional_experience')}</div>
+                        <div style="color:${state.accentColor};font-size:calc(var(--cv-font-size)*1.1);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('professional_experience')}</div>
                         ${exp.map(e => `
                             <div style="margin-bottom:18px;">
-                                <div style="font-weight:700;font-size:14px;color:#222;">${e.title}</div>
-                                <div style="display:flex;justify-content:space-between;font-size:12px;color:#555;margin-bottom:4px;"><span>${e.company}</span><span>${e.period}</span></div>
-                                <div style="font-size:13px;line-height:1.5;color:#444;text-align:justify;">${e.description}</div>
+                                <div style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.title}</div>
+                                <div style="display:flex;justify-content:space-between;font-size:calc(var(--cv-font-size)*0.85);color:#555;margin-bottom:4px;"><span>${e.company}</span><span>${e.period}</span></div>
+                                <div style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${e.description}</div>
                             </div>
                         `).join('')}
                     `:''}
                     ${edu.length?`
-                        <div style="color:${state.accentColor};font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('education_section')}</div>
+                        <div style="color:${state.accentColor};font-size:calc(var(--cv-font-size)*1.1);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('education_section')}</div>
                         ${edu.map(e => `
                             <div style="margin-bottom:12px;">
-                                <div style="font-weight:700;font-size:14px;color:#222;">${e.degree}</div>
-                                <div style="font-size:12px;color:#555;">${e.school}</div>
+                                <div style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.degree}</div>
+                                <div style="font-size:calc(var(--cv-font-size)*0.85);color:#555;">${e.school}</div>
                             </div>
                         `).join('')}
                     `:''}
                     ${skills.length?`
-                        <div style="color:${state.accentColor};font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('skills_section')}</div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:#444;">${skills.map(s => `<span>• ${s}</span>`).join('')}</div>
+                        <div style="color:${state.accentColor};font-size:calc(var(--cv-font-size)*1.1);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:20px 0 10px;border-bottom:1px solid #ddd;padding-bottom:4px;">${t('skills_section')}</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:var(--cv-font-size);color:#444;">${skills.map(s => `<span>• ${s}</span>`).join('')}</div>
                     `:''}
                     ${extraSectionsHTML()}
                 </div>
@@ -1399,34 +1476,34 @@
             'minimalist': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:row;padding:30px;min-height:100%;">
                 <div style="flex:2;padding-right:30px;border-right:1px solid #ebebeb;">
-                    <div style="margin-bottom:20px;">
-                        <h1 style="font-size:28px;font-weight:300;margin:0 0 3px;letter-spacing:1px;color:#111;">${p.name.split(' ')[0]} <span style="font-weight:600;">${p.name.split(' ').slice(1).join(' ')}</span></h1>
-                        <h2 style="font-size:14px;font-weight:400;color:#666;margin:0 0 15px;">${p.title}</h2>
+                    <div style="margin-bottom:20px;text-align:center;">
+                        <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:300;margin:0 0 3px;letter-spacing:1px;color:#111;">${p.name.split(' ')[0]} <span style="font-weight:600;">${p.name.split(' ').slice(1).join(' ')}</span></h1>
+                        <h2 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:400;color:#666;margin:0 0 15px;">${p.title}</h2>
                     </div>
-                    ${p.photo ? `<div style="margin-bottom:15px;"><img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;"></div>` : ''}
+                    ${p.photo ? `<div style="text-align:center;margin-bottom:15px;"><img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;"></div>` : ''}
                     <div style="margin-bottom:20px;">
-                        <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('professional_summary')}</h3>
-                        <p style="font-size:13px;line-height:1.5;color:#444;text-align:justify;">${p.summary}</p>
+                        <h3 style="font-size:calc(var(--cv-font-size)*0.95);text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('professional_summary')}</h3>
+                        <p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${p.summary}</p>
                     </div>
                     ${exp.length?`
                         <div style="margin-bottom:20px;">
-                            <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('professional_experience')}</h3>
+                            <h3 style="font-size:calc(var(--cv-font-size)*0.95);text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('professional_experience')}</h3>
                             ${exp.map(e => `
                                 <div style="margin-bottom:15px;">
-                                    <h4 style="font-size:14px;font-weight:600;margin:0 0 2px;color:#222;">${e.title}</h4>
-                                    <span style="font-size:11px;color:#777;margin-bottom:5px;display:block;">${e.company} | ${e.period}</span>
-                                    <p style="font-size:13px;line-height:1.5;color:#444;margin:0;text-align:justify;">${e.description}</p>
+                                    <h4 style="font-size:calc(var(--cv-font-size)*1.05);font-weight:600;margin:0 0 2px;color:#222;">${e.title}</h4>
+                                    <span style="font-size:calc(var(--cv-font-size)*0.85);color:#777;margin-bottom:5px;display:block;">${e.company} | ${e.period}</span>
+                                    <p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;margin:0;text-align:justify;">${e.description}</p>
                                 </div>
                             `).join('')}
                         </div>
                     `:''}
                     ${edu.length?`
                         <div style="margin-bottom:20px;">
-                            <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('education_section')}</h3>
+                            <h3 style="font-size:calc(var(--cv-font-size)*0.95);text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('education_section')}</h3>
                             ${edu.map(e => `
                                 <div style="margin-bottom:12px;">
-                                    <h4 style="font-size:14px;font-weight:600;margin:0 0 2px;color:#222;">${e.degree}</h4>
-                                    <span style="font-size:11px;color:#777;display:block;">${e.school}</span>
+                                    <h4 style="font-size:calc(var(--cv-font-size)*1.05);font-weight:600;margin:0 0 2px;color:#222;">${e.degree}</h4>
+                                    <span style="font-size:calc(var(--cv-font-size)*0.85);color:#777;display:block;">${e.school}</span>
                                 </div>
                             `).join('')}
                         </div>
@@ -1435,14 +1512,14 @@
                 </div>
                 <div style="flex:1;padding-left:25px;background-color:#fcfcfc;">
                     <div style="margin-bottom:20px;">
-                        <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">Contact</h3>
-                        <div style="font-size:13px;color:#555;"><p style="margin:4px 0;"><strong>Email</strong><br>${p.email}</p><p style="margin:4px 0;"><strong>Phone</strong><br>${p.phone}</p><p style="margin:4px 0;"><strong>Location</strong><br>${p.location}</p></div>
+                        <h3 style="font-size:calc(var(--cv-font-size)*0.95);text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">Contact</h3>
+                        <div style="font-size:var(--cv-font-size);color:#555;"><p style="margin:4px 0;"><strong>Email</strong><br>${p.email}</p><p style="margin:4px 0;"><strong>Phone</strong><br>${p.phone}</p><p style="margin:4px 0;"><strong>Location</strong><br>${p.location}</p></div>
                     </div>
                     ${skills.length?`
                         <div style="margin-bottom:20px;">
-                            <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('skills_section')}</h3>
+                            <h3 style="font-size:calc(var(--cv-font-size)*0.95);text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('skills_section')}</h3>
                             ${skills.map(s => `
-                                <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px dashed #eee;color:#333;">
+                                <div style="display:flex;justify-content:space-between;font-size:var(--cv-font-size);padding:6px 0;border-bottom:1px dashed #eee;color:#333;">
                                     <span>${s}</span>
                                     <span style="color:#bbb;">●●●○○</span>
                                 </div>
@@ -1451,8 +1528,8 @@
                     `:''}
                     ${langs.length?`
                         <div style="margin-bottom:20px;">
-                            <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('languages_section')}</h3>
-                            ${langs.map(l => `<p style="font-size:13px;color:#555;margin:4px 0;">• ${l}</p>`).join('')}
+                            <h3 style="font-size:calc(var(--cv-font-size)*0.95);text-transform:uppercase;letter-spacing:2px;color:#999;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px;">${t('languages_section')}</h3>
+                            ${langs.map(l => `<p style="font-size:var(--cv-font-size);color:#555;margin:4px 0;">• ${l}</p>`).join('')}
                         </div>
                     `:''}
                 </div>
@@ -1460,12 +1537,12 @@
             'vince-murray': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:column;background:#fff;min-height:100%;">
                 <div style="background-color:${state.accentColor};color:#fff;padding:20px 25px 10px 25px;margin:0 0 20px 0;display:flex;flex-direction:row;align-items:center;gap:15px;flex-wrap:wrap;">
-                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;object-fit:cover;">` : `<div style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;background:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;color:${state.accentColor};">${p.name.charAt(0)}</div>`}
+                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;object-fit:cover;">` : `<div style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;background:#fff;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cv-font-size)*1.5);color:${state.accentColor};">${p.name.charAt(0)}</div>`}
                     <div style="flex:1;">
-                        <h1 style="font-size:28px;font-weight:700;margin:0;">${p.name}</h1>
-                        <h2 style="font-size:11px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin:2px 0 0 0;opacity:0.8;">${p.title}</h2>
+                        <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:700;margin:0;">${p.name}</h1>
+                        <h2 style="font-size:calc(var(--cv-font-size)*0.9);font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin:2px 0 0 0;opacity:0.8;">${p.title}</h2>
                     </div>
-                    <div style="display:flex;justify-content:flex-end;gap:12px;font-size:11px;padding-bottom:10px;flex-wrap:wrap;color:rgba(255,255,255,0.9);width:100%;">
+                    <div style="display:flex;justify-content:flex-end;gap:12px;font-size:calc(var(--cv-font-size)*0.8);padding-bottom:10px;flex-wrap:wrap;color:rgba(255,255,255,0.9);width:100%;">
                         <span>✉️ ${p.email}</span>
                         <span>📍 ${p.location}</span>
                         <span>📞 ${p.phone}</span>
@@ -1473,15 +1550,15 @@
                 </div>
                 <div style="display:flex;flex-direction:row;gap:25px;padding:0 20px 20px 20px;">
                     <div style="flex:2;">
-                        <h3 style="font-size:17px;font-weight:700;color:#222;margin:0 0 10px 0;border-bottom:1px solid #eee;padding-bottom:4px;font-style:italic;">${t('professional_summary')}</h3>
-                        <p style="font-size:13px;line-height:1.5;color:#333;margin-bottom:20px;text-align:justify;">${p.summary}</p>
+                        <h3 style="font-size:calc(var(--cv-font-size)*1.2);font-weight:700;color:#222;margin:0 0 10px 0;border-bottom:1px solid #eee;padding-bottom:4px;font-style:italic;">${t('professional_summary')}</h3>
+                        <p style="font-size:var(--cv-font-size);line-height:1.5;color:#333;margin-bottom:20px;text-align:justify;">${p.summary}</p>
                         ${exp.length?`
-                            <h3 style="font-size:17px;font-weight:700;color:#222;margin:15px 0 10px 0;border-bottom:1px solid #eee;padding-bottom:4px;font-style:italic;">${t('professional_experience')}</h3>
+                            <h3 style="font-size:calc(var(--cv-font-size)*1.2);font-weight:700;color:#222;margin:15px 0 10px 0;border-bottom:1px solid #eee;padding-bottom:4px;font-style:italic;">${t('professional_experience')}</h3>
                             ${exp.map(e => `
                                 <div style="margin-bottom:15px;">
-                                    <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:0px;">${e.title}</div>
-                                    <span style="font-size:11px;color:#999;margin-bottom:5px;display:block;">${e.company} | ${e.period}</span>
-                                    <ul style="list-style-type:disc;padding-left:16px;margin:0;font-size:12.5px;line-height:1.5;color:#333;">
+                                    <div style="font-size:calc(var(--cv-font-size)*1.05);font-weight:700;color:#222;margin-bottom:0px;">${e.title}</div>
+                                    <span style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin-bottom:5px;display:block;">${e.company} | ${e.period}</span>
+                                    <ul style="list-style-type:disc;padding-left:16px;margin:0;font-size:var(--cv-font-size);line-height:1.5;color:#333;">
                                         ${e.description.split('.').filter(s=>s.trim().length>0).map(s => `<li style="margin-bottom:3px;">${s.trim()}</li>`).join('')}
                                     </ul>
                                 </div>
@@ -1490,271 +1567,219 @@
                         ${extraSectionsHTML()}
                     </div>
                     <div style="flex:1;padding-left:15px;border-left:1px solid #eee;">
-                        <h3 style="font-size:17px;font-weight:700;color:#222;margin:0 0 15px 0;font-style:italic;">${t('skills_section')}</h3>
+                        <h3 style="font-size:calc(var(--cv-font-size)*1.2);font-weight:700;color:#222;margin:0 0 15px 0;font-style:italic;">${t('skills_section')}</h3>
                         ${skills.map(s => `
                             <div style="margin-bottom:15px;">
-                                <span style="font-size:13px;font-weight:500;color:#222;display:block;margin-bottom:2px;">${s}</span>
+                                <span style="font-size:var(--cv-font-size);font-weight:500;color:#222;display:block;margin-bottom:2px;">${s}</span>
                                 <div style="display:flex;gap:2px;">
                                     ${Array(6).fill(0).map((_, i) => `<div style="width:12px;height:6px;background-color:${i < 4 ? state.accentColor : '#ddd'};border-radius:2px;"></div>`).join('')}
                                 </div>
                             </div>
                         `).join('')}
                         ${langs.length?`
-                            <h3 style="font-size:17px;font-weight:700;color:#222;margin:15px 0 10px 0;font-style:italic;">${t('languages_section')}</h3>
-                            ${langs.map(l => `<p style="font-size:13px;color:#333;margin:4px 0;">• ${l}</p>`).join('')}
+                            <h3 style="font-size:calc(var(--cv-font-size)*1.2);font-weight:700;color:#222;margin:15px 0 10px 0;font-style:italic;">${t('languages_section')}</h3>
+                            ${langs.map(l => `<p style="font-size:var(--cv-font-size);color:#333;margin:4px 0;">• ${l}</p>`).join('')}
                         `:''}
                         ${certs.length?`
-                            <h3 style="font-size:17px;font-weight:700;color:#222;margin:15px 0 10px 0;font-style:italic;">${t('certifications_section')}</h3>
-                            ${certs.map(c => `<p style="font-size:13px;color:#333;margin:4px 0;">• ${c}</p>`).join('')}
+                            <h3 style="font-size:calc(var(--cv-font-size)*1.2);font-weight:700;color:#222;margin:15px 0 10px 0;font-style:italic;">${t('certifications_section')}</h3>
+                            ${certs.map(c => `<p style="font-size:var(--cv-font-size);color:#333;margin:4px 0;">• ${c}</p>`).join('')}
                         `:''}
                     </div>
-                </div>
-            </div>`,
-            'gregory-walls': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:row;background:#fff;min-height:100%;">
-                <div style="flex:2;display:flex;flex-direction:column;">
-                    <div style="padding:25px 25px 15px 25px;display:flex;flex-direction:row;align-items:center;gap:15px;">
-                        ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid #eee;object-fit:cover;">` : `<div style="width:70px;height:70px;border-radius:50%;border:3px solid #eee;background:#f9f9f9;display:flex;align-items:center;justify-content:center;font-size:30px;color:#999;">${p.name.charAt(0)}</div>`}
-                        <div>
-                            <h1 style="font-size:28px;font-weight:500;color:#222;margin:0;letter-spacing:0.5px;">${p.name}</h1>
-                            <h2 style="font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin:2px 0 0 0;color:#777;">${p.title}</h2>
-                        </div>
-                    </div>
-                    <div style="padding:0 25px 25px 25px;">
-                        <h3 style="font-size:17px;font-weight:700;color:#222;margin:0 0 10px 0;">${t('professional_summary')}</h3>
-                        <p style="font-size:13px;line-height:1.5;color:#333;margin-bottom:20px;text-align:justify;">${p.summary}</p>
-                        ${exp.length?`
-                            <h3 style="font-size:17px;font-weight:700;color:#222;margin:0 0 10px 0;">${t('professional_experience')}</h3>
-                            ${exp.map(e => `
-                                <div style="margin-bottom:18px;">
-                                    <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:0px;">${e.title}</div>
-                                    <span style="font-size:11px;color:#aaa;margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:0.5px;">${e.company} | ${e.period}</span>
-                                    <ul style="list-style-type:disc;padding-left:16px;margin:0;font-size:12.5px;line-height:1.5;color:#333;">
-                                        ${e.description.split('.').filter(s=>s.trim().length>0).map(s => `<li style="margin-bottom:2px;">${s.trim()}</li>`).join('')}
-                                    </ul>
-                                </div>
-                            `).join('')}
-                        `:''}
-                        ${edu.length?`
-                            <h3 style="font-size:17px;font-weight:700;color:#222;margin:12px 0 10px 0;">${t('education_section')}</h3>
-                            ${edu.map(e => `
-                                <div style="margin-bottom:12px;">
-                                    <div style="font-size:14px;font-weight:700;color:#222;margin-bottom:0;">${e.degree}</div>
-                                    <span style="font-size:11px;color:#aaa;margin-bottom:3px;display:block;text-transform:uppercase;letter-spacing:0.5px;">${e.school}</span>
-                                </div>
-                            `).join('')}
-                        `:''}
-                        ${extraSectionsHTML()}
-                    </div>
-                </div>
-                <div style="flex:1;background-color:${state.accentColor};color:white;padding:25px 20px;flex-shrink:0;display:flex;flex-direction:column;">
-                    <div style="font-size:16px;font-weight:700;margin-bottom:15px;letter-spacing:1px;">Details</div>
-                    <div style="color:#cfd8e3;font-size:12px;">
-                        <p style="margin:4px 0;">${p.location.replace(/,/g, '<br>')}</p>
-                        <p style="margin:4px 0;">${p.phone}</p>
-                        <p style="margin:4px 0;">${p.email}</p>
-                    </div>
-                    ${skills.length?`
-                        <div style="font-size:16px;font-weight:700;margin:20px 0 12px;letter-spacing:1px;">${t('skills_section')}</div>
-                        ${skills.map(s => `
-                            <div style="margin-bottom:12px;">
-                                <span style="font-size:12px;display:block;margin-bottom:3px;color:#cfd8e3;font-weight:300;">${s}</span>
-                                <div style="background-color:rgba(255,255,255,0.2);height:5px;width:100%;border-radius:3px;overflow:hidden;">
-                                    <div style="background-color:#fff;height:100%;width:100%;border-radius:3px;"></div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    `:''}
-                    ${langs.length?`
-                        <div style="font-size:16px;font-weight:700;margin:20px 0 12px;letter-spacing:1px;">${t('languages_section')}</div>
-                        <ul style="list-style:none;padding:0;color:#cfd8e3;font-size:12px;">
-                            ${langs.map(l => `<li style="margin:3px 0;">• ${l}</li>`).join('')}
-                        </ul>
-                    `:''}
                 </div>
             </div>`,
             'executive-classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:25px;">
-                <div style="border-bottom:3px solid ${state.accentColor};padding-bottom:15px;margin-bottom:20px;display:flex;flex-direction:row;align-items:center;gap:20px;">
-                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid ${state.accentColor};object-fit:cover;">` : ''}
-                    <div style="flex:1;">
-                        <h1 style="font-size:24px;font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
-                        <p style="font-size:12px;color:#555;margin:2px 0 8px;letter-spacing:1px;text-transform:uppercase;">${p.title}</p>
-                        <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#777;">
-                            <span>✉️ ${p.email}</span><span>📱 ${p.phone}</span><span>📍 ${p.location}</span>
-                        </div>
+                <div style="border-bottom:3px solid ${state.accentColor};padding-bottom:15px;margin-bottom:20px;text-align:center;">
+                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid ${state.accentColor};object-fit:cover;display:block;margin:0 auto 10px;">` : ''}
+                    <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
+                    <p style="font-size:calc(var(--cv-font-size)*1);color:#555;margin:5px 0 8px;letter-spacing:1px;text-transform:uppercase;">${p.title}</p>
+                    <div style="font-size:calc(var(--cv-font-size)*0.85);color:#777;">
+                        <span>✉️ ${p.email}</span> · <span>📱 ${p.phone}</span> · <span>📍 ${p.location}</span>
                     </div>
                 </div>
-                ${skills.length?`<div style="margin-bottom:15px;"><span style="font-weight:700;font-size:11px;color:${state.accentColor};text-transform:uppercase;letter-spacing:1px;">${t('skills_section')}</span><div style="margin-top:5px;">${skillBadges(skills)}</div></div>`:''}
-                <div style="display:flex;flex-direction:row;gap:25px;margin-top:15px;">
-                    <div style="flex:1.5;">
-                        ${exp.length?`<div style="margin-bottom:15px;"><h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;">${t('professional_experience')}</h3>
-                            ${exp.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:700;font-size:12px;margin:0;">${e.title}</p><p style="font-size:10px;color:#888;margin:1px 0 3px;">${e.company} | ${e.period}</p><p style="font-size:11px;line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}</div>`:''}
-                        ${edu.length?`<div style="margin-bottom:15px;"><h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;">${t('education_section')}</h3>
-                            ${edu.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:700;font-size:12px;margin:0;">${e.degree}</p><p style="font-size:10px;color:#888;margin:0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}</div>`:''}
-                    </div>
-                    <div style="flex:1;border-left:1px solid #eee;padding-left:20px;">
-                        ${langs.length?`<div style="margin-bottom:15px;"><h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;">${t('languages_section')}</h3>${langs.map(l=>`<p style="font-size:11px;color:#555;margin:4px 0;">• ${l}</p>`).join('')}</div>`:''}
-                        ${certs.length?`<div style="margin-bottom:15px;"><h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;">${t('certifications_section')}</h3>${certs.map(c=>`<p style="font-size:11px;color:#555;margin:4px 0;">• ${c}</p>`).join('')}</div>`:''}
-                        ${extraSectionsHTML()}
-                    </div>
-                </div>
-            </div>`,
-            'professional-modern': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:row;background:#fff;min-height:100%;">
-                <div style="width:32%;background:#f8f9fa;padding:25px 20px;flex-shrink:0;">
-                    ${p.photo ? `<div style="text-align:center;margin-bottom:15px;"><img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid ${state.accentColor};"></div>` : ''}
-                    <div style="text-align:center;margin-bottom:20px;">
-                        <h2 style="font-size:16px;font-weight:600;color:#222;margin:0;">${p.name}</h2>
-                        <p style="font-size:10px;color:#888;margin:2px 0;text-transform:uppercase;letter-spacing:1px;">${p.title}</p>
-                    </div>
-                    <div style="margin-bottom:20px;">
-                        <p style="font-size:11px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;">${t('contact')}</p>
-                        <p style="font-size:11px;color:#555;margin:4px 0;">${p.email}</p>
-                        <p style="font-size:11px;color:#555;margin:4px 0;">${p.phone}</p>
-                        <p style="font-size:11px;color:#555;margin:4px 0;">${p.location}</p>
-                    </div>
-                    ${skills.length?`<div style="margin-bottom:20px;"><p style="font-size:11px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;">${t('skills_section')}</p>
-                        <ul style="list-style:none;padding:0;margin:0;">${skills.map(s=>`<li style="font-size:11px;color:#555;margin:3px 0;display:flex;align-items:center;"><span style="color:${state.accentColor};margin-right:5px;">✓</span>${s}</li>`).join('')}</ul></div>`:''}
-                    ${langs.length?`<div><p style="font-size:11px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;">${t('languages_section')}</p>
-                        ${langs.map(l=>`<p style="font-size:11px;color:#555;margin:3px 0;">• ${l}</p>`).join('')}</div>`:''}
-                </div>
-                <div style="flex:1;padding:25px 30px;">
-                    <div style="margin-bottom:20px;">
-                        <h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;">${t('professional_summary')}</h3>
-                        <p style="font-size:12px;line-height:1.6;color:#444;text-align:justify;">${p.summary}</p>
-                    </div>
-                    ${exp.length?`<div style="margin-bottom:20px;"><h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;">${t('professional_experience')}</h3>
-                        ${exp.map(e => `<div style="margin-bottom:12px;"><p style="font-weight:700;font-size:13px;margin:0;color:#222;">${e.title}</p><p style="font-size:11px;color:#888;margin:2px 0;">${e.company} | ${e.period}</p><ul style="margin:4px 0 0 16px;padding:0;">${e.description.split('.').filter(s=>s.trim()).map(s=>`<li style="font-size:11px;color:#444;margin-bottom:2px;text-align:justify;">${s.trim()}</li>`).join('')}</ul></div>`).join('')}</div>`:''}
-                    ${edu.length?`<div><h3 style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;">${t('education_section')}</h3>
-                        ${edu.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:700;font-size:12px;margin:0;">${e.degree}</p><p style="font-size:11px;color:#888;margin:2px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}</div>`:''}
+                <div style="max-width:800px;margin:0 auto;">
+                    <h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;">${t('professional_summary')}</h3>
+                    <p style="font-size:var(--cv-font-size);line-height:1.6;color:#444;text-align:justify;">${p.summary}</p>
+                    ${skills.length?`<div style="margin:15px 0;"><span style="font-weight:700;font-size:calc(var(--cv-font-size)*1);color:${state.accentColor};text-transform:uppercase;">${t('skills_section')}</span><div style="margin-top:5px;">${skillBadges(skills)}</div></div>`:''}
+                    ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('professional_experience')}</h3>
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#888;margin:2px 0;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                    ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('education_section')}</h3>
+                        ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                    ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('languages_section')}</h3>
+                        ${langs.map(l=>`<p style="font-size:var(--cv-font-size);color:#555;margin:4px 0;">• ${l}</p>`).join('')}`:''}
+                    ${certs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('certifications_section')}</h3>
+                        ${certs.map(c=>`<p style="font-size:var(--cv-font-size);color:#555;margin:4px 0;">• ${c}</p>`).join('')}`:''}
                     ${extraSectionsHTML()}
                 </div>
             </div>`,
-            'timeless-elegant': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:20px;">
-                <div style="text-align:center;margin-bottom:25px;">
-                    <div style="display:inline-block;width:80px;height:2px;background:${state.accentColor};margin-bottom:15px;"></div>
-                    <h1 style="font-size:28px;font-weight:400;margin:0;color:#1a1a1a;letter-spacing:2px;">${p.name}</h1>
-                    <p style="font-size:12px;color:#888;margin:5px 0 15px;letter-spacing:2px;text-transform:uppercase;">${p.title}</p>
-                    <div style="display:flex;justify-content:center;gap:12px;font-size:11px;color:#777;flex-wrap:wrap;">
-                        <span>${p.email}</span><span>${p.phone}</span><span>${p.location}</span>
-                    </div>
-                </div>
-                <div style="display:flex;flex-direction:row;gap:30px;">
-                    <div style="flex:1.8;">
-                        ${exp.length?`<div style="margin-bottom:20px;"><h3 style="font-size:14px;font-weight:600;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;letter-spacing:1px;">${t('professional_experience')}</h3>
-                            ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600;font-size:13px;margin:0;color:#222;">${e.title}</p><p style="font-size:11px;color:#999;margin:2px 0;">${e.company} • ${e.period}</p><p style="font-size:12px;line-height:1.6;color:#444;margin:5px 0 0;text-align:justify;">${e.description}</p></div>`).join('')}</div>`:''}
-                        ${edu.length?`<div><h3 style="font-size:14px;font-weight:600;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;letter-spacing:1px;">${t('education_section')}</h3>
-                            ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600;font-size:12px;margin:0;">${e.degree}</p><p style="font-size:11px;color:#999;margin:2px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}</div>`:''}
-                    </div>
-                    <div style="flex:1;">
-                        ${skills.length?`<div style="margin-bottom:20px;"><h3 style="font-size:14px;font-weight:600;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;letter-spacing:1px;">${t('skills_section')}</h3>
-                            ${skills.map(s => `<p style="font-size:12px;color:#555;margin:4px 0;">• ${s}</p>`).join('')}</div>`:''}
-                        ${langs.length?`<div style="margin-bottom:20px;"><h3 style="font-size:14px;font-weight:600;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;letter-spacing:1px;">${t('languages_section')}</h3>
-                            ${langs.map(l => `<p style="font-size:12px;color:#555;margin:4px 0;">• ${l}</p>`).join('')}</div>`:''}
-                        ${certs.length?`<div><h3 style="font-size:14px;font-weight:600;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;letter-spacing:1px;">${t('certifications_section')}</h3>
-                            ${certs.map(c => `<p style="font-size:12px;color:#555;margin:4px 0;">• ${c}</p>`).join('')}</div>`:''}
-                        ${extraSectionsHTML()}
-                    </div>
-                </div>
-            </div>`,
             'compact-pro': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:15px;font-size:10pt;">
+            <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:15px;font-size:var(--cv-font-size);">
                 <div style="border-bottom:2px solid ${state.accentColor};padding-bottom:10px;margin-bottom:15px;">
-                    <h1 style="font-size:20px;font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
-                    <p style="font-size:10px;color:#666;margin:2px 0 5px;">${p.title}</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:9px;color:#777;">
+                    <h1 style="font-size:calc(var(--cv-font-size)*1.6);font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
+                    <p style="font-size:calc(var(--cv-font-size)*0.9);color:#666;margin:2px 0 5px;">${p.title}</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:calc(var(--cv-font-size)*0.8);color:#777;">
                         <span>${p.email}</span><span>•</span><span>${p.phone}</span><span>•</span><span>${p.location}</span>
                     </div>
                 </div>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
                     <div>
-                        <p style="font-weight:700;font-size:10px;color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;">${t('professional_summary')}</p>
-                        <p style="font-size:9.5px;line-height:1.4;color:#444;text-align:justify;">${p.summary}</p>
-                        ${exp.length?`<p style="font-weight:700;font-size:10px;color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('professional_experience')}</p>
-                            ${exp.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:10px;margin:0;">${e.title}</p><p style="font-size:9px;color:#999;margin:1px 0;">${e.company} | ${e.period}</p><p style="font-size:9.5px;line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
-                        ${edu.length?`<p style="font-weight:700;font-size:10px;color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('education_section')}</p>
-                            ${edu.map(e => `<div style="margin-bottom:6px;"><p style="font-weight:600;font-size:10px;margin:0;">${e.degree}</p><p style="font-size:9px;color:#999;margin:1px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                        <p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;">${t('professional_summary')}</p>
+                        <p style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${p.summary}</p>
+                        ${exp.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('professional_experience')}</p>
+                            ${exp.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*0.9);margin:0;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.8);color:#999;margin:1px 0;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${edu.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('education_section')}</p>
+                            ${edu.map(e => `<div style="margin-bottom:6px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*0.9);margin:0;">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.8);color:#999;margin:1px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     </div>
                     <div>
-                        ${skills.length?`<p style="font-weight:700;font-size:10px;color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;">${t('skills_section')}</p>
+                        ${skills.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;">${t('skills_section')}</p>
                             <div style="margin-top:5px;">${skillBadges(skills)}</div>`:''}
-                        ${langs.length?`<p style="font-weight:700;font-size:10px;color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('languages_section')}</p>
-                            ${langs.map(l => `<p style="font-size:10px;color:#555;margin:3px 0;">• ${l}</p>`).join('')}`:''}
-                        ${certs.length?`<p style="font-weight:700;font-size:10px;color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('certifications_section')}</p>
-                            ${certs.map(c => `<p style="font-size:10px;color:#555;margin:3px 0;">• ${c}</p>`).join('')}`:''}
-                        ${extraSectionsHTML()}
-                    </div>
-                </div>
-            </div>`,
-            'creative-classic': (p, exp, edu, skills, langs, certs) => `
-            <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:0;min-height:100%;">
-                <div style="display:flex;flex-direction:row;min-height:100%;">
-                    <div style="width:30%;background-color:${state.accentColor};color:white;padding:30px 20px;flex-shrink:0;">
-                        ${p.photo ? `<div style="text-align:center;margin-bottom:15px;"><img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid rgba(255,255,255,0.8);object-fit:cover;"></div>` : ''}
-                        <div style="text-align:center;margin-bottom:20px;">
-                            <h2 style="font-size:18px;font-weight:600;color:white;margin:0;">${p.name}</h2>
-                            <p style="font-size:10px;color:rgba(255,255,255,0.8);margin:3px 0 10px;text-transform:uppercase;letter-spacing:1px;">${p.title}</p>
-                        </div>
-                        <div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:15px;margin-bottom:20px;">
-                            <p style="font-size:11px;font-weight:700;color:white;margin-bottom:10px;">${t('contact')}</p>
-                            <p style="font-size:10px;color:rgba(255,255,255,0.8);margin:3px 0;">${p.email}</p>
-                            <p style="font-size:10px;color:rgba(255,255,255,0.8);margin:3px 0;">${p.phone}</p>
-                            <p style="font-size:10px;color:rgba(255,255,255,0.8);margin:3px 0;">${p.location}</p>
-                        </div>
-                        ${skills.length?`<div style="border-top:1px solid rgba(255,255,255,0.2);padding-top:15px;"><p style="font-size:11px;font-weight:700;color:white;margin-bottom:10px;">${t('skills_section')}</p>
-                            <ul style="list-style:none;padding:0;margin:0;">${skills.map(s=>`<li style="font-size:10px;color:rgba(255,255,255,0.8);margin:3px 0;">• ${s}</li>`).join('')}</ul></div>`:''}
-                    </div>
-                    <div style="flex:1;padding:30px 25px;">
-                        <p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:2px solid ${state.accentColor};padding-bottom:5px;text-transform:uppercase;letter-spacing:1px;">${t('professional_summary')}</p>
-                        <p style="font-size:12px;line-height:1.5;color:#444;text-align:justify;">${p.summary}</p>
-                        ${exp.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:2px solid ${state.accentColor};padding-bottom:5px;text-transform:uppercase;letter-spacing:1px;margin-top:20px;">${t('professional_experience')}</p>
-                            ${exp.map(e => `<div style="margin-bottom:12px;"><p style="font-weight:600;font-size:13px;margin:0;color:#222;">${e.title}</p><p style="font-size:11px;color:#999;margin:2px 0;">${e.company} | ${e.period}</p><ul style="margin:4px 0 0 16px;padding:0;">${e.description.split('.').filter(s=>s.trim()).map(s=>`<li style="font-size:11px;color:#444;margin-bottom:2px;text-align:justify;">${s.trim()}</li>`).join('')}</ul></div>`).join('')}`:''}
-                        ${edu.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:2px solid ${state.accentColor};padding-bottom:5px;text-transform:uppercase;letter-spacing:1px;margin-top:20px;">${t('education_section')}</p>
-                            ${edu.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:12px;margin:0;">${e.degree}</p><p style="font-size:11px;color:#999;margin:2px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                        ${langs.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('languages_section')}</p>
+                            ${langs.map(l => `<p style="font-size:var(--cv-font-size);color:#555;margin:3px 0;">• ${l}</p>`).join('')}`:''}
+                        ${certs.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('certifications_section')}</p>
+                            ${certs.map(c => `<p style="font-size:var(--cv-font-size);color:#555;margin:3px 0;">• ${c}</p>`).join('')}`:''}
                         ${extraSectionsHTML()}
                     </div>
                 </div>
             </div>`,
             'modern-split': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:column;background:#fff;min-height:100%;">
-                <div style="padding:20px 25px;background:#f8f9fa;border-bottom:3px solid ${state.accentColor};">
-                    <div style="display:flex;flex-direction:row;align-items:center;gap:15px;flex-wrap:wrap;">
-                        ${p.photo ? `<img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;border:2px solid ${state.accentColor};object-fit:cover;">` : ''}
-                        <div style="flex:1;">
-                            <h1 style="font-size:22px;font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
-                            <p style="font-size:11px;color:#666;margin:2px 0;">${p.title}</p>
-                            <div style="display:flex;flex-wrap:wrap;gap:8px;font-size:10px;color:#777;margin-top:5px;">
-                                <span>${p.email}</span><span>•</span><span>${p.phone}</span><span>•</span><span>${p.location}</span>
-                            </div>
-                        </div>
+                <div style="padding:20px 25px;background:#f8f9fa;border-bottom:3px solid ${state.accentColor};text-align:center;">
+                    <h1 style="font-size:calc(var(--cv-font-size)*1.8);font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
+                    <p style="font-size:calc(var(--cv-font-size)*1);color:#666;margin:2px 0;">${p.title}</p>
+                    <div style="font-size:calc(var(--cv-font-size)*0.85);color:#777;margin-top:5px;">
+                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
                     </div>
+                    ${p.photo ? `<div style="margin-top:10px;"><img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;border:2px solid ${state.accentColor};object-fit:cover;"></div>` : ''}
                 </div>
                 <div style="display:flex;flex-direction:row;gap:0;">
                     <div style="flex:1.5;padding:20px 25px;">
-                        <p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;">${t('professional_summary')}</p>
-                        <p style="font-size:11px;line-height:1.5;color:#444;text-align:justify;">${p.summary}</p>
-                        ${exp.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('professional_experience')}</p>
-                            ${exp.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600;font-size:12px;margin:0;color:#222;">${e.title}</p><p style="font-size:10px;color:#999;margin:2px 0;">${e.company} | ${e.period}</p><p style="font-size:11px;line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
-                        ${edu.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('education_section')}</p>
-                            ${edu.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:12px;margin:0;">${e.degree}</p><p style="font-size:10px;color:#999;margin:2px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                        <p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;">${t('professional_summary')}</p>
+                        <p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${p.summary}</p>
+                        ${exp.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('professional_experience')}</p>
+                            ${exp.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*1.05);margin:0;color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin:2px 0;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${edu.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('education_section')}</p>
+                            ${edu.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*1.05);margin:0;">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin:2px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     </div>
                     <div style="flex:1;background:#f8f9fa;padding:20px 15px;border-left:1px solid #eee;">
-                        ${skills.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;">${t('skills_section')}</p>
+                        ${skills.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;">${t('skills_section')}</p>
                             <div style="margin-top:5px;">${skillBadges(skills)}</div>`:''}
-                        ${langs.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('languages_section')}</p>
-                            ${langs.map(l => `<p style="font-size:11px;color:#555;margin:3px 0;">• ${l}</p>`).join('')}`:''}
-                        ${certs.length?`<p style="font-size:13px;font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('certifications_section')}</p>
-                            ${certs.map(c => `<p style="font-size:11px;color:#555;margin:3px 0;">• ${c}</p>`).join('')}`:''}
+                        ${langs.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('languages_section')}</p>
+                            ${langs.map(l => `<p style="font-size:var(--cv-font-size);color:#555;margin:3px 0;">• ${l}</p>`).join('')}`:''}
+                        ${certs.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('certifications_section')}</p>
+                            ${certs.map(c => `<p style="font-size:var(--cv-font-size);color:#555;margin:3px 0;">• ${c}</p>`).join('')}`:''}
                         ${extraSectionsHTML()}
                     </div>
+                </div>
+            </div>`,
+            'elegant-pro': (p, exp, edu, skills, langs, certs) => `
+            <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:25px;">
+                <div style="text-align:center;margin-bottom:30px;">
+                    <div style="font-family:'Playfair Display', serif; font-size:calc(var(--cv-font-size)*2.4); font-weight:600; color:#1a1a1a;">${p.name}</div>
+                    <div style="color:${state.accentColor}; font-size:calc(var(--cv-font-size)*1); letter-spacing:2px; text-transform:uppercase; margin-top:5px;">${p.title}</div>
+                    <div style="display:flex; justify-content:center; gap:15px; margin-top:10px; font-size:calc(var(--cv-font-size)*0.85); color:#777;">
+                        <span>${p.email}</span><span>${p.phone}</span><span>${p.location}</span>
+                    </div>
+                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin-top:15px;">` : ''}
+                </div>
+                <div style="display:flex; flex-direction:row; gap:30px;">
+                    <div style="flex:1.5;">
+                        <h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase;">${t('professional_summary')}</h3>
+                        <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
+                        ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
+                            ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
+                            ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                    </div>
+                    <div style="flex:1; background:#fafafa; padding:15px; border-left:1px solid #eee;">
+                        ${skills.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase;">${t('skills_section')}</h3>
+                            ${skills.map(s => `<p style="font-size:var(--cv-font-size); color:#555; margin:4px 0;">• ${s}</p>`).join('')}`:''}
+                        ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('languages_section')}</h3>
+                            ${langs.map(l => `<p style="font-size:var(--cv-font-size); color:#555; margin:4px 0;">• ${l}</p>`).join('')}`:''}
+                        ${certs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('certifications_section')}</h3>
+                            ${certs.map(c => `<p style="font-size:var(--cv-font-size); color:#555; margin:4px 0;">• ${c}</p>`).join('')}`:''}
+                    </div>
+                </div>
+                ${extraSectionsHTML()}
+            </div>`,
+            'corporate-classic': (p, exp, edu, skills, langs, certs) => `
+            <div class="cv-content" style="font-family:${state.selectedFont}; background:#fff; padding:0;">
+                <div style="background:${state.accentColor}; color:white; padding:20px 30px; text-align:center;">
+                    <h1 style="font-size:calc(var(--cv-font-size)*2); font-weight:700; margin:0;">${p.name}</h1>
+                    <p style="margin:5px 0 0; opacity:0.9; font-size:calc(var(--cv-font-size)*1);">${p.title}</p>
+                    <div style="font-size:calc(var(--cv-font-size)*0.85); opacity:0.9; margin-top:10px;">
+                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    </div>
+                </div>
+                <div style="padding:25px 30px;">
+                    <h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase;">${t('professional_summary')}</h3>
+                    <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
+                    ${skills.length?`<div style="margin:15px 0;"><span style="font-weight:700; font-size:calc(var(--cv-font-size)*1); color:${state.accentColor}; text-transform:uppercase;">${t('skills_section')}</span><div style="margin-top:5px;">${skillBadges(skills)}</div></div>`:''}
+                    ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                    ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
+                        ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                    ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('languages_section')}</h3>
+                        ${langs.map(l=>`<p style="font-size:var(--cv-font-size); color:#555; margin:4px 0;">• ${l}</p>`).join('')}`:''}
+                    ${certs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('certifications_section')}</h3>
+                        ${certs.map(c=>`<p style="font-size:var(--cv-font-size); color:#555; margin:4px 0;">• ${c}</p>`).join('')}`:''}
+                    ${extraSectionsHTML()}
+                </div>
+            </div>`,
+            'executive-minimal': (p, exp, edu, skills, langs, certs) => `
+            <div class="cv-content" style="font-family:${state.selectedFont}; background:#fff; padding:25px;">
+                <div style="text-align:center; margin-bottom:25px;">
+                    <h1 style="font-size:calc(var(--cv-font-size)*2); font-weight:600; color:#1a1a1a;">${p.name}</h1>
+                    <p style="color:${state.accentColor}; font-size:calc(var(--cv-font-size)*1); letter-spacing:1px; text-transform:uppercase; margin-top:5px;">${p.title}</p>
+                    <div style="font-size:calc(var(--cv-font-size)*0.85); color:#777; margin-top:10px;">
+                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    </div>
+                    ${p.photo ? `<div style="margin-top:15px;"><img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;"></div>` : ''}
+                </div>
+                <div style="border-top:2px solid ${state.accentColor}; padding-top:15px;">
+                    <h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-bottom:10px;">${t('professional_summary')}</h3>
+                    <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
+                    ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                    ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
+                        ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                    ${skills.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('skills_section')}</h3>
+                        <div>${skillBadges(skills)}</div>`:''}
+                    ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('languages_section')}</h3>
+                        ${langs.map(l => `<p style="font-size:var(--cv-font-size); color:#555;">• ${l}</p>`).join('')}`:''}
+                    ${certs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('certifications_section')}</h3>
+                        ${certs.map(c => `<p style="font-size:var(--cv-font-size); color:#555;">• ${c}</p>`).join('')}`:''}
+                    ${extraSectionsHTML()}
+                </div>
+            </div>`,
+            'modern-classic': (p, exp, edu, skills, langs, certs) => `
+            <div class="cv-content" style="font-family:${state.selectedFont}; background:#fff; padding:25px;">
+                <div style="text-align:center; margin-bottom:25px;">
+                    <h1 style="font-size:calc(var(--cv-font-size)*2.2); font-weight:600; color:#1a1a1a;">${p.name}</h1>
+                    <p style="color:${state.accentColor}; font-size:calc(var(--cv-font-size)*1); letter-spacing:2px; text-transform:uppercase; margin-top:5px;">${p.title}</p>
+                    <div style="font-size:calc(var(--cv-font-size)*0.85); color:#777; margin-top:10px;">
+                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    </div>
+                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin-top:15px;">` : ''}
+                </div>
+                <div style="border-top:2px solid ${state.accentColor}; padding-top:20px;">
+                    <h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-bottom:10px;">${t('professional_summary')}</h3>
+                    <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
+                    ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                    ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
+                        ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
+                    ${skills.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('skills_section')}</h3>
+                        <div>${skillBadges(skills)}</div>`:''}
+                    ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('languages_section')}</h3>
+                        ${langs.map(l => `<p style="font-size:var(--cv-font-size); color:#555;">• ${l}</p>`).join('')}`:''}
+                    ${certs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('certifications_section')}</h3>
+                        ${certs.map(c => `<p style="font-size:var(--cv-font-size); color:#555;">• ${c}</p>`).join('')}`:''}
+                    ${extraSectionsHTML()}
                 </div>
             </div>`
         };
 
-        const fallbackRenderer = renderers['sophie-walton'];
-        templateDefinitions.forEach(t => { if (!renderers[t.id]) renderers[t.id] = fallbackRenderer; });
+        const fallbackRenderer = renderers['classic'];
 
         // ==================== COVER LETTER ====================
         function renderCoverLetter() {
@@ -1767,12 +1792,12 @@
             return `
             <div class="cv-content" style="font-family:${state.selectedFont}; max-width:100%;">
                 <div style="text-align:right; font-size:calc(var(--cv-font-size)*.9); opacity:.6;">${today}</div>
-                <div style="margin-bottom:8px;"><p style="font-weight:600;">${p.name}</p><p style="font-size:calc(var(--cv-font-size)*.8); opacity:.7;">${contactLine(p)}</p></div>
-                <p style="font-weight:600;">${t('cover_letter_intro')} Hiring Manager,</p>
-                <p style="font-weight:600; margin-top:4px;">${t('cover_letter_subject')} ${p.title}</p>
-                <p style="margin-top:8px; line-height:1.5;">${bodyText}</p>
-                <p style="margin-top:15px; font-weight:600;">${t('cover_letter_closing')}</p>
-                <p style="font-weight:500;">${p.name}</p>
+                <div style="margin-bottom:8px;"><p style="font-weight:600;font-size:var(--cv-font-size);">${p.name}</p><p style="font-size:calc(var(--cv-font-size)*.8); opacity:.7;">${contactLine(p)}</p></div>
+                <p style="font-weight:600;font-size:var(--cv-font-size);">${t('cover_letter_intro')} Hiring Manager,</p>
+                <p style="font-weight:600; margin-top:4px;font-size:var(--cv-font-size);">${t('cover_letter_subject')} ${p.title}</p>
+                <p style="margin-top:8px; line-height:1.5;font-size:var(--cv-font-size);">${bodyText}</p>
+                <p style="margin-top:15px; font-weight:600;font-size:var(--cv-font-size);">${t('cover_letter_closing')}</p>
+                <p style="font-weight:500;font-size:var(--cv-font-size);">${p.name}</p>
             </div>`;
         }
 
@@ -1783,14 +1808,10 @@
             preview.className = `w-[210mm] min-h-[297mm] ${paperClassMap[state.paperColor]||'paper-white'} p-[12mm] shadow-2xl animate-fadeIn`;
             preview.style.fontFamily = state.selectedFont;
             document.documentElement.style.setProperty('--accent-color', state.accentColor);
-            if (state.template === 'executive-dark') { preview.style.background = '#0f172a'; preview.style.color = '#f8fafc'; }
-            else { preview.style.background = ''; preview.style.color = ''; }
+            document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt');
             if (state.viewMode === 'cover') preview.innerHTML = renderCoverLetter();
-            else preview.innerHTML = (renderers[state.template] || renderers['sophie-walton'])(state.personal, state.experience, state.education, state.skills, state.languages, state.certifications);
-            requestAnimationFrame(() => {
-                updateCVScale();
-                checkPageOverflow();
-            });
+            else preview.innerHTML = (renderers[state.template] || fallbackRenderer)(state.personal, state.experience, state.education, state.skills, state.languages, state.certifications);
+            requestAnimationFrame(() => updateCVScale());
             updateTemplateButtons();
         }
 
@@ -1809,20 +1830,6 @@
         }
 
         function changePaperColor(c) { state.paperColor = c; updateStateAndRender(); }
-
-        // ==================== CHECK PAGE OVERFLOW ====================
-        function checkPageOverflow() {
-            const cv = document.getElementById('cv-capture-area');
-            const currentTransform = cv.style.transform;
-            cv.style.transform = 'none';
-            const naturalHeight = cv.offsetHeight;
-            cv.style.transform = currentTransform;
-            const A4_HEIGHT_PX = 1122.52; // 297mm em px a 96dpi
-            const threshold = A4_HEIGHT_PX + 20;
-            if (naturalHeight > threshold) {
-                showToast('⚠️ Conteúdo excede uma página A4. Considere reduzir.');
-            }
-        }
 
         // ==================== UPDATE CV SCALE ====================
         function updateCVScale() {
@@ -2119,6 +2126,36 @@
             currentPage.style.transformOrigin = 'center center';
         }
 
+        // ==================== MISC ====================
+        function copyEmolaNumber() {
+            const num = document.getElementById('emolaNumberText').textContent.replace(/\s/g, '');
+            navigator.clipboard.writeText(num).then(() => {
+                document.getElementById('copyBtnLabel').textContent = 'Copiado!';
+                setTimeout(() => document.getElementById('copyBtnLabel').textContent = 'Copiar', 2000);
+            }).catch(() => {
+                const range = document.createRange();
+                const span = document.getElementById('emolaNumberText');
+                range.selectNode(span);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                document.execCommand('copy');
+                document.getElementById('copyBtnLabel').textContent = 'Copiado!';
+                setTimeout(() => document.getElementById('copyBtnLabel').textContent = 'Copiar', 2000);
+            });
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('passwordInput');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><path d="M1 1l22 22"/>';
+            } else {
+                input.type = 'password';
+                icon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+            }
+        }
+
         // ==================== INIT ====================
         function init() {
             const loaded = loadFromLocalStorage();
@@ -2154,8 +2191,12 @@
                     document.getElementById('templateSheet').classList.remove('show');
                     document.getElementById('colorSheet').classList.remove('show');
                     closeMobileSidebar();
+                    closePasswordModal();
                     closeMultiPageViewer();
                     document.body.style.overflow = '';
+                }
+                if (e.key === 'Enter' && document.getElementById('passwordModal').classList.contains('show')) {
+                    validatePassword();
                 }
                 if (e.key === 'ArrowRight' && isViewerOpen) { nextPage(); e.preventDefault(); }
                 if (e.key === 'ArrowLeft' && isViewerOpen) { prevPage(); e.preventDefault(); }
@@ -2163,7 +2204,7 @@
         }
 
         window.onload = init;
-        console.log('🚀 CV Builder Pro • Impressão fiel, mobile-first, 12 templates!');
+        console.log('🚀 CV Builder Pro • 10 Templates, bloqueio ativo, exportação fiel!');
     </script>
 </body>
 </html>
