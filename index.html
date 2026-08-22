@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>CV Builder Pro • 12 Templates</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/docx@8.2.3/build/index.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
     <style>
         /* ===== VARIÁVEIS E RESET ===== */
@@ -470,67 +468,6 @@
         }
         .page-controls .page-info strong { color:white; }
 
-        /* ===== UNLOCK MODAL ===== */
-        #passwordModal { 
-            position:fixed; 
-            inset:0; 
-            background:rgba(5,8,16,0.85); 
-            backdrop-filter:blur(12px); 
-            -webkit-backdrop-filter:blur(12px); 
-            z-index:9999; 
-            display:none; 
-            align-items:center; 
-            justify-content:center; 
-            padding:16px; 
-            animation:fadeIn .25s ease; 
-        }
-        #passwordModal.show { display:flex; }
-        .unlock-box { 
-            background:#0d1420; 
-            border:1px solid #1e293b; 
-            border-radius:24px; 
-            max-width:400px; 
-            width:100%; 
-            max-height:92vh; 
-            overflow-y:auto; 
-            box-shadow:0 30px 80px rgba(0,0,0,0.6); 
-            animation:slideUp .35s cubic-bezier(0.16,1,0.3,1); 
-            padding:16px; 
-        }
-        .unlock-head { border-bottom:1px solid #1a2332; padding-bottom:12px; margin-bottom:12px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-        .unlock-close { position:absolute; top:12px; right:12px; background:transparent; border:none; color:#64748b; font-size:18px; cursor:pointer; }
-        .unlock-badge { width:44px; height:44px; border-radius:12px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); display:flex; align-items:center; justify-content:center; margin-bottom:8px; }
-        .unlock-badge svg { width:20px; height:20px; stroke:#60a5fa; }
-        .unlock-head h2 { font-size:17px; font-weight:700; color:white; }
-        .unlock-head p { font-size:12.5px; color:#94a3b8; }
-        .unlock-price { display:inline-flex; align-items:baseline; gap:4px; padding:3px 10px; background:#111827; border:1px solid #1e293b; border-radius:20px; font-size:11px; color:#cbd5e1; }
-        .unlock-price strong { color:#60a5fa; font-size:13px; }
-        .unlock-body { display:flex; flex-direction:column; gap:12px; }
-        .unlock-step { display:flex; gap:8px; align-items:flex-start; }
-        .unlock-step-num { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:#111827; border:1.5px solid #2a3a52; color:#93c5fd; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; }
-        .unlock-step-content { flex:1; }
-        .unlock-step-title { font-size:12px; font-weight:600; color:#e2e8f0; }
-        .unlock-step-desc { font-size:11px; color:#94a3b8; }
-        .unlock-number-row { display:flex; align-items:center; gap:8px; background:#111827; border:1px solid #1e293b; border-radius:10px; padding:8px 12px; flex-wrap:wrap; justify-content:center; }
-        .unlock-number-row .emola-chip { width:36px; height:36px; border-radius:10px; background:#F47B20; display:flex; align-items:center; justify-content:center; }
-        .unlock-number-row .emola-chip svg { width:24px; height:24px; }
-        .unlock-number-row .num-text { font-size:16px; font-weight:700; color:white; font-family:monospace; background:#0a0f1a; padding:2px 10px; border-radius:6px; border:1px solid #2a3a52; }
-        .unlock-copy-btn { display:flex; align-items:center; gap:4px; background:#1a2332; border:1px solid #2a3a52; color:#93c5fd; font-size:11px; font-weight:600; padding:6px 12px; border-radius:8px; cursor:pointer; }
-        .unlock-whatsapp-btn { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; background:var(--whatsapp-green); color:white; font-weight:700; font-size:13px; padding:10px; border-radius:10px; text-decoration:none; }
-        .unlock-divider { display:flex; align-items:center; gap:8px; color:#475569; font-size:10px; font-weight:600; text-transform:uppercase; }
-        .unlock-divider::before, .unlock-divider::after { content:''; flex:1; height:1px; background:#1a2332; }
-        .unlock-input-group { display:flex; align-items:center; background:#111827; border:1.5px solid #1e293b; border-radius:10px; padding:2px 8px; }
-        .unlock-input-group input { flex:1; background:transparent; border:none; padding:10px 4px; font-size:14px; color:white; outline:none; min-height:40px; }
-        .unlock-input-group input::placeholder { color:#475569; }
-        .unlock-toggle-visibility { background:none; border:none; color:#64748b; padding:6px; cursor:pointer; }
-        .unlock-msg { font-size:11px; min-height:18px; }
-        .unlock-msg.error { color:#f87171; }
-        .unlock-msg.success { color:#34d399; }
-        .unlock-actions { display:flex; gap:6px; }
-        .unlock-actions button { padding:10px 14px; border-radius:10px; font-weight:700; font-size:13px; border:none; cursor:pointer; flex:1; }
-        .unlock-actions .btn-confirm { background:#3b82f6; color:white; }
-        .unlock-actions .btn-cancel { background:transparent; color:#94a3b8; border:1px solid #1e293b; }
-
         /* ===== SPINNER ===== */
         .spinner { width:36px; height:36px; border:3px solid rgba(255,255,255,0.12); border-top-color:#3b82f6; border-radius:50%; animation:spin .7s linear infinite; }
 
@@ -604,12 +541,14 @@
 
         @media (max-width:640px) {
             :root { --header-height:48px; --tab-height:48px; --touch-target:38px; }
+            header { padding:2px 4px; }
+            header .btn { font-size:8px; padding:3px 5px; min-height:28px; min-width:28px; }
+            header h1 { font-size:9px; }
             #cv-capture-area { padding:6mm; }
             .page-controls button { width:32px; height:32px; font-size:12px; }
             .page-controls .page-info { font-size:10px; min-width:50px; }
             #multi-page-viewer .close-viewer { width:32px; height:32px; font-size:16px; top:6px; right:10px; }
             #multi-page-viewer .page-container { padding:5mm; }
-            .unlock-box { padding:12px; }
             .toast { font-size:11px; padding:6px 14px; bottom:66px; white-space:normal; max-width:92vw; }
         }
     </style>
@@ -662,92 +601,10 @@
             <button onclick="undo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Desfazer" style="font-size:10px" id="undoBtn" disabled>↩️</button>
             <button onclick="redo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Refazer" style="font-size:10px" id="redoBtn" disabled>↪️</button>
             <button onclick="openMultiPageViewer()" class="btn btn-primary btn-sm gap-0.5" aria-label="Visualização multi-página" style="font-size:9px">📖 <span class="hidden sm:inline text-[8px]">Páginas</span></button>
-            <button onclick="exportPDF()" class="btn btn-danger btn-sm gap-0.5" aria-label="Exportar PDF (impressão)" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF Impressão</span></button>
-            <button onclick="exportPDFProgrammatic()" class="btn btn-secondary btn-sm gap-0.5" aria-label="Exportar PDF programático" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF Programático</span></button>
-            <button onclick="exportDOCX()" class="btn btn-primary btn-sm gap-0.5" aria-label="Exportar Word" style="font-size:9px">📝 <span class="hidden sm:inline text-[8px]">DOCX</span></button>
+            <!-- Botão único de exportação: impressão fiel -->
+            <button onclick="exportPDF()" class="btn btn-danger btn-sm gap-0.5" aria-label="Exportar PDF (impressão)" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF</span></button>
         </div>
     </header>
-
-    <!-- ==================== UNLOCK MODAL ==================== -->
-    <div id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="unlockTitle">
-        <div class="unlock-box">
-            <div class="unlock-head" style="position:relative;">
-                <button class="unlock-close" onclick="closePasswordModal()" title="Fechar" aria-label="Fechar" style="position:absolute; top:0; right:0;">✕</button>
-                <div class="unlock-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-                </div>
-                <h2 id="unlockTitle">Desbloquear download</h2>
-                <p style="font-size:12px;">Contribuição única · <strong style="color:#60a5fa;">100 MT</strong></p>
-            </div>
-            <div class="unlock-body">
-                <div class="unlock-step">
-                    <span class="unlock-step-num">1</span>
-                    <div class="unlock-step-content">
-                        <p class="unlock-step-title">Envie 100 MT para o e-Mola</p>
-                        <div class="unlock-number-row">
-                            <span class="emola-chip">
-                                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;">
-                                    <rect width="300" height="300" fill="#F47B20" />
-                                    <rect x="90" y="60" width="90" height="135" rx="10" fill="#ffffff" />
-                                    <rect x="100" y="75" width="70" height="45" rx="4" fill="#F47B20" />
-                                    <rect x="100" y="135" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="124" y="135" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="148" y="135" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="100" y="153" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="124" y="153" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="148" y="153" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="100" y="171" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="124" y="171" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="148" y="171" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <g transform="translate(140, 100) rotate(-20)">
-                                        <rect x="0" y="0" width="85" height="45" rx="4" fill="#ffffff" />
-                                        <text x="42.5" y="30" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#F47B20" text-anchor="middle">$</text>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="num-text" id="emolaNumberText">86 215 9003</span>
-                            <button class="unlock-copy-btn" onclick="copyEmolaNumber()" id="copyBtn" type="button" aria-label="Copiar número">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
-                                <span id="copyBtnLabel">Copiar</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="unlock-step">
-                    <span class="unlock-step-num">2</span>
-                    <div class="unlock-step-content">
-                        <p class="unlock-step-title">Confirme no WhatsApp</p>
-                        <p class="unlock-step-desc">Envie o comprovativo. A senha chega em minutos.</p>
-                        <a href="https://wa.me/258862159003?text=Olá!%20Gostaria%20de%20solicitar%20as%20credenciais%20para%20baixar%20o%20CV.%20Já%20efetuei%20o%20pagamento%20de%20100%20MT%20via%20Emola.%20Aguardo%20a%20senha.%20Obrigado!" target="_blank" class="unlock-whatsapp-btn" rel="noopener noreferrer">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:white;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            Confirmar
-                        </a>
-                    </div>
-                </div>
-                <div class="unlock-step">
-                    <span class="unlock-step-num">3</span>
-                    <div class="unlock-step-content">
-                        <p class="unlock-step-title">Insira a senha</p>
-                        <p class="unlock-step-desc">O download é liberado após validação.</p>
-                    </div>
-                </div>
-                <div class="unlock-divider">Já tem a senha</div>
-                <div class="unlock-input-group">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;stroke:#64748b;"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-                    <input type="password" id="passwordInput" placeholder="Senha" autocomplete="off" enterkeyhint="done">
-                    <button class="unlock-toggle-visibility" type="button" onclick="togglePasswordVisibility()" id="toggleVisBtn" title="Mostrar senha" aria-label="Mostrar senha">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" id="eyeIcon"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </button>
-                </div>
-                <div id="passwordError" class="unlock-msg error"></div>
-                <div id="passwordSuccess" class="unlock-msg success"></div>
-                <div class="unlock-actions">
-                    <button class="btn-cancel" onclick="closePasswordModal()">Cancelar</button>
-                    <button class="btn-confirm" onclick="validatePassword()">Confirmar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- ==================== FONT SHEET ==================== -->
     <div id="fontSheet" class="bottom-sheet-overlay" onclick="closeFontSheet(event)">
@@ -843,6 +700,7 @@
                         <label class="block text-[8px] uppercase font-bold text-slate-500 mb-0.5">📸 Foto (opcional)</label>
                         <input type="file" accept="image/*" onchange="handlePhotoUpload(event)" class="input-field text-sm">
                         <div id="photoPreviewContainer" class="mt-2"></div>
+                        <button onclick="removePhoto()" class="btn btn-ghost btn-xs mt-1 text-red-400">Remover foto</button>
                         <p class="text-[8px] text-amber-400 mt-1">⚠️ Fotos podem não ser lidas por sistemas ATS.</p>
                     </div>
                 </div>
@@ -887,6 +745,10 @@
                     <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌟 Interesses</h3>
                     <textarea id="interestsInput" oninput="state.interests=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Tecnologia, Desporto..." class="input-field text-sm"></textarea>
                 </div>
+                <!-- Botão de limpar cache -->
+                <div class="mt-4 pt-2 border-t border-[#1e293b]">
+                    <button onclick="clearCache()" class="btn btn-ghost btn-sm w-full justify-center text-red-400">🗑️ Limpar Dados</button>
+                </div>
             </div>
             <button id="sidebar-toggle" onclick="toggleSidebar()" title="Recolher/Expandir" aria-label="Recolher sidebar" class="hidden lg:flex" style="display:none;">◀</button>
         </aside>
@@ -913,9 +775,9 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg>
             <span class="tab-label">Templates</span>
         </button>
-        <button class="mobile-tab" onclick="showExportSheet()" role="tab" aria-label="Exportar">
+        <button class="mobile-tab" onclick="exportPDF()" role="tab" aria-label="Exportar">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            <span class="tab-label">Exportar</span>
+            <span class="tab-label">PDF</span>
         </button>
         <button class="mobile-tab" onclick="toggleViewMode()" role="tab" aria-label="Alternar modo">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -1241,51 +1103,23 @@
             container.innerHTML = state.personal.photo ? `<img src="${state.personal.photo}" class="photo-preview" alt="Foto" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--accent-color);">` : '';
         }
 
-        // ==================== PASSWORD ====================
-        const CORRECT_PASSWORD = 'cvpro2026';
-        let pendingExportAction = null;
-        let passwordSession = false;
-
-        function requestExport(action) {
-            if (passwordSession) { executeExport(action); return; }
-            pendingExportAction = action;
-            document.getElementById('passwordModal').classList.add('show');
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordError').textContent = '';
-            document.getElementById('passwordSuccess').textContent = '';
-            setTimeout(() => document.getElementById('passwordInput').focus(), 200);
+        function removePhoto() {
+            state.personal.photo = '';
+            updatePhotoPreview();
+            updateStateAndRender();
+            showToast('Foto removida.');
         }
 
-        function validatePassword() {
-            const input = document.getElementById('passwordInput').value.trim();
-            const errorEl = document.getElementById('passwordError');
-            const successEl = document.getElementById('passwordSuccess');
-            errorEl.textContent = '';
-            successEl.textContent = '';
-            if (!input) { errorEl.textContent = '⚠️ Insira a senha.'; return; }
-            if (input === CORRECT_PASSWORD) {
-                passwordSession = true;
-                successEl.textContent = '✅ Senha correta! Exportando...';
-                setTimeout(() => {
-                    closePasswordModal();
-                    if (pendingExportAction) { executeExport(pendingExportAction); pendingExportAction = null; }
-                }, 400);
-            } else {
-                errorEl.textContent = '❌ Senha incorreta.';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
+        // ==================== LIMPAR CACHE ====================
+        function clearCache() {
+            if (confirm('Tem certeza que deseja limpar todos os dados e resetar o currículo?')) {
+                localStorage.removeItem('cvBuilderState');
+                state = JSON.parse(JSON.stringify(defaultState));
+                history = [JSON.parse(JSON.stringify(state))];
+                historyIndex = 0;
+                refreshAll();
+                showToast('Cache limpo. Estado redefinido.');
             }
-        }
-
-        function closePasswordModal() {
-            document.getElementById('passwordModal').classList.remove('show');
-            pendingExportAction = null;
-        }
-
-        function executeExport(action) {
-            if (action === 'pdf') exportPDF();
-            else if (action === 'pdf-programmatic') exportPDFProgrammatic();
-            else if (action === 'docx') exportDOCX();
         }
 
         // ==================== VIEW MODE ====================
@@ -1336,20 +1170,12 @@
             updateStateAndRender();
         }
 
-        // ==================== EXPORT SHEET ====================
-        function showExportSheet() {
-            const overlay = document.createElement('div');
-            overlay.className = 'bottom-sheet-overlay show';
-            overlay.innerHTML = `<div class="bottom-sheet" onclick="event.stopPropagation()">
-                <div class="bottom-sheet-handle"></div>
-                <h3 class="text-sm font-bold text-white mb-3">📤 Exportar</h3>
-                <button onclick="requestExport('pdf')" class="w-full bg-red-600 p-3 rounded-xl text-white font-bold mb-2">📄 PDF (Impressão)</button>
-                <button onclick="requestExport('pdf-programmatic')" class="w-full bg-blue-700 p-3 rounded-xl text-white font-bold mb-2">📄 PDF (Programático)</button>
-                <button onclick="requestExport('docx')" class="w-full bg-green-600 p-3 rounded-xl text-white font-bold mb-2">📝 DOCX (Editável)</button>
-                <button onclick="this.parentElement.parentElement.remove()" class="w-full bg-slate-700 p-3 rounded-xl text-white">Cancelar</button>
-            </div>`;
-            document.body.appendChild(overlay);
-            overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+        // ==================== EXPORT PDF (fiel) ====================
+        function exportPDF() {
+            showToast('📄 Use o diálogo de impressão e escolha "Salvar como PDF" para obter texto selecionável.');
+            setTimeout(() => {
+                window.print();
+            }, 300);
         }
 
         // ==================== FONT SELECTOR ====================
@@ -1961,7 +1787,10 @@
             else { preview.style.background = ''; preview.style.color = ''; }
             if (state.viewMode === 'cover') preview.innerHTML = renderCoverLetter();
             else preview.innerHTML = (renderers[state.template] || renderers['sophie-walton'])(state.personal, state.experience, state.education, state.skills, state.languages, state.certifications);
-            requestAnimationFrame(() => updateCVScale());
+            requestAnimationFrame(() => {
+                updateCVScale();
+                checkPageOverflow();
+            });
             updateTemplateButtons();
         }
 
@@ -1981,472 +1810,52 @@
 
         function changePaperColor(c) { state.paperColor = c; updateStateAndRender(); }
 
-        // ==================== MULTI-PAGE VIEWER ====================
-        function openMultiPageViewer() {
-            if (isViewerOpen) return;
-            isViewerOpen = true;
-            
-            const viewer = document.getElementById('multi-page-viewer');
-            const container = document.getElementById('viewerPagesContainer');
-            container.innerHTML = '';
-            viewerPages = [];
-            viewerCurrentPage = 0;
-            viewerZoom = 1;
-
-            const cvClone = document.getElementById('cv-capture-area').cloneNode(true);
-            cvClone.style.transform = 'none';
-            cvClone.style.width = '210mm';
-            cvClone.style.minHeight = '297mm';
-            cvClone.style.position = 'relative';
-            cvClone.style.margin = '0';
-            cvClone.style.boxShadow = 'none';
-            cvClone.style.borderRadius = '0';
-            cvClone.style.flexShrink = '0';
-            
-            const paperClassMap = { white:'paper-white', cream:'paper-cream', ivory:'paper-ivory', gray:'paper-gray', dark:'paper-dark', warm:'paper-warm', cool:'paper-cool' };
-            const paperClass = paperClassMap[state.paperColor] || 'paper-white';
-            cvClone.className = cvClone.className.split(' ').filter(c => !c.startsWith('paper-')).join(' ');
-            cvClone.classList.add(paperClass);
-
-            const pageDiv = document.createElement('div');
-            pageDiv.className = 'page-container';
-            pageDiv.style.transform = `scale(${viewerZoom})`;
-            pageDiv.style.display = 'block';
-            pageDiv.appendChild(cvClone);
-            
-            const pageNum = document.createElement('div');
-            pageNum.className = 'page-number';
-            pageNum.textContent = 'Página 1';
-            pageDiv.appendChild(pageNum);
-            
-            container.appendChild(pageDiv);
-            viewerPages = [pageDiv];
-            viewerCurrentPage = 0;
-            
-            viewer.classList.add('show');
-            document.body.style.overflow = 'hidden';
-            updateViewerControls();
-            setTimeout(() => fitViewerPage(), 100);
-            window.viewerResizeHandler = () => fitViewerPage();
-            window.addEventListener('resize', window.viewerResizeHandler);
+        // ==================== CHECK PAGE OVERFLOW ====================
+        function checkPageOverflow() {
+            const cv = document.getElementById('cv-capture-area');
+            const currentTransform = cv.style.transform;
+            cv.style.transform = 'none';
+            const naturalHeight = cv.offsetHeight;
+            cv.style.transform = currentTransform;
+            const A4_HEIGHT_PX = 1122.52; // 297mm em px a 96dpi
+            const threshold = A4_HEIGHT_PX + 20;
+            if (naturalHeight > threshold) {
+                showToast('⚠️ Conteúdo excede uma página A4. Considere reduzir.');
+            }
         }
 
-        function fitViewerPage() {
-            const wrapper = document.getElementById('viewerPagesWrapper');
-            const page = viewerPages[viewerCurrentPage];
-            if (!page || !wrapper) return;
+        // ==================== UPDATE CV SCALE ====================
+        function updateCVScale() {
+            const wrapper = document.getElementById('cv-preview-wrapper');
+            const cv = document.getElementById('cv-capture-area');
+            if (!wrapper || !cv) return;
             const wrapperRect = wrapper.getBoundingClientRect();
-            const padding = 20;
-            const availWidth = wrapperRect.width - padding;
-            const availHeight = wrapperRect.height - padding;
-            page.style.transform = 'none';
-            const naturalWidth = page.offsetWidth || 210;
-            const naturalHeight = page.offsetHeight || 297;
+            const padding = 8;
+            const availWidth = wrapperRect.width - padding * 2;
+            const availHeight = wrapperRect.height - padding * 2;
+            const currentTransform = cv.style.transform;
+            cv.style.transform = 'none';
+            const naturalWidth = cv.offsetWidth;
+            const naturalHeight = cv.offsetHeight;
+            cv.style.transform = currentTransform;
+            if (naturalWidth === 0 || naturalHeight === 0) return;
             const scaleX = availWidth / naturalWidth;
             const scaleY = availHeight / naturalHeight;
-            let scale = Math.min(scaleX, scaleY, 1.2);
+            let scale = Math.min(scaleX, scaleY);
+            scale = Math.min(scale, 1.2);
             scale = Math.max(scale, 0.2);
-            viewerZoom = scale;
-            page.style.transform = `scale(${scale})`;
-            page.style.transformOrigin = 'center center';
+            cv.style.transform = `scale(${scale})`;
+            cv.style.transformOrigin = 'center center';
         }
 
-        function closeMultiPageViewer() {
-            const viewer = document.getElementById('multi-page-viewer');
-            viewer.classList.remove('show');
-            document.body.style.overflow = '';
-            isViewerOpen = false;
-            if (window.viewerResizeHandler) {
-                window.removeEventListener('resize', window.viewerResizeHandler);
-                window.viewerResizeHandler = null;
-            }
-        }
-
-        function updateViewerControls() {
-            const total = viewerPages.length;
-            const current = viewerCurrentPage + 1;
-            document.getElementById('viewer-page-info').innerHTML = `<strong>${current}</strong> / ${total}`;
-            document.getElementById('viewer-prev').disabled = viewerCurrentPage <= 0;
-            document.getElementById('viewer-next').disabled = viewerCurrentPage >= total - 1;
-            viewerPages.forEach((page, i) => {
-                page.style.display = i === viewerCurrentPage ? 'block' : 'none';
-                if (i === viewerCurrentPage) {
-                    const pageNum = page.querySelector('.page-number');
-                    if (pageNum) pageNum.textContent = `Página ${i + 1}`;
-                    page.style.transform = `scale(${viewerZoom})`;
-                    page.style.transformOrigin = 'center center';
-                }
-            });
-            setTimeout(() => fitViewerPage(), 50);
-        }
-
-        function prevPage() {
-            if (viewerCurrentPage > 0) {
-                viewerCurrentPage--;
-                updateViewerControls();
-            }
-        }
-
-        function nextPage() {
-            if (viewerCurrentPage < viewerPages.length - 1) {
-                viewerCurrentPage++;
-                updateViewerControls();
-            }
-        }
-
-        function zoomViewer(action) {
-            const currentPage = viewerPages[viewerCurrentPage];
-            if (!currentPage) return;
-            if (action === 'in') viewerZoom = Math.min(1.5, viewerZoom + 0.1);
-            else if (action === 'out') viewerZoom = Math.max(0.3, viewerZoom - 0.1);
-            else viewerZoom = 1;
-            currentPage.style.transform = `scale(${viewerZoom})`;
-            currentPage.style.transformOrigin = 'center center';
-        }
-
-        // ==================== BUILD DOCUMENT MODEL ====================
-        function buildDocumentModel() {
-            return {
-                meta: {
-                    name: state.personal.name,
-                    title: state.personal.title,
-                    email: state.personal.email,
-                    phone: state.personal.phone,
-                    location: state.personal.location,
-                    linkedin: state.personal.linkedin,
-                    summary: state.personal.summary,
-                    photo: state.personal.photo || null,
-                    template: state.template,
-                    paperColor: state.paperColor,
-                    fontFamily: state.selectedFont,
-                    fontSize: state.cvFontSize,
-                    accentColor: state.accentColor,
-                    align: state.align,
-                },
-                experience: state.experience,
-                education: state.education,
-                skills: state.skills,
-                languages: state.languages,
-                certifications: state.certifications,
-                projects: state.projects,
-                publications: state.publications,
-                volunteering: state.volunteering,
-                interests: state.interests,
-                layout: getLayoutInfo(state.template),
-            };
-        }
-
-        function getLayoutInfo(template) {
-            const layouts = {
-                'sophie-walton': { type: 'two-columns', leftWidth: 0.35, rightWidth: 0.65 },
-                'modern-aero': { type: 'header-band' },
-                'classic': { type: 'single-column' },
-                'minimalist': { type: 'two-columns', leftWidth: 0.3, rightWidth: 0.7 },
-                'vince-murray': { type: 'header-band' },
-                'gregory-walls': { type: 'two-columns', leftWidth: 0.4, rightWidth: 0.6 },
-                'executive-classic': { type: 'single-column' },
-                'professional-modern': { type: 'two-columns', leftWidth: 0.32, rightWidth: 0.68 },
-                'timeless-elegant': { type: 'single-column' },
-                'compact-pro': { type: 'single-column' },
-                'creative-classic': { type: 'two-columns', leftWidth: 0.3, rightWidth: 0.7 },
-                'modern-split': { type: 'two-columns', leftWidth: 0.35, rightWidth: 0.65 },
-            };
-            return layouts[template] || layouts['classic'];
-        }
-
-        // ==================== EXPORT PDF (via impressão) ====================
-        function exportPDF() {
-            closePasswordModal();
-            showToast('📄 Use o diálogo de impressão e escolha "Salvar como PDF" para obter texto selecionável.');
-            setTimeout(() => {
-                window.print();
-            }, 300);
-        }
-
-        // ==================== EXPORT PDF (programático com jsPDF) ====================
-        function exportPDFProgrammatic() {
-            closePasswordModal();
-            const model = buildDocumentModel();
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const pageHeight = doc.internal.pageSize.getHeight();
-            const margin = 15;
-            let y = margin;
-
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(model.meta.fontSize);
-
-            const layout = model.layout;
-
-            if (layout.type === 'two-columns') {
-                doc.setFillColor(model.meta.accentColor);
-                doc.rect(0, 0, pageWidth * layout.leftWidth, pageHeight, 'F');
-                drawLeftColumn(doc, model, margin, y, pageWidth * layout.leftWidth - margin);
-                drawRightColumn(doc, model, pageWidth * layout.leftWidth + margin, y, pageWidth - pageWidth * layout.leftWidth - margin * 2);
-            } else if (layout.type === 'header-band') {
-                doc.setFillColor(model.meta.accentColor);
-                doc.rect(margin, y, pageWidth - margin * 2, 30, 'F');
-                doc.setTextColor('#ffffff');
-                doc.setFontSize(model.meta.fontSize + 8);
-                doc.text(model.meta.name, pageWidth / 2, y + 15, { align: 'center' });
-                doc.setFontSize(model.meta.fontSize);
-                doc.text(model.meta.title, pageWidth / 2, y + 25, { align: 'center' });
-                y += 40;
-                drawSingleColumn(doc, model, margin, y, pageWidth - margin * 2);
-            } else {
-                drawSingleColumn(doc, model, margin, y, pageWidth - margin * 2);
-            }
-
-            doc.save(`${model.meta.name.replace(/[^a-zA-Z0-9]/g,'_')}_CV_programmatic.pdf`);
-            showToast('✅ PDF programático gerado com texto vetorial!');
-        }
-
-        function drawLeftColumn(doc, model, x, y, width) {
-            if (model.meta.photo) {
-                try {
-                    const img = new Image();
-                    img.src = model.meta.photo;
-                    doc.addImage(img, 'JPEG', x, y, 30, 30, undefined, 'FAST');
-                    y += 40;
-                } catch(e) {}
-            }
-            doc.setTextColor('#ffffff');
-            doc.setFontSize(model.meta.fontSize + 6);
-            doc.text(model.meta.name, x, y);
-            y += 10;
-            doc.setFontSize(model.meta.fontSize);
-            doc.text(model.meta.title, x, y);
-            y += 15;
-            doc.setFontSize(model.meta.fontSize - 2);
-            doc.text(model.meta.location, x, y);
-            y += 6;
-            doc.text(model.meta.phone, x, y);
-            y += 6;
-            doc.text(model.meta.email, x, y);
-            y += 15;
-            doc.setFontSize(model.meta.fontSize);
-            doc.text('Skills', x, y);
-            y += 8;
-            model.skills.forEach(skill => {
-                doc.setFontSize(model.meta.fontSize - 2);
-                doc.text(`- ${skill}`, x + 5, y);
-                y += 6;
-            });
-            y += 10;
-            doc.setFontSize(model.meta.fontSize);
-            doc.text('Languages', x, y);
-            y += 8;
-            model.languages.forEach(lang => {
-                doc.setFontSize(model.meta.fontSize - 2);
-                doc.text(`- ${lang}`, x + 5, y);
-                y += 6;
-            });
-        }
-
-        function drawRightColumn(doc, model, x, y, width) {
-            doc.setTextColor('#333333');
-            doc.setFontSize(model.meta.fontSize);
-            doc.text('Profile', x, y);
-            y += 8;
-            doc.setFontSize(model.meta.fontSize - 1);
-            const summaryLines = doc.splitTextToSize(model.meta.summary, width);
-            doc.text(summaryLines, x, y);
-            y += summaryLines.length * 5 + 10;
-            if (model.experience.length) {
-                doc.setFontSize(model.meta.fontSize);
-                doc.text('Employment History', x, y);
-                y += 8;
-                model.experience.forEach(exp => {
-                    doc.setFontSize(model.meta.fontSize);
-                    doc.text(exp.title, x, y);
-                    y += 6;
-                    doc.setFontSize(model.meta.fontSize - 2);
-                    doc.text(`${exp.company} | ${exp.period}`, x, y);
-                    y += 6;
-                    doc.setFontSize(model.meta.fontSize - 2);
-                    const bullets = exp.description.split('.').filter(s=>s.trim()).map(s=>s.trim());
-                    bullets.forEach(b => {
-                        const bulletLines = doc.splitTextToSize(`• ${b}`, width - 5);
-                        doc.text(bulletLines, x + 5, y);
-                        y += bulletLines.length * 5;
-                    });
-                    y += 10;
-                });
-            }
-            if (model.education.length) {
-                y += 5;
-                doc.setFontSize(model.meta.fontSize);
-                doc.text('Education', x, y);
-                y += 8;
-                model.education.forEach(edu => {
-                    doc.setFontSize(model.meta.fontSize);
-                    doc.text(edu.degree, x, y);
-                    y += 6;
-                    doc.setFontSize(model.meta.fontSize - 2);
-                    doc.text(`${edu.school}${edu.year ? ', ' + edu.year : ''}`, x, y);
-                    y += 8;
-                });
-            }
-        }
-
-        function drawSingleColumn(doc, model, x, y, width) {
-            doc.setTextColor('#333333');
-            doc.setFontSize(model.meta.fontSize);
-            doc.text(model.meta.name, x, y);
-            y += 8;
-            doc.setFontSize(model.meta.fontSize - 2);
-            doc.text(model.meta.title, x, y);
-            y += 12;
-            if (model.meta.summary) {
-                doc.setFontSize(model.meta.fontSize);
-                doc.text('Resumo', x, y);
-                y += 8;
-                doc.setFontSize(model.meta.fontSize - 1);
-                const summaryLines = doc.splitTextToSize(model.meta.summary, width);
-                doc.text(summaryLines, x, y);
-                y += summaryLines.length * 5 + 10;
-            }
-            model.experience.forEach(exp => {
-                doc.setFontSize(model.meta.fontSize);
-                doc.text(exp.title, x, y);
-                y += 6;
-                doc.setFontSize(model.meta.fontSize - 2);
-                doc.text(`${exp.company} | ${exp.period}`, x, y);
-                y += 6;
-                const bullets = exp.description.split('.').filter(s=>s.trim()).map(s=>s.trim());
-                bullets.forEach(b => {
-                    const bulletLines = doc.splitTextToSize(`• ${b}`, width - 5);
-                    doc.text(bulletLines, x + 5, y);
-                    y += bulletLines.length * 5;
-                });
-                y += 10;
-            });
-        }
-
-        // ==================== EXPORT DOCX (programático) ====================
-        async function exportDOCX() {
-            closePasswordModal();
-            const model = buildDocumentModel();
-            const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, ImageRun, Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle } = docx;
-
-            const children = [];
-
-            children.push(new Paragraph({
-                text: model.meta.name,
-                heading: HeadingLevel.HEADING_1,
-                alignment: AlignmentType.CENTER,
-            }));
-            children.push(new Paragraph({
-                text: model.meta.title,
-                alignment: AlignmentType.CENTER,
-                spacing: { after: 200 },
-            }));
-
-            if (model.meta.photo) {
-                try {
-                    const imageResponse = await fetch(model.meta.photo);
-                    const imageBlob = await imageResponse.blob();
-                    const arrayBuffer = await imageBlob.arrayBuffer();
-                    children.push(new Paragraph({
-                        alignment: AlignmentType.CENTER,
-                        children: [new ImageRun({
-                            data: arrayBuffer,
-                            transformation: { width: 80, height: 80 },
-                            type: 'png',
-                        })],
-                        spacing: { after: 200 },
-                    }));
-                } catch(e) {}
-            }
-
-            const addSection = (title, items) => {
-                if (!items || items.length === 0) return;
-                children.push(new Paragraph({
-                    text: title,
-                    heading: HeadingLevel.HEADING_2,
-                    spacing: { before: 200, after: 100 },
-                    border: { bottom: { color: state.accentColor, size: 6, space: 4 } },
-                }));
-                items.forEach(item => {
-                    if (typeof item === 'string') {
-                        children.push(new Paragraph({
-                            text: item,
-                            bullet: { level: 0 },
-                            spacing: { after: 50 },
-                        }));
-                    } else if (item.title) {
-                        children.push(new Paragraph({
-                            children: [
-                                new TextRun({ text: item.title, bold: true, size: 24 }),
-                                new TextRun({ text: ` - ${item.company || item.school || ''}`, italics: true, color: "666666", size: 22 }),
-                            ],
-                            spacing: { before: 120, after: 50 },
-                        }));
-                        if (item.period) {
-                            children.push(new Paragraph({
-                                children: [new TextRun({ text: item.period, size: 20, color: "888888" })],
-                                spacing: { after: 80 },
-                            }));
-                        }
-                        if (item.description) {
-                            const bullets = item.description.split('.').filter(s => s.trim()).map(s => s.trim());
-                            bullets.forEach(b => {
-                                children.push(new Paragraph({
-                                    text: `• ${b}`,
-                                    spacing: { after: 40 },
-                                    alignment: AlignmentType.JUSTIFIED,
-                                }));
-                            });
-                        }
-                    }
-                });
-            };
-
-            if (model.meta.summary) {
-                children.push(new Paragraph({
-                    text: t('professional_summary'),
-                    heading: HeadingLevel.HEADING_2,
-                    spacing: { before: 200, after: 100 },
-                    border: { bottom: { color: state.accentColor, size: 6, space: 4 } },
-                }));
-                children.push(new Paragraph({
-                    text: model.meta.summary,
-                    spacing: { after: 150 },
-                    alignment: AlignmentType.JUSTIFIED,
-                }));
-            }
-
-            addSection(t('professional_experience'), model.experience.map(e => ({
-                title: e.title,
-                company: e.company,
-                period: e.period,
-                description: e.description,
-            })));
-
-            addSection(t('education_section'), model.education.map(e => ({
-                title: e.degree,
-                school: e.school,
-                year: e.year,
-                period: e.year,
-            })));
-
-            addSection(t('skills_section'), model.skills);
-            addSection(t('languages_section'), model.languages);
-            addSection(t('certifications_section'), model.certifications);
-
-            const doc = new Document({
-                sections: [{ children }],
-            });
-
-            try {
-                const blob = await Packer.toBlob(doc);
-                saveAs(blob, `${model.meta.name.replace(/[^a-zA-Z0-9]/g,'_')}_CV.docx`);
-                showToast('✅ DOCX exportado com texto editável!');
-            } catch(err) {
-                console.error(err);
-                showToast('❌ Erro ao gerar DOCX');
-            }
+        // ==================== TOAST ====================
+        function showToast(m) {
+            const c = document.getElementById('toastContainer');
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.textContent = m;
+            c.appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.25s'; setTimeout(() => t.remove(), 250); }, 1600);
         }
 
         // ==================== EDITORES ====================
@@ -2594,68 +2003,120 @@
             showToast(`Perfil ${profileId.replace('_',' ')} carregado!`);
         }
 
-        // ==================== UPDATE CV SCALE ====================
-        function updateCVScale() {
-            const wrapper = document.getElementById('cv-preview-wrapper');
-            const cv = document.getElementById('cv-capture-area');
-            if (!wrapper || !cv) return;
+        // ==================== MULTI-PAGE VIEWER ====================
+        function openMultiPageViewer() {
+            if (isViewerOpen) return;
+            isViewerOpen = true;
+            const viewer = document.getElementById('multi-page-viewer');
+            const container = document.getElementById('viewerPagesContainer');
+            container.innerHTML = '';
+            viewerPages = [];
+            viewerCurrentPage = 0;
+            viewerZoom = 1;
+            const cvClone = document.getElementById('cv-capture-area').cloneNode(true);
+            cvClone.style.transform = 'none';
+            cvClone.style.width = '210mm';
+            cvClone.style.minHeight = '297mm';
+            cvClone.style.position = 'relative';
+            cvClone.style.margin = '0';
+            cvClone.style.boxShadow = 'none';
+            cvClone.style.borderRadius = '0';
+            cvClone.style.flexShrink = '0';
+            const paperClassMap = { white:'paper-white', cream:'paper-cream', ivory:'paper-ivory', gray:'paper-gray', dark:'paper-dark', warm:'paper-warm', cool:'paper-cool' };
+            const paperClass = paperClassMap[state.paperColor] || 'paper-white';
+            cvClone.className = cvClone.className.split(' ').filter(c => !c.startsWith('paper-')).join(' ');
+            cvClone.classList.add(paperClass);
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'page-container';
+            pageDiv.style.transform = `scale(${viewerZoom})`;
+            pageDiv.style.display = 'block';
+            pageDiv.appendChild(cvClone);
+            const pageNum = document.createElement('div');
+            pageNum.className = 'page-number';
+            pageNum.textContent = 'Página 1';
+            pageDiv.appendChild(pageNum);
+            container.appendChild(pageDiv);
+            viewerPages = [pageDiv];
+            viewerCurrentPage = 0;
+            viewer.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            updateViewerControls();
+            setTimeout(() => fitViewerPage(), 100);
+            window.viewerResizeHandler = () => fitViewerPage();
+            window.addEventListener('resize', window.viewerResizeHandler);
+        }
+
+        function fitViewerPage() {
+            const wrapper = document.getElementById('viewerPagesWrapper');
+            const page = viewerPages[viewerCurrentPage];
+            if (!page || !wrapper) return;
             const wrapperRect = wrapper.getBoundingClientRect();
-            const padding = 8;
-            const availWidth = wrapperRect.width - padding * 2;
-            const availHeight = wrapperRect.height - padding * 2;
-            const currentTransform = cv.style.transform;
-            cv.style.transform = 'none';
-            const naturalWidth = cv.offsetWidth;
-            const naturalHeight = cv.offsetHeight;
-            cv.style.transform = currentTransform;
-            if (naturalWidth === 0 || naturalHeight === 0) return;
+            const padding = 20;
+            const availWidth = wrapperRect.width - padding;
+            const availHeight = wrapperRect.height - padding;
+            page.style.transform = 'none';
+            const naturalWidth = page.offsetWidth || 210;
+            const naturalHeight = page.offsetHeight || 297;
             const scaleX = availWidth / naturalWidth;
             const scaleY = availHeight / naturalHeight;
-            let scale = Math.min(scaleX, scaleY);
-            scale = Math.min(scale, 1.2);
+            let scale = Math.min(scaleX, scaleY, 1.2);
             scale = Math.max(scale, 0.2);
-            cv.style.transform = `scale(${scale})`;
-            cv.style.transformOrigin = 'center center';
+            viewerZoom = scale;
+            page.style.transform = `scale(${scale})`;
+            page.style.transformOrigin = 'center center';
         }
 
-        // ==================== TOAST ====================
-        function showToast(m) {
-            const c = document.getElementById('toastContainer');
-            const t = document.createElement('div');
-            t.className = 'toast';
-            t.textContent = m;
-            c.appendChild(t);
-            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.25s'; setTimeout(() => t.remove(), 250); }, 1600);
-        }
-
-        // ==================== MISC ====================
-        function copyEmolaNumber() {
-            const num = document.getElementById('emolaNumberText').textContent.replace(/\s/g, '');
-            navigator.clipboard.writeText(num).then(() => {
-                document.getElementById('copyBtnLabel').textContent = 'Copiado!';
-                setTimeout(() => document.getElementById('copyBtnLabel').textContent = 'Copiar', 2000);
-            }).catch(() => {
-                const range = document.createRange();
-                const span = document.getElementById('emolaNumberText');
-                range.selectNode(span);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                document.execCommand('copy');
-                document.getElementById('copyBtnLabel').textContent = 'Copiado!';
-                setTimeout(() => document.getElementById('copyBtnLabel').textContent = 'Copiar', 2000);
-            });
-        }
-
-        function togglePasswordVisibility() {
-            const input = document.getElementById('passwordInput');
-            const icon = document.getElementById('eyeIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><path d="M1 1l22 22"/>';
-            } else {
-                input.type = 'password';
-                icon.innerHTML = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/>';
+        function closeMultiPageViewer() {
+            const viewer = document.getElementById('multi-page-viewer');
+            viewer.classList.remove('show');
+            document.body.style.overflow = '';
+            isViewerOpen = false;
+            if (window.viewerResizeHandler) {
+                window.removeEventListener('resize', window.viewerResizeHandler);
+                window.viewerResizeHandler = null;
             }
+        }
+
+        function updateViewerControls() {
+            const total = viewerPages.length;
+            const current = viewerCurrentPage + 1;
+            document.getElementById('viewer-page-info').innerHTML = `<strong>${current}</strong> / ${total}`;
+            document.getElementById('viewer-prev').disabled = viewerCurrentPage <= 0;
+            document.getElementById('viewer-next').disabled = viewerCurrentPage >= total - 1;
+            viewerPages.forEach((page, i) => {
+                page.style.display = i === viewerCurrentPage ? 'block' : 'none';
+                if (i === viewerCurrentPage) {
+                    const pageNum = page.querySelector('.page-number');
+                    if (pageNum) pageNum.textContent = `Página ${i + 1}`;
+                    page.style.transform = `scale(${viewerZoom})`;
+                    page.style.transformOrigin = 'center center';
+                }
+            });
+            setTimeout(() => fitViewerPage(), 50);
+        }
+
+        function prevPage() {
+            if (viewerCurrentPage > 0) {
+                viewerCurrentPage--;
+                updateViewerControls();
+            }
+        }
+
+        function nextPage() {
+            if (viewerCurrentPage < viewerPages.length - 1) {
+                viewerCurrentPage++;
+                updateViewerControls();
+            }
+        }
+
+        function zoomViewer(action) {
+            const currentPage = viewerPages[viewerCurrentPage];
+            if (!currentPage) return;
+            if (action === 'in') viewerZoom = Math.min(1.5, viewerZoom + 0.1);
+            else if (action === 'out') viewerZoom = Math.max(0.3, viewerZoom - 0.1);
+            else viewerZoom = 1;
+            currentPage.style.transform = `scale(${viewerZoom})`;
+            currentPage.style.transformOrigin = 'center center';
         }
 
         // ==================== INIT ====================
@@ -2693,12 +2154,8 @@
                     document.getElementById('templateSheet').classList.remove('show');
                     document.getElementById('colorSheet').classList.remove('show');
                     closeMobileSidebar();
-                    closePasswordModal();
                     closeMultiPageViewer();
                     document.body.style.overflow = '';
-                }
-                if (e.key === 'Enter' && document.getElementById('passwordModal').classList.contains('show')) {
-                    validatePassword();
                 }
                 if (e.key === 'ArrowRight' && isViewerOpen) { nextPage(); e.preventDefault(); }
                 if (e.key === 'ArrowLeft' && isViewerOpen) { prevPage(); e.preventDefault(); }
@@ -2706,7 +2163,7 @@
         }
 
         window.onload = init;
-        console.log('🚀 CV Builder Pro • 12 Templates disponíveis!');
+        console.log('🚀 CV Builder Pro • Impressão fiel, mobile-first, 12 templates!');
     </script>
 </body>
 </html>
