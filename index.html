@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== VARIÁVEIS E RESET ===== */
         :root {
             --bg: #0a0f1a;
             --card: #111827;
@@ -22,25 +21,14 @@
             --tab-height: 56px;
             --accent-color: #19534b;
             --touch-target: 44px;
-            --a4-height-px: 1122.52px; /* 297mm */
+            --a4-height-px: 1122.52px;
         }
         * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-        body { 
-            font-family:'Inter',sans-serif; 
-            background:var(--bg); 
-            color:var(--text); 
-            min-height:100vh; 
-            min-height:100dvh; 
-            overflow:hidden; 
-            -webkit-font-smoothing:antialiased; 
-            touch-action:manipulation; 
-            user-select:none;
-        }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; min-height:100dvh; overflow:hidden; -webkit-font-smoothing:antialiased; touch-action:manipulation; user-select:none; }
         ::-webkit-scrollbar { width:3px; height:3px; }
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:#334155; border-radius:4px; }
 
-        /* ===== PAPEL ===== */
         .paper-white { background:#ffffff; color:#0f172a; }
         .paper-cream { background:#faf8f5; color:#1c1917; }
         .paper-ivory { background:#fffff0; color:#1e1b4b; }
@@ -49,7 +37,6 @@
         .paper-warm { background:#fdf6e3; color:#1a1a1a; }
         .paper-cool { background:#f0f4f8; color:#1a202c; }
 
-        /* ===== CONTEÚDO DO CV ===== */
         .cv-content { font-size:var(--cv-font-size); line-height:1.6; }
         .cv-content h1, .cv-content h2, .cv-content h3, .cv-content h4, .cv-content h5, .cv-content h6 { line-height:1.2; }
         .cv-content h1 { font-size:calc(var(--cv-font-size)*2.2); margin-bottom:2px; letter-spacing:0.5px; }
@@ -62,14 +49,23 @@
         .cv-content ul { margin:6px 0 10px 18px; list-style:disc; }
         .cv-content ul li { margin-bottom:4px; text-align:justify; }
         .cv-content p { text-align:justify; font-size:inherit; }
-        .cv-content .text-left { text-align:left; }
-        .cv-content .text-center { text-align:center; }
-        .cv-content .text-justify { text-align:justify; }
-        .cv-content hr { border:none; border-top:1px solid rgba(0,0,0,0.08); margin:16px 0; }
         .paper-dark .cv-content .skill-tag { background:rgba(255,255,255,0.08); color:#e2e8f0; border-color:rgba(255,255,255,0.1); }
         .paper-dark .cv-content .cert-tag { background:rgba(59,130,246,0.2); color:#93c5fd; border-color:rgba(59,130,246,0.2); }
 
-        /* ===== ANIMAÇÕES ===== */
+        /* ===== CENTRALIZAÇÃO GARANTIDA ===== */
+        .header-centered {
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+        }
+        .contact-line {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 8px !important;
+        }
+
         @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
         @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
         @keyframes slideDown { from { transform:translateY(0); } to { transform:translateY(100%); } }
@@ -77,70 +73,14 @@
         .animate-fadeIn { animation:fadeIn .25s ease-out; }
         .animate-slideUp { animation:slideUp .35s cubic-bezier(0.16,1,0.3,1); }
 
-        /* ===== SIDEBAR ===== */
-        #sidebar { 
-            position:fixed; 
-            top:var(--header-height); 
-            bottom:var(--tab-height); 
-            left:0; 
-            z-index:50; 
-            width:86vw; 
-            max-width:380px; 
-            background:#0a0f1a; 
-            border-right:1px solid #1e293b; 
-            overflow-y:auto; 
-            overflow-x:hidden; 
-            transform:translateX(-100%); 
-            transition:transform .3s cubic-bezier(0.16,1,0.3,1); 
-            box-shadow:4px 0 32px rgba(0,0,0,0.5); 
-            border-radius:0 16px 16px 0; 
-            overscroll-behavior:contain; 
-            -webkit-overflow-scrolling:touch; 
-            padding:10px; 
-            padding-bottom:70px;
-        }
+        #sidebar { position:fixed; top:var(--header-height); bottom:var(--tab-height); left:0; z-index:50; width:86vw; max-width:380px; background:#0a0f1a; border-right:1px solid #1e293b; overflow-y:auto; overflow-x:hidden; transform:translateX(-100%); transition:transform .3s cubic-bezier(0.16,1,0.3,1); box-shadow:4px 0 32px rgba(0,0,0,0.5); border-radius:0 16px 16px 0; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:10px; padding-bottom:70px; }
         #sidebar.mobile-open { transform:translateX(0); }
         #sidebar-inner { width:100%; }
 
-        /* ===== MOBILE SIDEBAR OVERLAY ===== */
-        #mobile-sidebar-overlay { 
-            display:none; 
-            position:fixed; 
-            inset:0; 
-            background:rgba(0,0,0,0.6); 
-            z-index:45; 
-            backdrop-filter:blur(4px); 
-            -webkit-backdrop-filter:blur(4px); 
-            opacity:0; 
-            transition:opacity .3s ease; 
-        }
+        #mobile-sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:45; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); opacity:0; transition:opacity .3s ease; }
         #mobile-sidebar-overlay.show { display:block; opacity:1; }
-        #mobile-sidebar-overlay.hiding { opacity:0; }
 
-        /* ===== BOTÕES ===== */
-        .btn { 
-            display:inline-flex; 
-            align-items:center; 
-            justify-content:center; 
-            gap:4px; 
-            padding:8px 12px; 
-            border-radius:10px; 
-            font-size:10px; 
-            font-weight:600; 
-            text-transform:uppercase; 
-            letter-spacing:0.04em; 
-            cursor:pointer; 
-            border:none; 
-            transition:all .15s ease; 
-            white-space:nowrap; 
-            touch-action:manipulation; 
-            min-height:var(--touch-target); 
-            min-width:var(--touch-target); 
-            user-select:none; 
-            background:transparent; 
-            color:#94a3b8; 
-            border:1px solid #1e293b;
-        }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:4px; padding:8px 12px; border-radius:10px; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; cursor:pointer; border:none; transition:all .15s ease; white-space:nowrap; touch-action:manipulation; min-height:var(--touch-target); min-width:var(--touch-target); user-select:none; background:transparent; color:#94a3b8; border:1px solid #1e293b; }
         .btn:active { transform:scale(0.95); }
         .btn-primary { background:#3b82f6; color:white; border-color:#3b82f6; }
         .btn-secondary { background:#334155; color:white; border-color:#334155; }
@@ -150,366 +90,69 @@
         .btn-sm { padding:5px 8px; font-size:9px; border-radius:8px; min-height:30px; min-width:30px; }
         .btn-xs { padding:3px 6px; font-size:8px; border-radius:6px; min-height:24px; min-width:24px; }
 
-        /* ===== INPUTS ===== */
-        .input-field { 
-            width:100%; 
-            padding:10px 12px; 
-            background:#111827; 
-            border:1.5px solid #1e293b; 
-            border-radius:10px; 
-            font-size:13px; 
-            color:white; 
-            transition:all .15s ease; 
-            font-family:inherit; 
-            -webkit-appearance:none; 
-            appearance:none; 
-            min-height:42px; 
-        }
+        .input-field { width:100%; padding:10px 12px; background:#111827; border:1.5px solid #1e293b; border-radius:10px; font-size:13px; color:white; transition:all .15s ease; font-family:inherit; -webkit-appearance:none; appearance:none; min-height:42px; }
         .input-field:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.12); outline:none; }
         .input-field::placeholder { color:#475569; }
         textarea.input-field { resize:vertical; min-height:48px; padding:10px 12px; font-size:13px; }
 
-        /* ===== TOAST ===== */
-        .toast { 
-            position:fixed; 
-            bottom:76px; 
-            left:50%; 
-            transform:translateX(-50%); 
-            background:#10b981; 
-            color:white; 
-            padding:8px 18px; 
-            border-radius:40px; 
-            font-weight:600; 
-            font-size:12px; 
-            z-index:1000; 
-            animation:fadeIn .3s ease-out; 
-            box-shadow:0 8px 32px rgba(0,0,0,0.5); 
-            pointer-events:none; 
-            max-width:88vw; 
-            text-align:center; 
-            white-space:nowrap; 
-            overflow:hidden; 
-            text-overflow:ellipsis; 
-        }
+        .toast { position:fixed; bottom:76px; left:50%; transform:translateX(-50%); background:#10b981; color:white; padding:8px 18px; border-radius:40px; font-weight:600; font-size:12px; z-index:1000; animation:fadeIn .3s ease-out; box-shadow:0 8px 32px rgba(0,0,0,0.5); pointer-events:none; max-width:88vw; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
-        /* ===== BOTTOM SHEET ===== */
-        .bottom-sheet-overlay { 
-            position:fixed; 
-            inset:0; 
-            background:rgba(0,0,0,0.6); 
-            z-index:200; 
-            display:none; 
-            align-items:flex-end; 
-            backdrop-filter:blur(6px); 
-            -webkit-backdrop-filter:blur(6px); 
-        }
+        .bottom-sheet-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; display:none; align-items:flex-end; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
         .bottom-sheet-overlay.show { display:flex; }
-        .bottom-sheet-overlay.hiding { animation:fadeOut .25s ease forwards; }
-        @keyframes fadeOut { to { opacity:0; } }
-        .bottom-sheet { 
-            background:#111827; 
-            border-radius:20px 20px 0 0; 
-            width:100%; 
-            max-height:78vh; 
-            overflow-y:auto; 
-            padding:16px 14px calc(16px + var(--safe-bottom)); 
-            animation:slideUp .3s cubic-bezier(0.16,1,0.3,1); 
-            overscroll-behavior:contain; 
-            -webkit-overflow-scrolling:touch; 
-        }
-        .bottom-sheet-overlay.hiding .bottom-sheet { animation:slideDown .25s cubic-bezier(0.16,1,0.3,1) forwards; }
-        .bottom-sheet-handle { width:36px; height:4px; background:#475569; border-radius:3px; margin:0 auto 12px; flex-shrink:0; }
+        .bottom-sheet { background:#111827; border-radius:20px 20px 0 0; width:100%; max-height:78vh; overflow-y:auto; padding:16px 14px calc(16px + var(--safe-bottom)); animation:slideUp .3s cubic-bezier(0.16,1,0.3,1); overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+        .bottom-sheet-handle { width:36px; height:4px; background:#475569; border-radius:3px; margin:0 auto 12px; }
 
-        /* ===== TEMPLATE CARDS ===== */
-        .template-card-mobile { 
-            background:#0a0f1a; 
-            border:2px solid #1e293b; 
-            border-radius:12px; 
-            padding:12px 8px; 
-            cursor:pointer; 
-            transition:all .15s; 
-            text-align:center; 
-            width:100%; 
-            touch-action:manipulation; 
-            min-height:64px; 
-            display:flex; 
-            flex-direction:column; 
-            align-items:center; 
-            justify-content:center; 
-        }
+        .template-card-mobile { background:#0a0f1a; border:2px solid #1e293b; border-radius:12px; padding:12px 8px; cursor:pointer; transition:all .15s; text-align:center; width:100%; touch-action:manipulation; min-height:64px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
         .template-card-mobile:active { transform:scale(0.96); }
         .template-card-mobile.active { border-color:#3b82f6; background:#0f1a2e; box-shadow:0 0 0 3px rgba(59,130,246,0.2); }
         .template-card-mobile .icon { font-size:24px; line-height:1; }
-        .template-card-mobile .name { font-weight:700; font-size:10px; color:white; margin-top:3px; letter-spacing:0.2px; }
+        .template-card-mobile .name { font-weight:700; font-size:10px; color:white; margin-top:3px; }
 
-        /* ===== FONT LIST ===== */
-        .font-list-item { 
-            display:flex; 
-            align-items:center; 
-            gap:10px; 
-            padding:12px 12px; 
-            background:#0a0f1a; 
-            border:1.5px solid #1e293b; 
-            border-radius:12px; 
-            cursor:pointer; 
-            transition:all .15s; 
-            margin-bottom:6px; 
-            touch-action:manipulation; 
-            min-height:52px; 
-        }
+        .font-list-item { display:flex; align-items:center; gap:10px; padding:12px 12px; background:#0a0f1a; border:1.5px solid #1e293b; border-radius:12px; cursor:pointer; transition:all .15s; margin-bottom:6px; touch-action:manipulation; min-height:52px; }
         .font-list-item:active { transform:scale(0.98); }
         .font-list-item.active { border-color:#3b82f6; background:#0f1a2e; }
         .font-preview-box { width:38px; height:38px; display:flex; align-items:center; justify-content:center; background:#1a2332; border-radius:8px; color:#e2e8f0; font-size:16px; font-weight:600; flex-shrink:0; }
 
-        /* ===== MOBILE TAB BAR ===== */
-        .mobile-tab-bar { 
-            display:flex; 
-            position:fixed; 
-            bottom:0; 
-            left:0; 
-            right:0; 
-            background:#0f172a; 
-            border-top:1px solid #1e293b; 
-            z-index:50; 
-            padding:2px 0; 
-            padding-bottom:calc(2px + var(--safe-bottom)); 
-            backdrop-filter:blur(8px); 
-            -webkit-backdrop-filter:blur(8px); 
-            height:var(--tab-height); 
-        }
-        .mobile-tab { 
-            display:flex; 
-            flex-direction:column; 
-            align-items:center; 
-            justify-content:center; 
-            gap:0px; 
-            padding:4px 2px; 
-            font-size:7px; 
-            font-weight:600; 
-            color:#64748b; 
-            cursor:pointer; 
-            border:none; 
-            background:none; 
-            width:100%; 
-            touch-action:manipulation; 
-            min-height:40px; 
-            transition:color .15s; 
-            border-radius:6px; 
-        }
+        .mobile-tab-bar { display:flex; position:fixed; bottom:0; left:0; right:0; background:#0f172a; border-top:1px solid #1e293b; z-index:50; padding:2px 0; padding-bottom:calc(2px + var(--safe-bottom)); height:var(--tab-height); }
+        .mobile-tab { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4px 2px; font-size:7px; font-weight:600; color:#64748b; cursor:pointer; border:none; background:none; width:100%; touch-action:manipulation; min-height:40px; }
         .mobile-tab:active { transform:scale(0.94); }
         .mobile-tab.active { color:#3b82f6; }
         .mobile-tab svg { width:18px; height:18px; stroke:currentColor; stroke-width:2; fill:none; }
-        .mobile-tab .tab-label { font-size:7px; letter-spacing:0.2px; margin-top:1px; }
+        .mobile-tab .tab-label { font-size:7px; margin-top:1px; }
 
-        /* ===== HEADER ===== */
-        header { 
-            padding:4px 8px; 
-            min-height:var(--header-height); 
-            background:#0a0f1a/95; 
-            backdrop-filter:blur(8px); 
-            -webkit-backdrop-filter:blur(8px);
-            border-bottom:1px solid #1e293b; 
-            display:flex; 
-            flex-wrap:wrap; 
-            justify-content:space-between; 
-            align-items:center; 
-            gap:2px; 
-            position:sticky; 
-            top:0; 
-            z-index:50; 
-        }
+        header { padding:4px 8px; min-height:var(--header-height); background:#0a0f1a/95; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid #1e293b; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:2px; position:sticky; top:0; z-index:50; }
         header .btn { font-size:9px; padding:4px 6px; min-height:30px; min-width:30px; }
-        header .btn-sm { font-size:8px; padding:3px 5px; min-height:26px; min-width:26px; }
         header h1 { font-size:10px; }
-        header .w-8 { width:28px; height:28px; font-size:9px; }
 
-        /* ===== PREVIEW ===== */
-        #preview-panel { 
-            width:100%; 
-            height:calc(100vh - var(--header-height) - var(--tab-height)); 
-            height:calc(100dvh - var(--header-height) - var(--tab-height)); 
-            overflow:hidden; 
-            padding:4px; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            background:#050810; 
-        }
-        #cv-preview-wrapper { 
-            width:100%; 
-            height:100%; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            padding:4px; 
-        }
-        #cv-capture-area { 
-            width:210mm; 
-            min-height:297mm; 
-            padding:12mm; 
-            transform-origin:center center; 
-            box-shadow:0 8px 32px rgba(0,0,0,0.5); 
-            border-radius:4px; 
-            flex-shrink:0; 
-            transition:transform .1s ease; 
-            position: relative;
-            background-image: linear-gradient(to bottom, transparent calc(var(--a4-height-px) - 1px), rgba(255,0,0,0.2) calc(var(--a4-height-px) - 1px), rgba(255,0,0,0.2) var(--a4-height-px), transparent var(--a4-height-px));
-            background-size: 100% var(--a4-height-px);
-            background-repeat: repeat-y;
-            background-position: top;
-        }
+        #preview-panel { width:100%; height:calc(100vh - var(--header-height) - var(--tab-height)); height:calc(100dvh - var(--header-height) - var(--tab-height)); overflow:hidden; padding:4px; display:flex; align-items:center; justify-content:center; background:#050810; }
+        #cv-preview-wrapper { width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:4px; }
+        #cv-capture-area { width:210mm; min-height:297mm; padding:12mm; transform-origin:center center; box-shadow:0 8px 32px rgba(0,0,0,0.5); border-radius:4px; flex-shrink:0; transition:transform .1s ease; position:relative; background-image:linear-gradient(to bottom, transparent calc(var(--a4-height-px) - 1px), rgba(255,0,0,0.2) calc(var(--a4-height-px) - 1px), rgba(255,0,0,0.2) var(--a4-height-px), transparent var(--a4-height-px)); background-size:100% var(--a4-height-px); background-repeat:repeat-y; }
 
-        /* ===== MULTI-PAGE VIEWER ===== */
-        #multi-page-viewer { 
-            display:none; 
-            position:fixed; 
-            inset:0; 
-            background:rgba(0,0,0,0.92); 
-            z-index:1000; 
-            flex-direction:column; 
-            align-items:center; 
-            justify-content:center; 
-            backdrop-filter:blur(12px); 
-            padding:10px; 
-        }
+        #multi-page-viewer { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:1000; flex-direction:column; align-items:center; justify-content:center; padding:10px; }
         #multi-page-viewer.show { display:flex; }
-        #multi-page-viewer .close-viewer { 
-            position:absolute; 
-            top:10px; 
-            right:14px; 
-            background:rgba(255,255,255,0.05); 
-            border:1px solid #1e293b; 
-            color:#94a3b8; 
-            width:40px; 
-            height:40px; 
-            border-radius:50%; 
-            font-size:20px; 
-            cursor:pointer; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            z-index:10; 
-        }
-        #multi-page-viewer .viewer-content { 
-            display:flex; 
-            flex-direction:column; 
-            align-items:center; 
-            gap:12px; 
-            max-height:90vh; 
-            max-width:95vw; 
-            overflow:hidden; 
-            padding:4px; 
-            width:100%; 
-        }
-        #multi-page-viewer .viewer-pages-wrapper { 
-            width:100%; 
-            display:flex; 
-            justify-content:center; 
-            align-items:center; 
-            overflow:hidden; 
-            min-height:50vh; 
-            max-height:65vh; 
-        }
-        #multi-page-viewer .page-container { 
-            background:white; 
-            border-radius:4px; 
-            box-shadow:0 8px 40px rgba(0,0,0,0.6); 
-            width:100%; 
-            height:auto; 
-            aspect-ratio:210/297; 
-            padding:8mm; 
-            overflow:hidden; 
-            position:relative; 
-            transform-origin:center center; 
-            transition:transform .2s ease; 
-            max-width:100%; 
-        }
+        #multi-page-viewer .close-viewer { position:absolute; top:10px; right:14px; width:40px; height:40px; border-radius:50%; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; background:rgba(255,255,255,0.05); border:1px solid #1e293b; color:#94a3b8; }
+        #multi-page-viewer .viewer-content { display:flex; flex-direction:column; align-items:center; gap:12px; max-height:90vh; max-width:95vw; overflow:hidden; padding:4px; width:100%; }
+        #multi-page-viewer .viewer-pages-wrapper { width:100%; display:flex; justify-content:center; align-items:center; overflow:hidden; min-height:50vh; max-height:65vh; }
+        #multi-page-viewer .page-container { background:white; border-radius:4px; box-shadow:0 8px 40px rgba(0,0,0,0.6); width:100%; height:auto; aspect-ratio:210/297; padding:8mm; overflow:hidden; position:relative; transform-origin:center center; transition:transform .2s ease; max-width:100%; }
         #multi-page-viewer .page-container .cv-content { font-size:var(--cv-font-size); }
-        #multi-page-viewer .page-number { 
-            position:absolute; 
-            bottom:6mm; 
-            right:8mm; 
-            font-size:9px; 
-            color:#999; 
-            font-family:'Inter',sans-serif; 
-        }
+        #multi-page-viewer .page-number { position:absolute; bottom:6mm; right:8mm; font-size:9px; color:#999; }
 
-        /* ===== PAGE CONTROLS ===== */
-        .page-controls { 
-            display:flex; 
-            align-items:center; 
-            gap:8px; 
-            padding:6px 12px; 
-            background:rgba(17,24,39,0.95); 
-            border-radius:12px; 
-            border:1px solid #1e293b; 
-            backdrop-filter:blur(8px); 
-            box-shadow:0 4px 24px rgba(0,0,0,0.4); 
-            flex-wrap:wrap; 
-            justify-content:center; 
-        }
-        .page-controls button { 
-            background:transparent; 
-            border:1px solid #334155; 
-            color:#94a3b8; 
-            width:36px; 
-            height:36px; 
-            border-radius:8px; 
-            cursor:pointer; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            transition:all .15s; 
-            font-size:14px; 
-            touch-action:manipulation; 
-        }
+        .page-controls { display:flex; align-items:center; gap:8px; padding:6px 12px; background:rgba(17,24,39,0.95); border-radius:12px; border:1px solid #1e293b; flex-wrap:wrap; justify-content:center; }
+        .page-controls button { background:transparent; border:1px solid #334155; color:#94a3b8; width:36px; height:36px; border-radius:8px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; font-size:14px; }
         .page-controls button:active { transform:scale(0.92); }
-        .page-controls button:hover { background:#1e293b; color:white; border-color:#3b82f6; }
-        .page-controls button:disabled { opacity:0.3; cursor:not-allowed; border-color:#1e293b; }
-        .page-controls .page-info { 
-            font-size:12px; 
-            color:#94a3b8; 
-            min-width:60px; 
-            text-align:center; 
-            font-weight:500; 
-        }
+        .page-controls button:disabled { opacity:0.3; cursor:not-allowed; }
+        .page-controls .page-info { font-size:12px; color:#94a3b8; min-width:60px; text-align:center; font-weight:500; }
         .page-controls .page-info strong { color:white; }
 
-        /* ===== UNLOCK MODAL ===== */
-        #passwordModal { 
-            position:fixed; 
-            inset:0; 
-            background:rgba(5,8,16,0.85); 
-            backdrop-filter:blur(12px); 
-            -webkit-backdrop-filter:blur(12px); 
-            z-index:9999; 
-            display:none; 
-            align-items:center; 
-            justify-content:center; 
-            padding:16px; 
-            animation:fadeIn .25s ease; 
-        }
+        #passwordModal { position:fixed; inset:0; background:rgba(5,8,16,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:9999; display:none; align-items:center; justify-content:center; padding:16px; }
         #passwordModal.show { display:flex; }
-        .unlock-box { 
-            background:#0d1420; 
-            border:1px solid #1e293b; 
-            border-radius:24px; 
-            max-width:400px; 
-            width:100%; 
-            max-height:92vh; 
-            overflow-y:auto; 
-            box-shadow:0 30px 80px rgba(0,0,0,0.6); 
-            animation:slideUp .35s cubic-bezier(0.16,1,0.3,1); 
-            padding:16px; 
-        }
+        .unlock-box { background:#0d1420; border:1px solid #1e293b; border-radius:24px; max-width:400px; width:100%; max-height:92vh; overflow-y:auto; box-shadow:0 30px 80px rgba(0,0,0,0.6); animation:slideUp .35s cubic-bezier(0.16,1,0.3,1); padding:16px; }
         .unlock-head { border-bottom:1px solid #1a2332; padding-bottom:12px; margin-bottom:12px; display:flex; flex-direction:column; align-items:center; text-align:center; }
         .unlock-close { position:absolute; top:12px; right:12px; background:transparent; border:none; color:#64748b; font-size:18px; cursor:pointer; }
         .unlock-badge { width:44px; height:44px; border-radius:12px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.25); display:flex; align-items:center; justify-content:center; margin-bottom:8px; }
         .unlock-badge svg { width:20px; height:20px; stroke:#60a5fa; }
         .unlock-head h2 { font-size:17px; font-weight:700; color:white; }
         .unlock-head p { font-size:12.5px; color:#94a3b8; }
-        .unlock-price { display:inline-flex; align-items:baseline; gap:4px; padding:3px 10px; background:#111827; border:1px solid #1e293b; border-radius:20px; font-size:11px; color:#cbd5e1; }
-        .unlock-price strong { color:#60a5fa; font-size:13px; }
         .unlock-body { display:flex; flex-direction:column; gap:12px; }
         .unlock-step { display:flex; gap:8px; align-items:flex-start; }
         .unlock-step-num { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:#111827; border:1.5px solid #2a3a52; color:#93c5fd; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; }
@@ -517,8 +160,6 @@
         .unlock-step-title { font-size:12px; font-weight:600; color:#e2e8f0; }
         .unlock-step-desc { font-size:11px; color:#94a3b8; }
         .unlock-number-row { display:flex; align-items:center; gap:8px; background:#111827; border:1px solid #1e293b; border-radius:10px; padding:8px 12px; flex-wrap:wrap; justify-content:center; }
-        .unlock-number-row .emola-chip { width:36px; height:36px; border-radius:10px; background:#F47B20; display:flex; align-items:center; justify-content:center; }
-        .unlock-number-row .emola-chip svg { width:24px; height:24px; }
         .unlock-number-row .num-text { font-size:16px; font-weight:700; color:white; font-family:monospace; background:#0a0f1a; padding:2px 10px; border-radius:6px; border:1px solid #2a3a52; }
         .unlock-copy-btn { display:flex; align-items:center; gap:4px; background:#1a2332; border:1px solid #2a3a52; color:#93c5fd; font-size:11px; font-weight:600; padding:6px 12px; border-radius:8px; cursor:pointer; }
         .unlock-whatsapp-btn { display:flex; align-items:center; justify-content:center; gap:6px; width:100%; background:var(--whatsapp-green); color:white; font-weight:700; font-size:13px; padding:10px; border-radius:10px; text-decoration:none; }
@@ -536,31 +177,54 @@
         .unlock-actions .btn-confirm { background:#3b82f6; color:white; }
         .unlock-actions .btn-cancel { background:transparent; color:#94a3b8; border:1px solid #1e293b; }
 
-        /* ===== SPINNER ===== */
-        .spinner { width:36px; height:36px; border:3px solid rgba(255,255,255,0.12); border-top-color:#3b82f6; border-radius:50%; animation:spin .7s linear infinite; }
-
-        /* ===== IMPRESSÃO COM FIDELIDADE TOTAL ===== */
+        /* ===== CORREÇÃO CRÍTICA PARA EXPORTAÇÃO MULTI-PÁGINA ===== */
         @media print {
             @page { size: A4; margin: 0; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            html, body {
+                width: auto !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible !important;
+                background: #fff !important;
+            }
             body * { visibility: hidden; }
+
+            /* Removido position:absolute para permitir o fluxo natural e a paginação */
             #cv-capture-area, #cv-capture-area * { visibility: visible; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             #cv-capture-area {
-                position: absolute; left:0; top:0; width:210mm; min-height:297mm; margin:0; padding:12mm;
-                box-shadow:none !important; border-radius:0 !important; transform:none !important; overflow:visible !important;
+                position: static !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                height: auto !important;
+                margin: 0 auto !important;
+                padding: 12mm !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                transform: none !important;
+                overflow: visible !important;
                 background-image: none !important;
+                display: block !important;
             }
-            .no-print, header, nav, aside, .mobile-tab-bar, #mobile-sidebar-overlay, #passwordModal, #fontSheet, #templateSheet, #colorSheet, #multi-page-viewer, #toastContainer { display:none !important; }
-            body { background: white !important; overflow: visible !important; }
-            #preview-panel { height: auto !important; overflow: visible !important; padding:0 !important; display:block !important; }
-            #cv-preview-wrapper { width:auto !important; height:auto !important; display:block !important; padding:0 !important; overflow:visible !important; }
+            #preview-panel, #cv-preview-wrapper {
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print, header, nav, aside, .mobile-tab-bar, #mobile-sidebar-overlay,
+            #passwordModal, #fontSheet, #templateSheet, #colorSheet,
+            #multi-page-viewer, #toastContainer, .format-toolbar {
+                display: none !important;
+            }
         }
 
-        /* ===== RESPONSIVIDADE ===== */
         @media (min-width:1025px) {
             #sidebar { position:relative; transform:none; width:var(--sidebar-width); min-width:var(--sidebar-width); border-radius:0; top:0; bottom:0; height:100%; }
             #sidebar.collapsed { width:0; min-width:0; padding:0; overflow:hidden; }
-            #sidebar-toggle { display:flex; position:absolute; top:50%; right:-16px; transform:translateY(-50%); width:34px; height:34px; background:#1e293b; border:1px solid #334155; border-radius:50%; align-items:center; justify-content:center; cursor:pointer; z-index:35; color:#94a3b8; font-size:14px; box-shadow:0 2px 8px rgba(0,0,0,0.4); }
+            #sidebar-toggle { display:flex; position:absolute; top:50%; right:-16px; transform:translateY(-50%); width:34px; height:34px; background:#1e293b; border:1px solid #334155; border-radius:50%; align-items:center; justify-content:center; cursor:pointer; z-index:35; color:#94a3b8; font-size:14px; }
             #sidebar.collapsed #sidebar-toggle { right:-40px; border-radius:0 8px 8px 0; width:38px; height:50px; border-left:none; }
             #mobile-sidebar-overlay { display:none !important; }
             #preview-panel { padding:16px; }
@@ -572,507 +236,131 @@
         @media (max-width:640px) {
             :root { --header-height:48px; --tab-height:48px; --touch-target:38px; }
             header { padding:2px 4px; }
-            header .btn { font-size:8px; padding:3px 5px; min-height:28px; min-width:28px; }
+            header .btn { font-size:8px; padding:3px 5px; min-height:32px; min-width:32px; }
             header h1 { font-size:9px; }
             #cv-capture-area { padding:6mm; }
             .page-controls button { width:32px; height:32px; font-size:12px; }
             .page-controls .page-info { font-size:10px; min-width:50px; }
-            #multi-page-viewer .close-viewer { width:32px; height:32px; font-size:16px; top:6px; right:10px; }
-            #multi-page-viewer .page-container { padding:5mm; }
             .toast { font-size:11px; padding:6px 14px; bottom:66px; white-space:normal; max-width:92vw; }
+            #header-actions { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:2px; gap:4px; }
+            #header-actions .btn { flex-shrink:0; }
+            #header-actions .btn .hidden-sm-label { display:none; }
+            .mobile-sidebar-close { display:flex; justify-content:flex-end; margin-bottom:8px; }
+            .mobile-sidebar-close .btn { min-height:36px; min-width:36px; }
+            .mobile-tab svg { width:22px; height:22px; }
+            .mobile-tab .tab-label { font-size:8px; }
+            #preview-panel { align-items:flex-start; overflow-y:auto; padding:0; }
+            #cv-preview-wrapper { display:block; height:auto; min-height:100%; overflow-y:visible; padding:8px; }
+            #cv-capture-area { width:100%; min-height:auto; height:auto; padding:8mm; transform:none !important; box-shadow:0 2px 10px rgba(0,0,0,0.3); background-size:100% var(--a4-height-px); background-repeat:repeat-y; }
+            #sidebar.mobile-fullscreen { width:100vw; max-width:100vw; top:0; bottom:0; height:100vh; height:100dvh; border-radius:0; box-shadow:none; transform:translateX(-100%); transition:transform .3s ease; z-index:200; }
+            #sidebar.mobile-fullscreen.mobile-open { transform:translateX(0); }
+            body.editor-open header, body.editor-open .mobile-tab-bar { display:none !important; }
+            #mobile-sidebar-overlay { display:none !important; }
         }
+
+        .format-toolbar { display:none; position:fixed; bottom:calc(var(--tab-height) + 8px); left:50%; transform:translateX(-50%); background:#1e293b; border:1px solid #334155; border-radius:12px; padding:6px 8px; z-index:300; box-shadow:0 4px 16px rgba(0,0,0,0.4); gap:4px; flex-wrap:nowrap; }
+        .format-toolbar.active { display:flex; }
+        .format-btn { background:transparent; border:none; color:#cbd5e1; padding:6px 8px; font-size:14px; font-weight:600; cursor:pointer; border-radius:6px; min-width:36px; min-height:36px; display:flex; align-items:center; justify-content:center; }
+        .format-btn:active { background:#334155; color:white; }
     </style>
 </head>
 <body class="flex flex-col h-screen">
 
-    <!-- ==================== HEADER ==================== -->
+    <!-- HEADER -->
     <header class="no-print">
         <div class="flex items-center gap-1.5">
-            <button onclick="toggleSidebar()" class="btn btn-ghost btn-sm !px-1.5 lg:hidden" title="Menu" aria-label="Abrir menu">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </button>
-            <button onclick="toggleSidebar()" class="hidden lg:flex btn btn-ghost btn-sm !px-1.5" title="Alternar sidebar" aria-label="Alternar sidebar">
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
-            </button>
-            <div id="logoClick" class="flex items-center gap-1.5 cursor-pointer select-none" title="Clique 5 vezes para revelar a senha">
-                <div class="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-black text-[10px] shadow-lg flex-shrink-0">CV</div>
-                <h1 class="font-black text-[10px] sm:text-xs tracking-tight whitespace-nowrap">CV BUILDER <span class="text-blue-400">PRO</span></h1>
-            </div>
+            <button onclick="toggleSidebar()" class="btn btn-ghost btn-sm !px-1.5 lg:hidden" title="Menu"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            <button onclick="toggleSidebar()" class="hidden lg:flex btn btn-ghost btn-sm !px-1.5" title="Alternar sidebar"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg></button>
+            <div id="logoClick" class="flex items-center gap-1.5 cursor-pointer select-none"><div class="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-black text-[10px] shadow-lg">CV</div><h1 class="font-black text-[10px] sm:text-xs tracking-tight">CV BUILDER <span class="text-blue-400">PRO</span></h1></div>
         </div>
-        <div class="flex flex-wrap gap-0.5 items-center">
-            <button onclick="toggleViewMode()" class="btn btn-ghost btn-sm gap-0.5" id="viewToggleBtn" aria-label="Alternar modo">
-                <span id="viewToggleIcon" style="font-size:12px">📄</span>
-                <span id="viewToggleLabel" class="hidden sm:inline text-[8px]">CV</span>
-            </button>
-            <button onclick="toggleLanguage()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Alternar idioma">
-                <span id="langFlag" style="font-size:12px">🇵🇹</span>
-                <span id="langLabel" class="hidden sm:inline text-[8px]">PT</span>
-            </button>
-            <select id="paperColor" onchange="changePaperColor(this.value)" class="btn btn-ghost btn-sm text-white bg-[#111827] border-[#1e293b] cursor-pointer text-[9px] min-h-[28px] min-w-[28px]">
-                <option value="white">📄</option>
-                <option value="cream">📜</option>
-                <option value="ivory">📝</option>
-                <option value="gray">📋</option>
-                <option value="warm">☕</option>
-                <option value="cool">❄️</option>
-                <option value="dark">🌙</option>
-            </select>
-            <div class="flex items-center gap-0.5 bg-[#111827] rounded-lg px-1 py-0.5">
-                <button onclick="changeFontSize(-1)" class="text-white hover:text-blue-400 text-xs font-bold px-1 min-h-[24px] min-w-[22px]" aria-label="Diminuir fonte">A−</button>
-                <span id="fontSizeDisplay" class="text-[8px] text-slate-400 min-w-[20px] text-center">11pt</span>
-                <button onclick="changeFontSize(1)" class="text-white hover:text-blue-400 text-xs font-bold px-1 min-h-[24px] min-w-[22px]" aria-label="Aumentar fonte">A+</button>
-            </div>
-            <div class="align-selector hidden sm:flex gap-1 bg-[#111827] rounded-lg px-1 py-0.5">
-                <button class="active text-[8px] font-bold px-1" data-align="left" onclick="setAlignment('left')">Esq</button>
-                <button class="text-[8px] font-bold px-1" data-align="justify" onclick="setAlignment('justify')">Just</button>
-            </div>
-            <button onclick="openFontSelector()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Selecionar fonte" style="font-size:10px">🎨</button>
-            <button onclick="showColorPicker()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Personalizar cor" style="font-size:10px">🎯</button>
-            <button onclick="undo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Desfazer" style="font-size:10px" id="undoBtn" disabled>↩️</button>
-            <button onclick="redo()" class="btn btn-ghost btn-sm gap-0.5" aria-label="Refazer" style="font-size:10px" id="redoBtn" disabled>↪️</button>
-            <button onclick="openMultiPageViewer()" class="btn btn-primary btn-sm gap-0.5" aria-label="Visualização multi-página" style="font-size:9px">📖 <span class="hidden sm:inline text-[8px]">Páginas</span></button>
-            <button onclick="requestExport('pdf')" class="btn btn-danger btn-sm gap-0.5" aria-label="Exportar PDF" style="font-size:9px">📄 <span class="hidden sm:inline text-[8px]">PDF</span></button>
+        <div id="header-actions" class="flex flex-wrap gap-0.5 items-center">
+            <button onclick="toggleViewMode()" class="btn btn-ghost btn-sm gap-0.5" id="viewToggleBtn"><span id="viewToggleIcon" style="font-size:12px">📄</span><span id="viewToggleLabel" class="hidden-sm-label hidden sm:inline text-[8px]">CV</span></button>
+            <button onclick="toggleLanguage()" class="btn btn-ghost btn-sm gap-0.5"><span id="langFlag" style="font-size:12px">🇵🇹</span><span id="langLabel" class="hidden-sm-label hidden sm:inline text-[8px]">PT</span></button>
+            <select id="paperColor" onchange="changePaperColor(this.value)" class="btn btn-ghost btn-sm text-white bg-[#111827] border-[#1e293b] cursor-pointer text-[9px] min-h-[28px] min-w-[28px]"><option value="white">📄</option><option value="cream">📜</option><option value="ivory">📝</option><option value="gray">📋</option><option value="warm">☕</option><option value="cool">❄️</option><option value="dark">🌙</option></select>
+            <div class="flex items-center gap-0.5 bg-[#111827] rounded-lg px-1 py-0.5"><button onclick="changeFontSize(-1)" class="text-white hover:text-blue-400 text-xs font-bold px-1 min-h-[32px] min-w-[32px]">A−</button><span id="fontSizeDisplay" class="text-[8px] text-slate-400 min-w-[20px] text-center">11pt</span><button onclick="changeFontSize(1)" class="text-white hover:text-blue-400 text-xs font-bold px-1 min-h-[32px] min-w-[32px]">A+</button></div>
+            <div class="align-selector hidden sm:flex gap-1 bg-[#111827] rounded-lg px-1 py-0.5"><button class="active text-[8px] font-bold px-1" data-align="left" onclick="setAlignment('left')">Esq</button><button class="text-[8px] font-bold px-1" data-align="justify" onclick="setAlignment('justify')">Just</button></div>
+            <button onclick="openFontSelector()" class="btn btn-ghost btn-sm gap-0.5" style="font-size:10px">🎨</button>
+            <button onclick="showColorPicker()" class="btn btn-ghost btn-sm gap-0.5" style="font-size:10px">🎯</button>
+            <button onclick="undo()" class="btn btn-ghost btn-sm gap-0.5" style="font-size:10px" id="undoBtn" disabled>↩️</button>
+            <button onclick="redo()" class="btn btn-ghost btn-sm gap-0.5" style="font-size:10px" id="redoBtn" disabled>↪️</button>
+            <button onclick="openMultiPageViewer()" class="btn btn-primary btn-sm gap-0.5" style="font-size:9px">📖 <span class="hidden-sm-label hidden sm:inline text-[8px]">Páginas</span></button>
+            <button onclick="requestExport('pdf')" class="btn btn-danger btn-sm gap-0.5" style="font-size:9px">📄 <span class="hidden-sm-label hidden sm:inline text-[8px]">PDF</span></button>
         </div>
     </header>
 
-    <!-- ==================== UNLOCK MODAL ==================== -->
-    <div id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="unlockTitle">
+    <!-- PASSWORD MODAL -->
+    <div id="passwordModal" role="dialog" aria-modal="true">
         <div class="unlock-box">
-            <div class="unlock-head" style="position:relative;">
-                <button class="unlock-close" onclick="closePasswordModal()" title="Fechar" aria-label="Fechar" style="position:absolute; top:0; right:0;">✕</button>
-                <div class="unlock-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-                </div>
-                <h2 id="unlockTitle">Desbloquear download</h2>
-                <p style="font-size:12px;">Contribuição única · <strong style="color:#60a5fa;">100 MT</strong></p>
-            </div>
+            <div class="unlock-head" style="position:relative;"><button class="unlock-close" onclick="closePasswordModal()">✕</button><div class="unlock-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div><h2>Desbloquear download</h2><p style="font-size:12px;">Contribuição única · <strong style="color:#60a5fa;">100 MT</strong></p></div>
             <div class="unlock-body">
-                <div class="unlock-step">
-                    <span class="unlock-step-num">1</span>
-                    <div class="unlock-step-content">
-                        <p class="unlock-step-title">Envie 100 MT para o e-Mola</p>
-                        <div class="unlock-number-row">
-                            <span class="emola-chip">
-                                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;">
-                                    <rect width="300" height="300" fill="#F47B20" />
-                                    <rect x="90" y="60" width="90" height="135" rx="10" fill="#ffffff" />
-                                    <rect x="100" y="75" width="70" height="45" rx="4" fill="#F47B20" />
-                                    <rect x="100" y="135" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="124" y="135" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="148" y="135" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="100" y="153" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="124" y="153" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="148" y="153" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="100" y="171" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="124" y="171" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <rect x="148" y="171" width="18" height="12" rx="2" fill="#F47B20" />
-                                    <g transform="translate(140, 100) rotate(-20)">
-                                        <rect x="0" y="0" width="85" height="45" rx="4" fill="#ffffff" />
-                                        <text x="42.5" y="30" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#F47B20" text-anchor="middle">$</text>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="num-text" id="emolaNumberText">86 215 9003</span>
-                            <button class="unlock-copy-btn" onclick="copyEmolaNumber()" id="copyBtn" type="button" aria-label="Copiar número">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
-                                <span id="copyBtnLabel">Copiar</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="unlock-step">
-                    <span class="unlock-step-num">2</span>
-                    <div class="unlock-step-content">
-                        <p class="unlock-step-title">Confirme no WhatsApp</p>
-                        <p class="unlock-step-desc">Envie o comprovativo. A senha chega em minutos.</p>
-                        <a href="https://wa.me/258862159003?text=Olá!%20Gostaria%20de%20solicitar%20as%20credenciais%20para%20baixar%20o%20CV.%20Já%20efetuei%20o%20pagamento%20de%20100%20MT%20via%20Emola.%20Aguardo%20a%20senha.%20Obrigado!" target="_blank" class="unlock-whatsapp-btn" rel="noopener noreferrer">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:white;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            Confirmar
-                        </a>
-                    </div>
-                </div>
-                <div class="unlock-step">
-                    <span class="unlock-step-num">3</span>
-                    <div class="unlock-step-content">
-                        <p class="unlock-step-title">Insira a senha</p>
-                        <p class="unlock-step-desc">O download é liberado após validação.</p>
-                    </div>
-                </div>
+                <div class="unlock-step"><span class="unlock-step-num">1</span><div class="unlock-step-content"><p class="unlock-step-title">Envie 100 MT para o e-Mola</p><div class="unlock-number-row"><span class="emola-chip"><svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;"><rect width="300" height="300" fill="#F47B20" /><rect x="90" y="60" width="90" height="135" rx="10" fill="#ffffff" /><rect x="100" y="75" width="70" height="45" rx="4" fill="#F47B20" /><rect x="100" y="135" width="18" height="12" rx="2" fill="#F47B20" /><rect x="124" y="135" width="18" height="12" rx="2" fill="#F47B20" /><rect x="148" y="135" width="18" height="12" rx="2" fill="#F47B20" /><rect x="100" y="153" width="18" height="12" rx="2" fill="#F47B20" /><rect x="124" y="153" width="18" height="12" rx="2" fill="#F47B20" /><rect x="148" y="153" width="18" height="12" rx="2" fill="#F47B20" /><rect x="100" y="171" width="18" height="12" rx="2" fill="#F47B20" /><rect x="124" y="171" width="18" height="12" rx="2" fill="#F47B20" /><rect x="148" y="171" width="18" height="12" rx="2" fill="#F47B20" /><g transform="translate(140, 100) rotate(-20)"><rect x="0" y="0" width="85" height="45" rx="4" fill="#ffffff" /><text x="42.5" y="30" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#F47B20" text-anchor="middle">$</text></g></svg></span><span class="num-text" id="emolaNumberText">86 215 9003</span><button class="unlock-copy-btn" onclick="copyEmolaNumber()" id="copyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a2 2 0 012-2h10"/></svg><span id="copyBtnLabel">Copiar</span></button></div></div></div>
+                <div class="unlock-step"><span class="unlock-step-num">2</span><div class="unlock-step-content"><p class="unlock-step-title">Confirme no WhatsApp</p><p class="unlock-step-desc">Envie o comprovativo. A senha chega em minutos.</p><a href="https://wa.me/258862159003?text=Olá!%20Gostaria%20de%20solicitar%20as%20credenciais%20para%20baixar%20o%20CV.%20Já%20efetuei%20o%20pagamento%20de%20100%20MT%20via%20Emola.%20Aguardo%20a%20senha.%20Obrigado!" target="_blank" class="unlock-whatsapp-btn">Confirmar</a></div></div>
+                <div class="unlock-step"><span class="unlock-step-num">3</span><div class="unlock-step-content"><p class="unlock-step-title">Insira a senha</p><p class="unlock-step-desc">O download é liberado após validação.</p></div></div>
                 <div class="unlock-divider">Já tem a senha</div>
-                <div class="unlock-input-group">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;stroke:#64748b;"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-                    <input type="password" id="passwordInput" placeholder="Senha" autocomplete="off" enterkeyhint="done">
-                    <button class="unlock-toggle-visibility" type="button" onclick="togglePasswordVisibility()" id="toggleVisBtn" title="Mostrar senha" aria-label="Mostrar senha">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" id="eyeIcon"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                    </button>
-                </div>
-                <div id="passwordError" class="unlock-msg error"></div>
-                <div id="passwordSuccess" class="unlock-msg success"></div>
-                <div class="unlock-actions">
-                    <button class="btn-cancel" onclick="closePasswordModal()">Cancelar</button>
-                    <button class="btn-confirm" onclick="validatePassword()">Confirmar</button>
-                </div>
+                <div class="unlock-input-group"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;stroke:#64748b;"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><input type="password" id="passwordInput" placeholder="Senha" autocomplete="off" enterkeyhint="done"><button class="unlock-toggle-visibility" type="button" onclick="togglePasswordVisibility()" id="toggleVisBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" id="eyeIcon"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+                <div id="passwordError" class="unlock-msg error"></div><div id="passwordSuccess" class="unlock-msg success"></div>
+                <div class="unlock-actions"><button class="btn-cancel" onclick="closePasswordModal()">Cancelar</button><button class="btn-confirm" onclick="validatePassword()">Confirmar</button></div>
             </div>
         </div>
     </div>
 
-    <!-- ==================== FONT SHEET ==================== -->
-    <div id="fontSheet" class="bottom-sheet-overlay" onclick="closeFontSheet(event)">
-        <div class="bottom-sheet" onclick="event.stopPropagation()">
-            <div class="bottom-sheet-handle"></div>
-            <h3 class="text-sm font-bold text-white mb-2">🎨 Selecionar Fonte</h3>
-            <div id="fontSheetContent"></div>
-        </div>
-    </div>
+    <!-- FONT SHEET -->
+    <div id="fontSheet" class="bottom-sheet-overlay" onclick="closeFontSheet(event)"><div class="bottom-sheet" onclick="event.stopPropagation()"><div class="bottom-sheet-handle"></div><h3 class="text-sm font-bold text-white mb-2">🎨 Selecionar Fonte</h3><div id="fontSheetContent"></div></div></div>
 
-    <!-- ==================== TEMPLATE SHEET ==================== -->
-    <div id="templateSheet" class="bottom-sheet-overlay" onclick="closeTemplateSheet(event)">
-        <div class="bottom-sheet" onclick="event.stopPropagation()">
-            <div class="bottom-sheet-handle"></div>
-            <h3 class="text-sm font-bold text-white mb-2">🎯 Templates</h3>
-            <div class="grid grid-cols-2 gap-2" id="templateSheetGrid"></div>
-        </div>
-    </div>
+    <!-- TEMPLATE SHEET -->
+    <div id="templateSheet" class="bottom-sheet-overlay" onclick="closeTemplateSheet(event)"><div class="bottom-sheet" onclick="event.stopPropagation()"><div class="bottom-sheet-handle"></div><h3 class="text-sm font-bold text-white mb-2">🎯 Templates</h3><div class="grid grid-cols-2 gap-2" id="templateSheetGrid"></div></div></div>
 
-    <!-- ==================== COLOR PICKER SHEET ==================== -->
-    <div id="colorSheet" class="bottom-sheet-overlay" onclick="closeColorSheet(event)">
-        <div class="bottom-sheet" onclick="event.stopPropagation()">
-            <div class="bottom-sheet-handle"></div>
-            <h3 class="text-sm font-bold text-white mb-2">🎯 Cor de Destaque</h3>
-            <div class="flex gap-2 mb-3 flex-wrap" id="colorPresets">
-                <button class="color-preset" style="background:#19534b;" onclick="setAccentColor('#19534b')"></button>
-                <button class="color-preset" style="background:#b22222;" onclick="setAccentColor('#b22222')"></button>
-                <button class="color-preset" style="background:#0d2340;" onclick="setAccentColor('#0d2340')"></button>
-                <button class="color-preset" style="background:#800000;" onclick="setAccentColor('#800000')"></button>
-                <button class="color-preset" style="background:#3b82f6;" onclick="setAccentColor('#3b82f6')"></button>
-                <button class="color-preset" style="background:#10b981;" onclick="setAccentColor('#10b981')"></button>
-                <button class="color-preset" style="background:#ef4444;" onclick="setAccentColor('#ef4444')"></button>
-                <button class="color-preset" style="background:#f59e0b;" onclick="setAccentColor('#f59e0b')"></button>
-                <button class="color-preset" style="background:#8b5cf6;" onclick="setAccentColor('#8b5cf6')"></button>
-                <button class="color-preset" style="background:#ec4899;" onclick="setAccentColor('#ec4899')"></button>
-                <button class="color-preset" style="background:#0ea5e9;" onclick="setAccentColor('#0ea5e9')"></button>
-            </div>
-            <label class="text-xs text-slate-400 block mb-2">Personalizada:</label>
-            <input type="color" id="customColorInput" onchange="setAccentColor(this.value)" value="#19534b" class="w-full h-10 rounded cursor-pointer">
-        </div>
-    </div>
+    <!-- COLOR SHEET -->
+    <div id="colorSheet" class="bottom-sheet-overlay" onclick="closeColorSheet(event)"><div class="bottom-sheet" onclick="event.stopPropagation()"><div class="bottom-sheet-handle"></div><h3 class="text-sm font-bold text-white mb-2">🎯 Cor de Destaque</h3><div class="flex gap-2 mb-3 flex-wrap" id="colorPresets"><button class="color-preset" style="background:#19534b;" onclick="setAccentColor('#19534b')"></button><button class="color-preset" style="background:#b22222;" onclick="setAccentColor('#b22222')"></button><button class="color-preset" style="background:#0d2340;" onclick="setAccentColor('#0d2340')"></button><button class="color-preset" style="background:#800000;" onclick="setAccentColor('#800000')"></button><button class="color-preset" style="background:#3b82f6;" onclick="setAccentColor('#3b82f6')"></button><button class="color-preset" style="background:#10b981;" onclick="setAccentColor('#10b981')"></button><button class="color-preset" style="background:#ef4444;" onclick="setAccentColor('#ef4444')"></button><button class="color-preset" style="background:#f59e0b;" onclick="setAccentColor('#f59e0b')"></button><button class="color-preset" style="background:#8b5cf6;" onclick="setAccentColor('#8b5cf6')"></button><button class="color-preset" style="background:#ec4899;" onclick="setAccentColor('#ec4899')"></button><button class="color-preset" style="background:#0ea5e9;" onclick="setAccentColor('#0ea5e9')"></button></div><label class="text-xs text-slate-400 block mb-2">Personalizada:</label><input type="color" id="customColorInput" onchange="setAccentColor(this.value)" value="#19534b" class="w-full h-10 rounded cursor-pointer"></div></div>
 
-    <!-- ==================== MULTI-PAGE VIEWER ==================== -->
-    <div id="multi-page-viewer" class="no-print" onclick="if(event.target===this) closeMultiPageViewer()">
-        <button class="close-viewer" onclick="closeMultiPageViewer()" aria-label="Fechar visualização">✕</button>
-        <div class="viewer-content" onclick="event.stopPropagation()">
-            <div class="viewer-pages-wrapper" id="viewerPagesWrapper">
-                <div id="viewerPagesContainer"></div>
-            </div>
-            <div class="page-controls">
-                <button onclick="prevPage()" id="viewer-prev" disabled>◀</button>
-                <span class="page-info" id="viewer-page-info"><strong>1</strong> / 1</span>
-                <button onclick="nextPage()" id="viewer-next" disabled>▶</button>
-                <button onclick="zoomViewer('in')" title="Zoom +">🔍+</button>
-                <button onclick="zoomViewer('out')" title="Zoom -">🔍−</button>
-                <button onclick="zoomViewer('reset')" title="Reset zoom">⟳</button>
-            </div>
-        </div>
-    </div>
+    <!-- MULTI-PAGE VIEWER -->
+    <div id="multi-page-viewer" class="no-print" onclick="if(event.target===this) closeMultiPageViewer()"><button class="close-viewer" onclick="closeMultiPageViewer()">✕</button><div class="viewer-content" onclick="event.stopPropagation()"><div class="viewer-pages-wrapper" id="viewerPagesWrapper"><div id="viewerPagesContainer"></div></div><div class="page-controls"><button onclick="prevPage()" id="viewer-prev" disabled>◀</button><span class="page-info" id="viewer-page-info"><strong>1</strong> / 1</span><button onclick="nextPage()" id="viewer-next" disabled>▶</button><button onclick="zoomViewer('in')">🔍+</button><button onclick="zoomViewer('out')">🔍−</button><button onclick="zoomViewer('reset')">⟳</button></div></div></div>
 
-    <!-- ==================== MOBILE SIDEBAR OVERLAY ==================== -->
+    <!-- MOBILE SIDEBAR OVERLAY -->
     <div id="mobile-sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- ==================== MAIN CONTENT ==================== -->
+    <!-- MAIN CONTENT -->
     <div class="flex-1 flex overflow-hidden relative">
-        <aside id="sidebar" role="navigation" aria-label="Menu lateral">
-            <div id="sidebar-inner" class="space-y-3">
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-[#1e293b]">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🚀 Modelos Rápidos</h3>
-                    <select id="profileSelector" onchange="loadProfile(this.value)" class="w-full bg-[#0a0f1a] border border-[#1e293b] rounded-lg px-3 py-2 text-xs text-white font-medium focus:outline-none focus:border-blue-500">
-                        <option value="project_manager">📋 Project Manager</option>
-                        <option value="poultry_farm">🐔 Poultry Farm Manager</option>
-                        <option value="agronomic">🌾 Agronomic Engineer</option>
-                        <option value="civil_engineer">🏗️ Civil Engineer</option>
-                        <option value="medical_doctor">⚕️ Medical Doctor</option>
-                    </select>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500">🎨 Templates</h3>
-                        <button onclick="openTemplateSelector()" class="btn btn-primary btn-xs">Ver todos</button>
-                    </div>
-                    <div class="grid grid-cols-2 gap-1" id="templateQuickGrid"></div>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-[#1e293b]">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📋 Ordem <span class="text-slate-600">(arraste)</span></h3>
-                    <div id="sectionOrderList"></div>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">👤 Dados Pessoais</h3>
-                    <div class="space-y-2" id="personalEditor"></div>
-                    <div class="mt-2">
-                        <label class="block text-[8px] uppercase font-bold text-slate-500 mb-0.5">📸 Foto (opcional)</label>
-                        <input type="file" accept="image/*" onchange="handlePhotoUpload(event)" class="input-field text-sm">
-                        <div id="photoPreviewContainer" class="mt-2"></div>
-                        <button onclick="removePhoto()" class="btn btn-ghost btn-xs mt-1 text-red-400">Remover foto</button>
-                        <p class="text-[8px] text-amber-400 mt-1">⚠️ Fotos podem não ser lidas por sistemas ATS.</p>
-                    </div>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">💼 Experiência</h3>
-                    <div class="space-y-2" id="experienceEditor"></div>
-                    <button onclick="addExperience()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">🎓 Formação</h3>
-                    <div class="space-y-2" id="educationEditor"></div>
-                    <button onclick="addEducation()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🛠️ Competências</h3>
-                    <textarea id="skillsInput" oninput="state.skills=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Project Management, Agile..." class="input-field text-sm"></textarea>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌐 Idiomas</h3>
-                    <textarea id="languagesInput" oninput="state.languages=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="English (Fluent), Portuguese (Native)..." class="input-field text-sm"></textarea>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">📜 Certificações</h3>
-                    <textarea id="certificationsInput" oninput="state.certifications=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="PMP, CSM, ITIL..." class="input-field text-sm"></textarea>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📁 Projetos</h3>
-                    <div class="space-y-2" id="projectsEditor"></div>
-                    <button onclick="addProject()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📚 Publicações</h3>
-                    <div class="space-y-2" id="publicationsEditor"></div>
-                    <button onclick="addPublication()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">🤝 Voluntariado</h3>
-                    <div class="space-y-2" id="volunteeringEditor"></div>
-                    <button onclick="addVolunteering()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button>
-                </div>
-                <div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all">
-                    <h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌟 Interesses</h3>
-                    <textarea id="interestsInput" oninput="state.interests=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Tecnologia, Desporto..." class="input-field text-sm"></textarea>
-                </div>
-                <div class="mt-4 pt-2 border-t border-[#1e293b]">
-                    <button onclick="clearCache()" class="btn btn-ghost btn-sm w-full justify-center text-red-400">🗑️ Limpar Dados</button>
-                </div>
-            </div>
-            <button id="sidebar-toggle" onclick="toggleSidebar()" title="Recolher/Expandir" aria-label="Recolher sidebar" class="hidden lg:flex" style="display:none;">◀</button>
-        </aside>
+        <aside id="sidebar" role="navigation"><div id="sidebar-inner" class="space-y-3"><div class="mobile-sidebar-close lg:hidden"><button onclick="closeMobileSidebar()" class="btn btn-ghost btn-sm">✕ Fechar</button></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-[#1e293b]"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🚀 Modelos Rápidos</h3><select id="profileSelector" onchange="loadProfile(this.value)" class="w-full bg-[#0a0f1a] border border-[#1e293b] rounded-lg px-3 py-2 text-xs text-white font-medium focus:outline-none focus:border-blue-500"><option value="project_manager">📋 Project Manager</option><option value="poultry_farm">🐔 Poultry Farm Manager</option><option value="agronomic">🌾 Agronomic Engineer</option><option value="civil_engineer">🏗️ Civil Engineer</option><option value="medical_doctor">⚕️ Medical Doctor</option></select></div><div class="bg-[#111827]/70 rounded-xl p-2.5"><div class="flex justify-between items-center mb-2"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500">🎨 Templates</h3><button onclick="openTemplateSelector()" class="btn btn-primary btn-xs">Ver todos</button></div><div class="grid grid-cols-2 gap-1" id="templateQuickGrid"></div></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-[#1e293b]"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📋 Ordem <span class="text-slate-600">(arraste)</span></h3><div id="sectionOrderList"></div></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">👤 Dados Pessoais</h3><div class="space-y-2" id="personalEditor"></div><div class="mt-2"><label class="block text-[8px] uppercase font-bold text-slate-500 mb-0.5">📸 Foto (opcional)</label><input type="file" accept="image/*" onchange="handlePhotoUpload(event)" class="input-field text-sm"><div id="photoPreviewContainer" class="mt-2"></div><button onclick="removePhoto()" class="btn btn-ghost btn-xs mt-1 text-red-400">Remover foto</button><p class="text-[8px] text-amber-400 mt-1">⚠️ Fotos podem não ser lidas por sistemas ATS.</p></div></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">💼 Experiência</h3><div class="space-y-2" id="experienceEditor"></div><button onclick="addExperience()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">🎓 Formação</h3><div class="space-y-2" id="educationEditor"></div><button onclick="addEducation()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🛠️ Competências</h3><textarea id="skillsInput" oninput="state.skills=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Project Management, Agile..." class="input-field text-sm"></textarea></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌐 Idiomas</h3><textarea id="languagesInput" oninput="state.languages=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="English (Fluent), Portuguese (Native)..." class="input-field text-sm"></textarea></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">📜 Certificações</h3><textarea id="certificationsInput" oninput="state.certifications=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="PMP, CSM, ITIL..." class="input-field text-sm"></textarea></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📁 Projetos</h3><div class="space-y-2" id="projectsEditor"></div><button onclick="addProject()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">📚 Publicações</h3><div class="space-y-2" id="publicationsEditor"></div><button onclick="addPublication()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-2">🤝 Voluntariado</h3><div class="space-y-2" id="volunteeringEditor"></div><button onclick="addVolunteering()" class="btn btn-ghost btn-sm w-full mt-1.5 justify-center">+ Adicionar</button></div><div class="bg-[#111827]/70 rounded-xl p-2.5 border border-transparent hover:border-[#1e293b] transition-all"><h3 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">🌟 Interesses</h3><textarea id="interestsInput" oninput="state.interests=this.value.split(',').map(s=>s.trim()).filter(Boolean);updateStateAndRender();" rows="2" placeholder="Tecnologia, Desporto..." class="input-field text-sm"></textarea></div><div class="mt-4 pt-2 border-t border-[#1e293b]"><button onclick="clearCache()" class="btn btn-ghost btn-sm w-full justify-center text-red-400">🗑️ Limpar Dados</button></div></div><button id="sidebar-toggle" onclick="toggleSidebar()" class="hidden lg:flex" style="display:none;">◀</button></aside>
 
-        <main id="preview-panel" class="flex-1 overflow-hidden bg-[#050810] p-1 sm:p-3 lg:p-5 flex items-center justify-center" role="main">
-            <div id="cv-preview-wrapper" class="w-full h-full flex items-center justify-center">
-                <div id="cv-capture-area" class="w-[210mm] min-h-[297mm] paper-white shadow-2xl animate-fadeIn flex-shrink-0"></div>
-            </div>
-            <p class="text-center text-[7px] sm:text-[8px] text-slate-600 mt-1.5 no-print hidden lg:block absolute bottom-2">A4 • 210×297mm • Ao vivo</p>
-        </main>
+        <main id="preview-panel" class="flex-1 overflow-hidden bg-[#050810] p-1 sm:p-3 lg:p-5 flex items-center justify-center" role="main"><div id="cv-preview-wrapper" class="w-full h-full flex items-center justify-center"><div id="cv-capture-area" class="w-[210mm] min-h-[297mm] paper-white shadow-2xl animate-fadeIn flex-shrink-0"></div></div><p class="text-center text-[7px] sm:text-[8px] text-slate-600 mt-1.5 no-print hidden lg:block absolute bottom-2">A4 • 210×297mm • Ao vivo</p></main>
     </div>
 
-    <!-- ==================== MOBILE TAB BAR ==================== -->
-    <nav class="mobile-tab-bar no-print" role="tablist">
-        <button class="mobile-tab active" onclick="openMobileSidebar()" role="tab" aria-label="Editar">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-            <span class="tab-label">Editar</span>
-        </button>
-        <button class="mobile-tab" onclick="openMultiPageViewer()" role="tab" aria-label="Visualização">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4v16M16 4v16"/></svg>
-            <span class="tab-label">Páginas</span>
-        </button>
-        <button class="mobile-tab" onclick="openTemplateSelector()" role="tab" aria-label="Templates">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg>
-            <span class="tab-label">Templates</span>
-        </button>
-        <button class="mobile-tab" onclick="requestExport('pdf')" role="tab" aria-label="Exportar">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            <span class="tab-label">PDF</span>
-        </button>
-        <button class="mobile-tab" onclick="toggleViewMode()" role="tab" aria-label="Alternar modo">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            <span class="tab-label">Carta</span>
-        </button>
-    </nav>
+    <!-- MOBILE TAB BAR -->
+    <nav class="mobile-tab-bar no-print"><button class="mobile-tab active" onclick="openMobileSidebar()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg><span class="tab-label">Editar</span></button><button class="mobile-tab" onclick="openMultiPageViewer()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4v16M16 4v16"/></svg><span class="tab-label">Páginas</span></button><button class="mobile-tab" onclick="openTemplateSelector()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg><span class="tab-label">Templates</span></button><button class="mobile-tab" onclick="requestExport('pdf')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg><span class="tab-label">PDF</span></button><button class="mobile-tab" onclick="toggleViewMode()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span class="tab-label">Carta</span></button></nav>
+
+    <!-- BARRA DE FORMATAÇÃO -->
+    <div id="formatToolbar" class="format-toolbar no-print"><button class="format-btn" onclick="formatDoc('bold')" title="Negrito"><b>B</b></button><button class="format-btn" onclick="formatDoc('italic')" title="Itálico"><i>I</i></button><button class="format-btn" onclick="formatDoc('underline')" title="Sublinhado"><u>U</u></button><button class="format-btn" onclick="formatDoc('insertUnorderedList')" title="Lista">• Lista</button><button class="format-btn" onclick="formatDoc('insertOrderedList')" title="Lista numerada">1. Lista</button></div>
 
     <div id="toastContainer"></div>
 
     <script>
-        // ==================== i18n ====================
-        const i18n = {
-            pt: {
-                professional_summary: 'Resumo Profissional',
-                professional_experience: 'Experiência Profissional',
-                education_section: 'Formação Académica',
-                skills_section: 'Competências',
-                certifications_section: 'Certificações',
-                languages_section: 'Idiomas',
-                contact: 'Contacto',
-                profile: 'Perfil',
-                about: 'Sobre',
-                experience_section: 'Experiência',
-                projects_section: 'Projetos',
-                publications_section: 'Publicações',
-                volunteering_section: 'Voluntariado',
-                interests_section: 'Interesses',
-                cover_letter: 'Carta de Apresentação',
-                cover_letter_subject: 'Assunto: Candidatura para',
-                cover_letter_intro: 'Prezado(a)',
-                cover_letter_body: 'Com base na minha experiência e qualificações, acredito que posso contribuir significativamente para a sua equipa.',
-                cover_letter_closing: 'Atenciosamente,'
-            },
-            en: {
-                professional_summary: 'Professional Summary',
-                professional_experience: 'Professional Experience',
-                education_section: 'Education',
-                skills_section: 'Skills',
-                certifications_section: 'Certifications',
-                languages_section: 'Languages',
-                contact: 'Contact',
-                profile: 'Profile',
-                about: 'About',
-                experience_section: 'Experience',
-                projects_section: 'Projects',
-                publications_section: 'Publications',
-                volunteering_section: 'Volunteering',
-                interests_section: 'Interests',
-                cover_letter: 'Cover Letter',
-                cover_letter_subject: 'Subject: Application for',
-                cover_letter_intro: 'Dear',
-                cover_letter_body: 'Based on my experience and qualifications, I believe I can make a significant contribution to your team.',
-                cover_letter_closing: 'Sincerely,'
-            }
-        };
+        const i18n = { pt:{professional_summary:'Resumo Profissional',professional_experience:'Experiência Profissional',education_section:'Formação Académica',skills_section:'Competências',certifications_section:'Certificações',languages_section:'Idiomas',contact:'Contacto',profile:'Perfil',about:'Sobre',experience_section:'Experiência',projects_section:'Projetos',publications_section:'Publicações',volunteering_section:'Voluntariado',interests_section:'Interesses',cover_letter:'Carta de Apresentação',cover_letter_subject:'Assunto: Candidatura para',cover_letter_intro:'Prezado(a)',cover_letter_body:'Com base na minha experiência e qualificações, acredito que posso contribuir significativamente para a sua equipa.',cover_letter_closing:'Atenciosamente,'}, en:{professional_summary:'Professional Summary',professional_experience:'Professional Experience',education_section:'Education',skills_section:'Skills',certifications_section:'Certifications',languages_section:'Languages',contact:'Contact',profile:'Profile',about:'About',experience_section:'Experience',projects_section:'Projects',publications_section:'Publications',volunteering_section:'Volunteering',interests_section:'Interests',cover_letter:'Cover Letter',cover_letter_subject:'Subject: Application for',cover_letter_intro:'Dear',cover_letter_body:'Based on my experience and qualifications, I believe I can make a significant contribution to your team.',cover_letter_closing:'Sincerely,'} };
         let currentLang = 'pt';
+        function t(k){ return i18n[currentLang][k]||i18n.en[k]||k; }
+        function toggleLanguage(){ currentLang=currentLang==='pt'?'en':'pt'; document.getElementById('langFlag').textContent=currentLang==='pt'?'🇵🇹':'🇬🇧'; document.getElementById('langLabel').textContent=currentLang==='pt'?'PT':'EN'; renderCV(); showToast(currentLang==='pt'?'Português 🇵🇹':'English 🇬🇧'); }
 
-        function t(key) { return i18n[currentLang]?.[key] || i18n['en'][key] || key; }
+        let activeFormatEl=null;
+        document.addEventListener('focusin',function(e){ if(e.target && (e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')){ activeFormatEl=e.target; document.getElementById('formatToolbar').classList.add('active'); positionToolbar(e.target); } else { document.getElementById('formatToolbar').classList.remove('active'); activeFormatEl=null; } });
+        function positionToolbar(el){ const tb=document.getElementById('formatToolbar'); if(window.innerWidth<=640){ tb.style.bottom='calc(var(--tab-height) + 8px)'; } else { tb.style.bottom='8px'; } }
+        function formatDoc(cmd){ if(!activeFormatEl) return; activeFormatEl.focus(); const start=activeFormatEl.selectionStart, end=activeFormatEl.selectionEnd, selected=activeFormatEl.value.substring(start,end); if(cmd==='bold'||cmd==='italic'||cmd==='underline'){ const tag=cmd==='bold'?'b':cmd==='italic'?'i':'u'; const wrapped=`<${tag}>${selected||''}</${tag}>`; activeFormatEl.setRangeText(wrapped,start,end,'end'); activeFormatEl.dispatchEvent(new Event('input',{bubbles:true})); } else if(cmd==='insertUnorderedList'||cmd==='insertOrderedList'){ const tag=cmd==='insertUnorderedList'?'ul':'ol'; const lines=selected.split('\n').filter(l=>l.trim()); const lis=lines.map(l=>`<li>${l.trim()}</li>`).join(''); const list=`<${tag}>${lis}</${tag}>`; activeFormatEl.setRangeText(list,start,end,'end'); activeFormatEl.dispatchEvent(new Event('input',{bubbles:true})); } }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'pt' ? 'en' : 'pt';
-            document.getElementById('langFlag').textContent = currentLang === 'pt' ? '🇵🇹' : '🇬🇧';
-            document.getElementById('langLabel').textContent = currentLang === 'pt' ? 'PT' : 'EN';
-            renderCV();
-            showToast(currentLang === 'pt' ? 'Português 🇵🇹' : 'English 🇬🇧');
-        }
+        const templateDefinitions = [
+            { id:'classic', name:'Clássico', icon:'📜' },
+            { id:'minimalist', name:'Minimalista', icon:'✨' },
+            { id:'vince-murray', name:'Vince Murray', icon:'👨‍💼' },
+            { id:'executive-classic', name:'Executive Classic', icon:'🎩' },
+            { id:'compact-pro', name:'Compact Pro', icon:'📊' },
+            { id:'modern-split', name:'Modern Split', icon:'🔷' },
+            { id:'elegant-pro', name:'Elegant Pro', icon:'🌸' },
+            { id:'corporate-classic', name:'Corporate Classic', icon:'🏢' },
+            { id:'executive-minimal', name:'Executive Minimal', icon:'💼' },
+            { id:'modern-classic', name:'Modern Classic', icon:'🖋️' }
+        ];
 
-        // ==================== FONT SYSTEM ====================
-        const fontCategories = {
-            serif: [
-                { name: 'Playfair Display', family: "'Playfair Display', serif" },
-                { name: 'EB Garamond', family: "'EB Garamond', serif" },
-                { name: 'Cormorant Garamond', family: "'Cormorant Garamond', serif" },
-                { name: 'Libre Baskerville', family: "'Libre Baskerville', serif" },
-                { name: 'PT Serif', family: "'PT Serif', serif" },
-                { name: 'Merriweather', family: "'Merriweather', serif" },
-                { name: 'Lora', family: "'Lora', serif" },
-                { name: 'Crimson Text', family: "'Crimson Text', serif" },
-                { name: 'Source Serif 4', family: "'Source Serif 4', serif" },
-                { name: 'DM Serif Display', family: "'DM Serif Display', serif" },
-            ],
-            sans: [
-                { name: 'Inter', family: "'Inter', sans-serif" },
-                { name: 'IBM Plex Sans', family: "'IBM Plex Sans', sans-serif" },
-                { name: 'Plus Jakarta Sans', family: "'Plus Jakarta Sans', sans-serif" },
-                { name: 'Outfit', family: "'Outfit', sans-serif" },
-                { name: 'DM Sans', family: "'DM Sans', sans-serif" },
-                { name: 'Public Sans', family: "'Public Sans', sans-serif" },
-                { name: 'Manrope', family: "'Manrope', sans-serif" },
-                { name: 'Libre Franklin', family: "'Libre Franklin', sans-serif" },
-                { name: 'Karla', family: "'Karla', sans-serif" },
-                { name: 'Nunito', family: "'Nunito', sans-serif" },
-                { name: 'Rubik', family: "'Rubik', sans-serif" },
-                { name: 'Work Sans', family: "'Work Sans', sans-serif" },
-            ],
-            display: [
-                { name: 'Montserrat', family: "'Montserrat', sans-serif" },
-                { name: 'Raleway', family: "'Raleway', sans-serif" },
-                { name: 'Poppins', family: "'Poppins', sans-serif" },
-                { name: 'Space Grotesk', family: "'Space Grotesk', sans-serif" },
-                { name: 'Bebas Neue', family: "'Bebas Neue', sans-serif" },
-                { name: 'Oswald', family: "'Oswald', sans-serif" },
-                { name: 'Cinzel', family: "'Cinzel', serif" },
-                { name: 'Josefin Sans', family: "'Josefin Sans', sans-serif" },
-            ],
-        };
+        const PROFILES = { project_manager:{personal:{name:"PETER ROSENBLUM, PMP",title:"SENIOR PROJECT MANAGER",email:"prosenblum27@email.me",phone:"+1 (555) 123-4567",location:"New York, NY",linkedin:"linkedin.com/in/peterrosenblum",summary:"Certified project management professional with 11+ years of success leading complex digital transformation initiatives across Fortune 500 companies. Expert in Agile, Scrum, and Waterfall methodologies with a proven track record of delivering projects on time and under budget."},experience:[{title:"Senior Project Manager",company:"TechCorp Solutions",period:"2020 - Present",description:"Led cross-functional teams in deploying enterprise-level software solutions. Managed budgets exceeding $5M and reduced project delivery time by 22% through streamlined processes. Implemented risk mitigation strategies that saved $800k annually."},{title:"Project Manager",company:"InnovateTech Inc.",period:"2016 - 2020",description:"Oversaw the full SDLC for 15+ key projects, implementing robust risk management strategies that minimized scope creep and enhanced stakeholder satisfaction. Introduced Agile best practices, resulting in a 30% increase in team productivity."}],education:[{degree:"MBA, Project Management",school:"Stanford University",year:"2015"},{degree:"B.S. Computer Science",school:"MIT",year:"2012"}],skills:["Project Management","Agile/Scrum","Risk Management","Team Leadership","JIRA","MS Project","Budgeting","Stakeholder Communication"],languages:["English (Native)","Portuguese (Fluent)"],certifications:["PMP","CSM","ITIL","Six Sigma Green Belt"],projects:[],publications:[],volunteering:[],interests:[]}, poultry_farm:{personal:{name:"CARLOS M. OLIVEIRA",title:"POULTRY FARM MANAGER",email:"c.oliveira@agro.pt",phone:"+258 82 123 4567",location:"Maputo, Mozambique",linkedin:"linkedin.com/in/carlosmoliveira",summary:"Highly skilled Poultry Farm Manager with over 15 years of experience in large-scale poultry production, biosecurity, and flock health management. Proven ability to optimize feed conversion rates, reduce mortality, and increase overall productivity while maintaining strict animal welfare standards."},experience:[{title:"Poultry Farm Manager",company:"AgroAvicola S.A.",period:"2018 - Present",description:"Manage a 200,000-bird broiler operation. Implemented advanced biosecurity protocols that reduced disease outbreaks by 40%. Optimized feed formulations resulting in a 12% improvement in feed conversion ratio. Supervised a team of 45 workers and achieved a 15% increase in production efficiency."},{title:"Production Supervisor",company:"FrangoMocambique",period:"2012 - 2018",description:"Supervised daily operations of 5 poultry houses. Trained and led a team of 30 farm hands. Maintained detailed health records and coordinated with veterinary services to ensure flock integrity. Reduced mortality rate by 18% through enhanced vaccination schedules."}],education:[{degree:"MSc Poultry Science",school:"University of Georgia",year:"2011"},{degree:"BSc Animal Science",school:"Eduardo Mondlane University",year:"2008"}],skills:["Biosecurity","Flock Management","Feed Formulation","Vaccination Protocols","Data Analysis","Team Supervision","Budget Management","Quality Assurance"],languages:["Portuguese (Native)","English (Fluent)"],certifications:["Poultry Health Management","HACCP","Animal Welfare Certified"],projects:[],publications:[],volunteering:[],interests:[]}, agronomic:{personal:{name:"ANA SOFIA COSTA",title:"AGRONOMIC ENGINEER & PRODUCTION MANAGER",email:"ana.costa@agroindustrial.co.mz",phone:"+258 84 987 6543",location:"Beira, Mozambique",linkedin:"linkedin.com/in/anacostaagro",summary:"Agronomic Engineer with 12 years of experience in sustainable crop production, supply chain optimization, and precision agriculture. Expertise in irrigation management, crop rotation, and soil conservation, driving a 30% increase in yield across multiple farms."},experience:[{title:"Production Manager",company:"AgroIndustrial Holdings",period:"2019 - Present",description:"Direct all agricultural operations across 2,500 hectares. Implemented precision irrigation systems that reduced water usage by 25% while maintaining crop quality. Led the transition to sustainable farming practices, increasing crop yield by 30% and reducing fertilizer costs by 15%."},{title:"Senior Agronomist",company:"GreenFields Ltd.",period:"2014 - 2019",description:"Developed and executed crop protection plans. Managed soil fertility programs and introduced integrated pest management (IPM) strategies that cut pesticide use by 18%. Coordinated with research institutions to test new crop varieties, resulting in a 20% increase in drought resistance."}],education:[{degree:"MSc Agronomic Engineering",school:"University of Lisbon",year:"2013"},{degree:"BSc Agricultural Engineering",school:"Eduardo Mondlane University",year:"2009"}],skills:["Precision Agriculture","Irrigation Management","Crop Rotation","Soil Science","QMS (ISO 9001)","Supply Chain","Data Analytics","Sustainable Farming"],languages:["Portuguese (Native)","English (Advanced)","Spanish (Intermediate)"],certifications:["Certified Crop Adviser","ISO 9001 Lead Auditor","Sustainable Agriculture"],projects:[],publications:[],volunteering:[],interests:[]}, civil_engineer:{personal:{name:"JOÃO PEDRO SILVA",title:"SENIOR CIVIL ENGINEER",email:"jp.silva@engenharia.co.mz",phone:"+258 82 555 7890",location:"Matola, Mozambique",linkedin:"linkedin.com/in/joaopedrosilva",summary:"Senior Civil Engineer with over 14 years of experience in large-scale infrastructure projects, including bridges, highways, and commercial buildings. Proficient in structural analysis, project planning, and construction management, with a strong focus on safety and quality compliance."},experience:[{title:"Lead Civil Engineer",company:"Construtora XYZ",period:"2017 - Present",description:"Oversee structural design and site execution for a $50M bridge and highway project. Managed a team of 12 engineers and 80+ workers, ensuring strict adherence to safety standards and project timelines. Implemented BIM methodologies that reduced design errors by 25%."},{title:"Project Engineer",company:"InfraCo Mozambique",period:"2012 - 2017",description:"Managed the construction of 3 major commercial buildings. Coordinated with architects and subcontractors, conducted site inspections, and resolved technical challenges to ensure structural integrity. Successfully delivered projects 10% under budget and 2 months ahead of schedule."}],education:[{degree:"MSc Structural Engineering",school:"University of Porto",year:"2011"},{degree:"BSc Civil Engineering",school:"Eduardo Mondlane University",year:"2008"}],skills:["Structural Analysis","AutoCAD/Revit","Project Planning","Construction Management","Safety Compliance","Quality Control","BIM","Cost Estimation"],languages:["Portuguese (Native)","English (Advanced)"],certifications:["Professional Engineer (PE)","OSHA Certified","ISO 45001"],projects:[],publications:[],volunteering:[],interests:[]}, medical_doctor:{personal:{name:"DR. MARIA FERNANDA LOPES",title:"MEDICAL DOCTOR (INTERNAL MEDICINE)",email:"mf.lopes@hospitalcentral.mz",phone:"+258 84 777 4321",location:"Maputo, Mozambique",linkedin:"linkedin.com/in/drmariaflopes",summary:"Board-certified Medical Doctor with 10 years of experience in Internal Medicine and General Practice. Dedicated to providing exceptional patient-centered care, with a strong background in diagnostics, chronic disease management, and emergency medicine. Committed to improving healthcare outcomes in underserved communities."},experience:[{title:"Senior Resident / Attending Physician",company:"Hospital Central de Maputo",period:"2017 - Present",description:"Manage a caseload of 40+ patients daily in the internal medicine ward. Lead rapid response teams for critical care emergencies. Implemented a new patient triage system that reduced wait times by 30%. Published 5 peer-reviewed articles on hypertension management."},{title:"General Practitioner",company:"Clínica Saúde & Bem-Estar",period:"2014 - 2017",description:"Provided primary care services to a diverse patient population. Focused on preventive medicine, chronic disease management (hypertension, diabetes), and health education campaigns. Increased patient adherence to treatment plans by 25% through personalized counseling."}],education:[{degree:"MD, Internal Medicine",school:"University of Pretoria",year:"2013"},{degree:"Bachelor of Medicine, Bachelor of Surgery (MBBS)",school:"Eduardo Mondlane University",year:"2009"}],skills:["Patient Care","Medical Diagnostics","Emergency Medicine","Chronic Disease Management","EMR Systems","Clinical Research","Public Health","Team Leadership"],languages:["Portuguese (Native)","English (Fluent)","French (Intermediate)"],certifications:["Board Certified in Internal Medicine","ACLS","BLS Instructor"],projects:[],publications:[],volunteering:[],interests:[]} };
 
-        // ==================== PROFILES ====================
-        const PROFILES = {
-            project_manager: {
-                personal: { name: "PETER ROSENBLUM, PMP", title: "SENIOR PROJECT MANAGER", email: "prosenblum27@email.me", phone: "+1 (555) 123-4567", location: "New York, NY", linkedin: "linkedin.com/in/peterrosenblum", summary: "Certified project management professional with 11+ years of success leading complex digital transformation initiatives across Fortune 500 companies. Expert in Agile, Scrum, and Waterfall methodologies with a proven track record of delivering projects on time and under budget." },
-                experience: [ { title: "Senior Project Manager", company: "TechCorp Solutions", period: "2020 - Present", description: "Led cross-functional teams in deploying enterprise-level software solutions. Managed budgets exceeding $5M and reduced project delivery time by 22% through streamlined processes. Implemented risk mitigation strategies that saved $800k annually." }, { title: "Project Manager", company: "InnovateTech Inc.", period: "2016 - 2020", description: "Oversaw the full SDLC for 15+ key projects, implementing robust risk management strategies that minimized scope creep and enhanced stakeholder satisfaction. Introduced Agile best practices, resulting in a 30% increase in team productivity." } ],
-                education: [ { degree: "MBA, Project Management", school: "Stanford University", year: "2015" }, { degree: "B.S. Computer Science", school: "MIT", year: "2012" } ],
-                skills: ["Project Management", "Agile/Scrum", "Risk Management", "Team Leadership", "JIRA", "MS Project", "Budgeting", "Stakeholder Communication"],
-                languages: ["English (Native)", "Portuguese (Fluent)"],
-                certifications: ["PMP", "CSM", "ITIL", "Six Sigma Green Belt"],
-                projects: [], publications: [], volunteering: [], interests: []
-            },
-            poultry_farm: {
-                personal: { name: "CARLOS M. OLIVEIRA", title: "POULTRY FARM MANAGER", email: "c.oliveira@agro.pt", phone: "+258 82 123 4567", location: "Maputo, Mozambique", linkedin: "linkedin.com/in/carlosmoliveira", summary: "Highly skilled Poultry Farm Manager with over 15 years of experience in large-scale poultry production, biosecurity, and flock health management. Proven ability to optimize feed conversion rates, reduce mortality, and increase overall productivity while maintaining strict animal welfare standards." },
-                experience: [ { title: "Poultry Farm Manager", company: "AgroAvicola S.A.", period: "2018 - Present", description: "Manage a 200,000-bird broiler operation. Implemented advanced biosecurity protocols that reduced disease outbreaks by 40%. Optimized feed formulations resulting in a 12% improvement in feed conversion ratio. Supervised a team of 45 workers and achieved a 15% increase in production efficiency." }, { title: "Production Supervisor", company: "FrangoMocambique", period: "2012 - 2018", description: "Supervised daily operations of 5 poultry houses. Trained and led a team of 30 farm hands. Maintained detailed health records and coordinated with veterinary services to ensure flock integrity. Reduced mortality rate by 18% through enhanced vaccination schedules." } ],
-                education: [ { degree: "MSc Poultry Science", school: "University of Georgia", year: "2011" }, { degree: "BSc Animal Science", school: "Eduardo Mondlane University", year: "2008" } ],
-                skills: ["Biosecurity", "Flock Management", "Feed Formulation", "Vaccination Protocols", "Data Analysis", "Team Supervision", "Budget Management", "Quality Assurance"],
-                languages: ["Portuguese (Native)", "English (Fluent)"],
-                certifications: ["Poultry Health Management", "HACCP", "Animal Welfare Certified"],
-                projects: [], publications: [], volunteering: [], interests: []
-            },
-            agronomic: {
-                personal: { name: "ANA SOFIA COSTA", title: "AGRONOMIC ENGINEER & PRODUCTION MANAGER", email: "ana.costa@agroindustrial.co.mz", phone: "+258 84 987 6543", location: "Beira, Mozambique", linkedin: "linkedin.com/in/anacostaagro", summary: "Agronomic Engineer with 12 years of experience in sustainable crop production, supply chain optimization, and precision agriculture. Expertise in irrigation management, crop rotation, and soil conservation, driving a 30% increase in yield across multiple farms." },
-                experience: [ { title: "Production Manager", company: "AgroIndustrial Holdings", period: "2019 - Present", description: "Direct all agricultural operations across 2,500 hectares. Implemented precision irrigation systems that reduced water usage by 25% while maintaining crop quality. Led the transition to sustainable farming practices, increasing crop yield by 30% and reducing fertilizer costs by 15%." }, { title: "Senior Agronomist", company: "GreenFields Ltd.", period: "2014 - 2019", description: "Developed and executed crop protection plans. Managed soil fertility programs and introduced integrated pest management (IPM) strategies that cut pesticide use by 18%. Coordinated with research institutions to test new crop varieties, resulting in a 20% increase in drought resistance." } ],
-                education: [ { degree: "MSc Agronomic Engineering", school: "University of Lisbon", year: "2013" }, { degree: "BSc Agricultural Engineering", school: "Eduardo Mondlane University", year: "2009" } ],
-                skills: ["Precision Agriculture", "Irrigation Management", "Crop Rotation", "Soil Science", "QMS (ISO 9001)", "Supply Chain", "Data Analytics", "Sustainable Farming"],
-                languages: ["Portuguese (Native)", "English (Advanced)", "Spanish (Intermediate)"],
-                certifications: ["Certified Crop Adviser", "ISO 9001 Lead Auditor", "Sustainable Agriculture"],
-                projects: [], publications: [], volunteering: [], interests: []
-            },
-            civil_engineer: {
-                personal: { name: "JOÃO PEDRO SILVA", title: "SENIOR CIVIL ENGINEER", email: "jp.silva@engenharia.co.mz", phone: "+258 82 555 7890", location: "Matola, Mozambique", linkedin: "linkedin.com/in/joaopedrosilva", summary: "Senior Civil Engineer with over 14 years of experience in large-scale infrastructure projects, including bridges, highways, and commercial buildings. Proficient in structural analysis, project planning, and construction management, with a strong focus on safety and quality compliance." },
-                experience: [ { title: "Lead Civil Engineer", company: "Construtora XYZ", period: "2017 - Present", description: "Oversee structural design and site execution for a $50M bridge and highway project. Managed a team of 12 engineers and 80+ workers, ensuring strict adherence to safety standards and project timelines. Implemented BIM methodologies that reduced design errors by 25%." }, { title: "Project Engineer", company: "InfraCo Mozambique", period: "2012 - 2017", description: "Managed the construction of 3 major commercial buildings. Coordinated with architects and subcontractors, conducted site inspections, and resolved technical challenges to ensure structural integrity. Successfully delivered projects 10% under budget and 2 months ahead of schedule." } ],
-                education: [ { degree: "MSc Structural Engineering", school: "University of Porto", year: "2011" }, { degree: "BSc Civil Engineering", school: "Eduardo Mondlane University", year: "2008" } ],
-                skills: ["Structural Analysis", "AutoCAD/Revit", "Project Planning", "Construction Management", "Safety Compliance", "Quality Control", "BIM", "Cost Estimation"],
-                languages: ["Portuguese (Native)", "English (Advanced)"],
-                certifications: ["Professional Engineer (PE)", "OSHA Certified", "ISO 45001"],
-                projects: [], publications: [], volunteering: [], interests: []
-            },
-            medical_doctor: {
-                personal: { name: "DR. MARIA FERNANDA LOPES", title: "MEDICAL DOCTOR (INTERNAL MEDICINE)", email: "mf.lopes@hospitalcentral.mz", phone: "+258 84 777 4321", location: "Maputo, Mozambique", linkedin: "linkedin.com/in/drmariaflopes", summary: "Board-certified Medical Doctor with 10 years of experience in Internal Medicine and General Practice. Dedicated to providing exceptional patient-centered care, with a strong background in diagnostics, chronic disease management, and emergency medicine. Committed to improving healthcare outcomes in underserved communities." },
-                experience: [ { title: "Senior Resident / Attending Physician", company: "Hospital Central de Maputo", period: "2017 - Present", description: "Manage a caseload of 40+ patients daily in the internal medicine ward. Lead rapid response teams for critical care emergencies. Implemented a new patient triage system that reduced wait times by 30%. Published 5 peer-reviewed articles on hypertension management." }, { title: "General Practitioner", company: "Clínica Saúde & Bem-Estar", period: "2014 - 2017", description: "Provided primary care services to a diverse patient population. Focused on preventive medicine, chronic disease management (hypertension, diabetes), and health education campaigns. Increased patient adherence to treatment plans by 25% through personalized counseling." } ],
-                education: [ { degree: "MD, Internal Medicine", school: "University of Pretoria", year: "2013" }, { degree: "Bachelor of Medicine, Bachelor of Surgery (MBBS)", school: "Eduardo Mondlane University", year: "2009" } ],
-                skills: ["Patient Care", "Medical Diagnostics", "Emergency Medicine", "Chronic Disease Management", "EMR Systems", "Clinical Research", "Public Health", "Team Leadership"],
-                languages: ["Portuguese (Native)", "English (Fluent)", "French (Intermediate)"],
-                certifications: ["Board Certified in Internal Medicine", "ACLS", "BLS Instructor"],
-                projects: [], publications: [], volunteering: [], interests: []
-            }
-        };
-
-        // ==================== STATE ====================
-        const defaultState = {
-            template: 'classic',
-            paperColor: 'white',
-            selectedFont: "'Inter', sans-serif",
-            selectedFontName: 'Inter',
-            cvFontSize: 11,
-            viewMode: 'cv',
-            align: 'justify',
-            accentColor: '#19534b',
-            coverStyle: 'simple',
-            personal: { name: "Sophie Walton", title: "Customer Service Representative", email: "hwl2@yahoo.com", phone: "(206) 742-5187", location: "Seattle, WA 98116", linkedin: "", summary: "Dedicated Customer Service Representative dedicated to providing quality care for ultimate customer satisfaction. Proven ability to establish and maintain excellent communication and relationships with clients. Adept in general accounting and finance transactions. Dedicated to identifying customer needs and delivering effective solutions to all problems. Excellent time management skills combined with a superior knowledge of the customer service industry. Bilingual, hardworking, and ready to join my next team.", photo: "" },
-            experience: [
-                { title: "Branch Customer Service Representative", company: "AT&T Inc., Seattle", period: "August 2014 – September 2019", description: "Maintained up to date knowledge of products and services. Handled customer calls and responded to queries about services, product malfunctions, promotions, and billing. Worked to address all customer concerns in a timely and effective manner. Handled large volume of calls on a day to day basis with a sense of calm and good work ethic. Developed successful tactics to sell products and services to customers. Worked to understand the needs of each customer." },
-                { title: "Customer Service Representative", company: "Gold Coast Hotel, Seattle", period: "August 2012 – August 2014", description: "Greeted customers with enthusiasm and a delightful and helpful attitude. Provided guests and potential guests with up to date information about hotel and promotional offerings. Effectively sold rooms to walk-in customers. Responded to guest complaints in a professional and effective way. Processed payments and informed hotel staff of room status and availability. Provided superiors with work logs, demonstrating accountability." },
-                { title: "Customer Sales Representative", company: "Macy's, Bellevue", period: "October 2010 – May 2012", description: "Greeted customers in a friendly and helpful manner. Provided high quality customer service to customers. Handled sales transactions and returns in a timely manner. Answered all questions regarding products and promotions. Aimed to keep customers satisfied and returning to Macy's." }
-            ],
-            education: [ 
-                { degree: "Bachelor of Communications", school: "University of Seattle, Seattle", year: "August 2007 – May 2011" },
-                { degree: "High School Diploma", school: "Hartwick High School, Hartwick", year: "September 2003 – May 2007" }
-            ],
-            skills: ["Excellent Communication Skills", "Troubleshooting Skills", "Multitasking Skills", "Mediation and Negotiation Skills", "Marketing Strategies"],
-            languages: ["English (Native)", "Portuguese (Fluent)"],
-            certifications: [],
-            projects: [],
-            publications: [],
-            volunteering: [],
-            interests: [],
-            sectionsOrder: ['summary','experience','education','skills','languages','certifications','projects','publications','volunteering','interests']
-        };
+        const defaultState = { template:'classic', paperColor:'white', selectedFont:"'Inter', sans-serif", selectedFontName:'Inter', cvFontSize:11, viewMode:'cv', align:'justify', accentColor:'#19534b', coverStyle:'simple', personal:{ name:"Sophie Walton", title:"Customer Service Representative", email:"hwl2@yahoo.com", phone:"(206) 742-5187", location:"Seattle, WA 98116", linkedin:"", summary:"Dedicated Customer Service Representative dedicated to providing quality care for ultimate customer satisfaction. Proven ability to establish and maintain excellent communication and relationships with clients. Adept in general accounting and finance transactions. Dedicated to identifying customer needs and delivering effective solutions to all problems. Excellent time management skills combined with a superior knowledge of the customer service industry. Bilingual, hardworking, and ready to join my next team.", photo:"" }, experience:[ { title:"Branch Customer Service Representative", company:"AT&T Inc., Seattle", period:"August 2014 – September 2019", description:"Maintained up to date knowledge of products and services. Handled customer calls and responded to queries about services, product malfunctions, promotions, and billing. Worked to address all customer concerns in a timely and effective manner. Handled large volume of calls on a day to day basis with a sense of calm and good work ethic. Developed successful tactics to sell products and services to customers. Worked to understand the needs of each customer." }, { title:"Customer Service Representative", company:"Gold Coast Hotel, Seattle", period:"August 2012 – August 2014", description:"Greeted customers with enthusiasm and a delightful and helpful attitude. Provided guests and potential guests with up to date information about hotel and promotional offerings. Effectively sold rooms to walk-in customers. Responded to guest complaints in a professional and effective way. Processed payments and informed hotel staff of room status and availability. Provided superiors with work logs, demonstrating accountability." }, { title:"Customer Sales Representative", company:"Macy's, Bellevue", period:"October 2010 – May 2012", description:"Greeted customers in a friendly and helpful manner. Provided high quality customer service to customers. Handled sales transactions and returns in a timely manner. Answered all questions regarding products and promotions. Aimed to keep customers satisfied and returning to Macy's." } ], education:[ { degree:"Bachelor of Communications", school:"University of Seattle, Seattle", year:"August 2007 – May 2011" }, { degree:"High School Diploma", school:"Hartwick High School, Hartwick", year:"September 2003 – May 2007" } ], skills:["Excellent Communication Skills","Troubleshooting Skills","Multitasking Skills","Mediation and Negotiation Skills","Marketing Strategies"], languages:["English (Native)","Portuguese (Fluent)"], certifications:[], projects:[], publications:[], volunteering:[], interests:[], sectionsOrder:['summary','experience','education','skills','languages','certifications','projects','publications','volunteering','interests'] };
 
         let state = JSON.parse(JSON.stringify(defaultState));
         let history = [];
@@ -1082,364 +370,80 @@
         let viewerZoom = 1;
         let isViewerOpen = false;
 
-        // ==================== HISTORY ====================
-        function saveHistory() {
-            if (historyIndex < history.length - 1) {
-                history = history.slice(0, historyIndex + 1);
-            }
-            history.push(JSON.parse(JSON.stringify(state)));
-            historyIndex = history.length - 1;
-            updateUndoRedoButtons();
-            saveToLocalStorage();
-        }
+        function saveHistory(){ if(historyIndex < history.length-1) history = history.slice(0, historyIndex+1); history.push(JSON.parse(JSON.stringify(state))); historyIndex = history.length-1; updateUndoRedoButtons(); saveToLocalStorage(); }
+        function undo(){ if(historyIndex > 0){ historyIndex--; state = JSON.parse(JSON.stringify(history[historyIndex])); refreshAll(); saveToLocalStorage(); } }
+        function redo(){ if(historyIndex < history.length-1){ historyIndex++; state = JSON.parse(JSON.stringify(history[historyIndex])); refreshAll(); saveToLocalStorage(); } }
+        function updateUndoRedoButtons(){ document.getElementById('undoBtn').disabled = historyIndex <= 0; document.getElementById('redoBtn').disabled = historyIndex >= history.length-1; }
+        function updateStateAndRender(){ saveHistory(); renderCV(); }
 
-        function undo() {
-            if (historyIndex > 0) {
-                historyIndex--;
-                state = JSON.parse(JSON.stringify(history[historyIndex]));
-                refreshAll();
-                saveToLocalStorage();
-            }
-        }
+        function saveToLocalStorage(){ try{ localStorage.setItem('cvBuilderState', JSON.stringify(state)); }catch(e){} }
+        function loadFromLocalStorage(){ try{ const saved = localStorage.getItem('cvBuilderState'); if(saved){ const parsed = JSON.parse(saved); if(parsed && parsed.personal && parsed.experience){ const valid = templateDefinitions.map(t=>t.id); if(!valid.includes(parsed.template)) parsed.template='classic'; state = parsed; return true; } } }catch(e){} return false; }
 
-        function redo() {
-            if (historyIndex < history.length - 1) {
-                historyIndex++;
-                state = JSON.parse(JSON.stringify(history[historyIndex]));
-                refreshAll();
-                saveToLocalStorage();
-            }
-        }
+        function refreshAll(){ initPersonalEditor(); renderExperienceEditor(); renderEducationEditor(); renderProjectsEditor(); renderPublicationsEditor(); renderVolunteeringEditor(); populateTemplateQuickGrid(); populateSectionOrderList(); document.getElementById('skillsInput').value = state.skills.join(', '); document.getElementById('languagesInput').value = state.languages.join(', '); document.getElementById('certificationsInput').value = state.certifications.join(', '); document.getElementById('interestsInput').value = state.interests.join(', '); document.getElementById('customColorInput').value = state.accentColor; document.documentElement.style.setProperty('--accent-color', state.accentColor); document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt'); updatePhotoPreview(); renderCV(); updateUndoRedoButtons(); }
 
-        function updateUndoRedoButtons() {
-            document.getElementById('undoBtn').disabled = historyIndex <= 0;
-            document.getElementById('redoBtn').disabled = historyIndex >= history.length - 1;
-        }
+        function setAlignment(align){ state.align = align; document.querySelectorAll('.align-selector button').forEach(b=>b.classList.remove('active')); document.querySelector(`.align-selector button[data-align="${align}"]`)?.classList.add('active'); updateStateAndRender(); showToast(`Alinhamento: ${align === 'left' ? 'Esquerda' : 'Justificado'}`); }
 
-        function updateStateAndRender() {
-            saveHistory();
-            renderCV();
-        }
+        function showColorPicker(){ document.getElementById('colorSheet').classList.add('show'); document.body.style.overflow='hidden'; }
+        function closeColorSheet(event){ if(event && event.target !== document.getElementById('colorSheet')) return; const sheet=document.getElementById('colorSheet'); sheet.classList.add('hiding'); setTimeout(()=>{ sheet.classList.remove('show','hiding'); document.body.style.overflow=''; }, 300); }
+        function setAccentColor(color){ state.accentColor = color; document.documentElement.style.setProperty('--accent-color', color); document.getElementById('customColorInput').value = color; updateStateAndRender(); showToast('Cor de destaque atualizada!'); }
 
-        // ==================== LOCAL STORAGE ====================
-        function saveToLocalStorage() {
-            try { localStorage.setItem('cvBuilderState', JSON.stringify(state)); } catch(e) {}
-        }
+        function handlePhotoUpload(event){ const file = event.target.files[0]; if(file){ const reader = new FileReader(); reader.onload = function(e){ state.personal.photo = e.target.result; updatePhotoPreview(); updateStateAndRender(); showToast('Foto adicionada!'); }; reader.readAsDataURL(file); } }
+        function updatePhotoPreview(){ document.getElementById('photoPreviewContainer').innerHTML = state.personal.photo ? `<img src="${state.personal.photo}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--accent-color);">` : ''; }
+        function removePhoto(){ state.personal.photo = ''; updatePhotoPreview(); updateStateAndRender(); showToast('Foto removida.'); }
 
-        function loadFromLocalStorage() {
-            try {
-                const saved = localStorage.getItem('cvBuilderState');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed && parsed.personal && parsed.experience) {
-                        const validTemplates = templateDefinitions.map(t => t.id);
-                        if (!validTemplates.includes(parsed.template)) parsed.template = 'classic';
-                        state = parsed;
-                        return true;
-                    }
-                }
-            } catch(e) {}
-            return false;
-        }
+        function clearCache(){ if(confirm('Tem certeza que deseja limpar todos os dados e resetar o currículo?')){ localStorage.removeItem('cvBuilderState'); state = JSON.parse(JSON.stringify(defaultState)); history = [JSON.parse(JSON.stringify(state))]; historyIndex = 0; refreshAll(); showToast('Cache limpo. Estado redefinido.'); } }
 
-        // ==================== REFRESH ALL ====================
-        function refreshAll() {
-            initPersonalEditor();
-            renderExperienceEditor();
-            renderEducationEditor();
-            renderProjectsEditor();
-            renderPublicationsEditor();
-            renderVolunteeringEditor();
-            populateTemplateQuickGrid();
-            populateSectionOrderList();
-            document.getElementById('skillsInput').value = state.skills.join(', ');
-            document.getElementById('languagesInput').value = state.languages.join(', ');
-            document.getElementById('certificationsInput').value = state.certifications.join(', ');
-            document.getElementById('interestsInput').value = state.interests.join(', ');
-            document.getElementById('customColorInput').value = state.accentColor;
-            document.documentElement.style.setProperty('--accent-color', state.accentColor);
-            document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt');
-            updatePhotoPreview();
-            renderCV();
-            updateUndoRedoButtons();
-        }
+        const CORRECT_PASSWORD='cvpro2026';
+        let pendingExportAction=null;
+        let passwordSession=false;
 
-        // ==================== ALINHAMENTO ====================
-        function setAlignment(align) {
-            state.align = align;
-            document.querySelectorAll('.align-selector button').forEach(b => b.classList.remove('active'));
-            document.querySelector(`.align-selector button[data-align="${align}"]`)?.classList.add('active');
-            updateStateAndRender();
-            showToast(`Alinhamento: ${align === 'left' ? 'Esquerda' : 'Justificado'}`);
-        }
+        function requestExport(action){ if(passwordSession){ executeExport(action); return; } pendingExportAction=action; document.getElementById('passwordModal').classList.add('show'); document.getElementById('passwordInput').value=''; document.getElementById('passwordError').textContent=''; document.getElementById('passwordSuccess').textContent=''; setTimeout(()=>document.getElementById('passwordInput').focus(),200); }
+        function validatePassword(){ const input=document.getElementById('passwordInput').value.trim(); const errorEl=document.getElementById('passwordError'); const successEl=document.getElementById('passwordSuccess'); errorEl.textContent=''; successEl.textContent=''; if(!input){ errorEl.textContent='⚠️ Insira a senha.'; return; } if(input===CORRECT_PASSWORD){ passwordSession=true; successEl.textContent='✅ Senha correta! Exportando...'; setTimeout(()=>{ closePasswordModal(); if(pendingExportAction){ executeExport(pendingExportAction); pendingExportAction=null; } }, 400); } else { errorEl.textContent='❌ Senha incorreta.'; document.getElementById('passwordInput').value=''; document.getElementById('passwordInput').focus(); } }
+        function closePasswordModal(){ document.getElementById('passwordModal').classList.remove('show'); pendingExportAction=null; }
+        function executeExport(action){ if(action==='pdf') exportPDF(); }
 
-        // ==================== COR PERSONALIZADA ====================
-        function showColorPicker() {
-            const sheet = document.getElementById('colorSheet');
-            sheet.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
+        function exportPDF(){ closePasswordModal(); const cv=document.getElementById('cv-capture-area'); const currentTransform=cv.style.transform; cv.style.transform='none'; const contentHeight=cv.offsetHeight; cv.style.transform=currentTransform; const A4_HEIGHT_PX=1122.52; const pages=Math.ceil(contentHeight/A4_HEIGHT_PX); const pageMsg=pages>1?` (${pages} páginas)`:' (1 página)'; showToast(`📄 Gerando PDF${pageMsg}. Use o diálogo para salvar.`); setTimeout(()=>{ window.print(); }, 300); }
 
-        function closeColorSheet(event) {
-            if (event && event.target !== document.getElementById('colorSheet')) return;
-            const sheet = document.getElementById('colorSheet');
-            sheet.classList.add('hiding');
-            setTimeout(() => { sheet.classList.remove('show','hiding'); document.body.style.overflow = ''; }, 300);
-        }
+        function toggleViewMode(){ state.viewMode = state.viewMode==='cv'?'cover':'cv'; document.getElementById('viewToggleIcon').textContent = state.viewMode==='cv'?'📄':'✉️'; document.getElementById('viewToggleLabel').textContent = state.viewMode==='cv'?'CV':'Carta'; updateStateAndRender(); showToast(state.viewMode==='cv'?'Modo: Currículo':'Modo: Carta'); }
 
-        function setAccentColor(color) {
-            state.accentColor = color;
-            document.documentElement.style.setProperty('--accent-color', color);
-            document.getElementById('customColorInput').value = color;
-            updateStateAndRender();
-            showToast('Cor de destaque atualizada!');
-        }
+        let sidebarCollapsed=false;
+        function toggleSidebar(){ const sidebar=document.getElementById('sidebar'); if(window.innerWidth<=1024){ sidebar.classList.toggle('mobile-open'); const overlay=document.getElementById('mobile-sidebar-overlay'); if(sidebar.classList.contains('mobile-open')){ overlay.classList.add('show'); document.body.style.overflow='hidden'; } else { overlay.classList.remove('show'); document.body.style.overflow=''; } } else { sidebarCollapsed=!sidebarCollapsed; const toggleBtn=document.getElementById('sidebar-toggle'); if(sidebarCollapsed){ sidebar.classList.add('collapsed'); toggleBtn.innerHTML='▶'; toggleBtn.style.right='-40px'; toggleBtn.style.borderRadius='0 8px 8px 0'; } else { sidebar.classList.remove('collapsed'); toggleBtn.innerHTML='◀'; toggleBtn.style.right='-16px'; toggleBtn.style.borderRadius='50%'; } } }
+        function openMobileSidebar(){ const sidebar=document.getElementById('sidebar'); if(window.innerWidth<=640){ sidebar.classList.add('mobile-fullscreen'); document.body.classList.add('editor-open'); document.getElementById('mobile-sidebar-overlay').style.display='none'; } sidebar.classList.add('mobile-open'); document.body.style.overflow='hidden'; }
+        function closeMobileSidebar(){ const sidebar=document.getElementById('sidebar'); sidebar.classList.remove('mobile-open'); if(window.innerWidth<=640){ sidebar.classList.remove('mobile-fullscreen'); document.body.classList.remove('editor-open'); document.body.style.overflow=''; } }
 
-        // ==================== FOTO ====================
-        function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    state.personal.photo = e.target.result;
-                    updatePhotoPreview();
-                    updateStateAndRender();
-                    showToast('Foto adicionada!');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+        function changeFontSize(delta){ state.cvFontSize=Math.max(9,Math.min(14,state.cvFontSize+delta)); document.getElementById('fontSizeDisplay').textContent=state.cvFontSize+'pt'; document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize+'pt'); updateStateAndRender(); }
 
-        function updatePhotoPreview() {
-            const container = document.getElementById('photoPreviewContainer');
-            container.innerHTML = state.personal.photo ? `<img src="${state.personal.photo}" class="photo-preview" alt="Foto" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--accent-color);">` : '';
-        }
+        const fontCategories = { serif:[{name:'Playfair Display',family:"'Playfair Display', serif"},{name:'EB Garamond',family:"'EB Garamond', serif"},{name:'Cormorant Garamond',family:"'Cormorant Garamond', serif"},{name:'Libre Baskerville',family:"'Libre Baskerville', serif"},{name:'PT Serif',family:"'PT Serif', serif"},{name:'Merriweather',family:"'Merriweather', serif"},{name:'Lora',family:"'Lora', serif"},{name:'Crimson Text',family:"'Crimson Text', serif"},{name:'Source Serif 4',family:"'Source Serif 4', serif"},{name:'DM Serif Display',family:"'DM Serif Display', serif"}], sans:[{name:'Inter',family:"'Inter', sans-serif"},{name:'IBM Plex Sans',family:"'IBM Plex Sans', sans-serif"},{name:'Plus Jakarta Sans',family:"'Plus Jakarta Sans', sans-serif"},{name:'Outfit',family:"'Outfit', sans-serif"},{name:'DM Sans',family:"'DM Sans', sans-serif"},{name:'Public Sans',family:"'Public Sans', sans-serif"},{name:'Manrope',family:"'Manrope', sans-serif"},{name:'Libre Franklin',family:"'Libre Franklin', sans-serif"},{name:'Karla',family:"'Karla', sans-serif"},{name:'Nunito',family:"'Nunito', sans-serif"},{name:'Rubik',family:"'Rubik', sans-serif"},{name:'Work Sans',family:"'Work Sans', sans-serif"}], display:[{name:'Montserrat',family:"'Montserrat', sans-serif"},{name:'Raleway',family:"'Raleway', sans-serif"},{name:'Poppins',family:"'Poppins', sans-serif"},{name:'Space Grotesk',family:"'Space Grotesk', sans-serif"},{name:'Bebas Neue',family:"'Bebas Neue', sans-serif"},{name:'Oswald',family:"'Oswald', sans-serif"},{name:'Cinzel',family:"'Cinzel', serif"},{name:'Josefin Sans',family:"'Josefin Sans', sans-serif"}] };
 
-        function removePhoto() {
-            state.personal.photo = '';
-            updatePhotoPreview();
-            updateStateAndRender();
-            showToast('Foto removida.');
-        }
+        function openFontSelector(){ const sheet=document.getElementById('fontSheet'); const content=document.getElementById('fontSheetContent'); let html=''; Object.entries(fontCategories).forEach(([cat,fonts])=>{ html+=`<p style="font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;margin:12px 0 5px;">${cat==='serif'?'🔤 Serif':cat==='sans'?'✨ Sans-Serif':'🎯 Display'}</p>`; fonts.forEach(f=>{ const isActive=state.selectedFont===f.family; html+=`<div class="font-list-item ${isActive?'active':''}" onclick="selectFont('${f.family.replace(/'/g,"\\'")}','${f.name}')"><div class="font-preview-box" style="font-family:${f.family}">Aa</div><div><p style="font-family:${f.family};font-size:13px;font-weight:600;">${f.name}</p><p style="font-size:10px;color:#64748b">${cat}</p></div>${isActive?'<span style="color:#3b82f6;font-size:18px;margin-left:auto">✓</span>':''}</div>`; }); }); content.innerHTML=html; sheet.classList.add('show'); document.body.style.overflow='hidden'; }
+        function closeFontSheet(event){ if(event && event.target !== document.getElementById('fontSheet')) return; const sheet=document.getElementById('fontSheet'); sheet.classList.add('hiding'); setTimeout(()=>{ sheet.classList.remove('show','hiding'); document.body.style.overflow=''; }, 300); }
+        function selectFont(family,name){ state.selectedFont=family; state.selectedFontName=name; document.getElementById('cv-capture-area').style.fontFamily=family; updateStateAndRender(); document.getElementById('fontSheet').classList.remove('show'); document.body.style.overflow=''; showToast(`Fonte: ${name} ✓`); }
 
-        // ==================== LIMPAR CACHE ====================
-        function clearCache() {
-            if (confirm('Tem certeza que deseja limpar todos os dados e resetar o currículo?')) {
-                localStorage.removeItem('cvBuilderState');
-                state = JSON.parse(JSON.stringify(defaultState));
-                history = [JSON.parse(JSON.stringify(state))];
-                historyIndex = 0;
-                refreshAll();
-                showToast('Cache limpo. Estado redefinido.');
-            }
-        }
+        function openTemplateSelector(){ const sheet=document.getElementById('templateSheet'); const grid=document.getElementById('templateSheetGrid'); grid.innerHTML=templateDefinitions.map(t=>`<button onclick="setTemplate('${t.id}');document.getElementById('templateSheet').classList.remove('show');document.body.style.overflow='';" class="template-card-mobile ${state.template===t.id?'active':''}"><span class="icon">${t.icon}</span><span class="name">${t.name}</span></button>`).join(''); sheet.classList.add('show'); document.body.style.overflow='hidden'; }
+        function closeTemplateSheet(event){ if(event && event.target !== document.getElementById('templateSheet')) return; const sheet=document.getElementById('templateSheet'); sheet.classList.add('hiding'); setTimeout(()=>{ sheet.classList.remove('show','hiding'); document.body.style.overflow=''; }, 300); }
 
-        // ==================== PASSWORD ====================
-        const CORRECT_PASSWORD = 'cvpro2026';
-        let pendingExportAction = null;
-        let passwordSession = false;
+        function skillBadges(s){ return s?.length ? s.map(x=>`<span class="skill-tag">${x}</span>`).join(' ') : ''; }
+        function certBadges(c){ return c?.length ? c.map(x=>`<span class="cert-tag">${x}</span>`).join(' ') : ''; }
+        function expList(exp){ return exp?.length ? exp.map(e=>`<div style="margin-bottom:12px"><p class="job-title">${e.title}</p><p class="job-company">${e.company} <span class="job-date">| ${e.period}</span></p><div style="margin-top:4px;">${e.description}</div></div>`).join('') : ''; }
+        function eduList(edu){ return edu?.length ? edu.map(e=>`<div style="margin-bottom:6px"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.02)">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${e.school}, ${e.year}</p></div>`).join('') : ''; }
+        function projectList(items){ return items?.length ? items.map(p=>`<div style="margin-bottom:8px"><p style="font-weight:700">${p.name}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${p.description}</p></div>`).join('') : ''; }
+        function publicationList(items){ return items?.length ? items.map(p=>`<div style="margin-bottom:8px"><p style="font-weight:700">${p.title}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${p.publisher}, ${p.year}</p></div>`).join('') : ''; }
+        function volunteeringList(items){ return items?.length ? items.map(v=>`<div style="margin-bottom:8px"><p style="font-weight:700">${v.role}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${v.organization}, ${v.period}</p></div>`).join('') : ''; }
+        function interestsList(items){ return items?.length ? items.map(i=>`<span class="skill-tag">${i}</span>`).join(' ') : ''; }
+        function contactLine(p){ return `${p.email} | ${p.phone} | ${p.location}`; }
+        const paperBg={white:'#ffffff',cream:'#faf8f5',ivory:'#fffff0',gray:'#f8f9fa',dark:'#1a1a2e',warm:'#fdf6e3',cool:'#f0f4f8'};
+        const paperFg={white:'#0f172a',cream:'#1c1917',ivory:'#1e1b4b',gray:'#1a1a2e',dark:'#e2e8f0',warm:'#1a1a1a',cool:'#1a202c'};
+        const alignClass=()=> state.align==='justify'?'text-justify':'text-left';
 
-        function requestExport(action) {
-            if (passwordSession) { executeExport(action); return; }
-            pendingExportAction = action;
-            document.getElementById('passwordModal').classList.add('show');
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordError').textContent = '';
-            document.getElementById('passwordSuccess').textContent = '';
-            setTimeout(() => document.getElementById('passwordInput').focus(), 200);
-        }
+        function extraSectionsHTML(){ let html=''; if(state.projects.length) html+=`<div class="section-title">${t('projects_section')}</div><div>${projectList(state.projects)}</div>`; if(state.publications.length) html+=`<div class="section-title" style="margin-top:15px;">${t('publications_section')}</div><div>${publicationList(state.publications)}</div>`; if(state.volunteering.length) html+=`<div class="section-title" style="margin-top:15px;">${t('volunteering_section')}</div><div>${volunteeringList(state.volunteering)}</div>`; if(state.interests.length) html+=`<div class="section-title" style="margin-top:15px;">${t('interests_section')}</div><div>${interestsList(state.interests)}</div>`; return html; }
 
-        function validatePassword() {
-            const input = document.getElementById('passwordInput').value.trim();
-            const errorEl = document.getElementById('passwordError');
-            const successEl = document.getElementById('passwordSuccess');
-            errorEl.textContent = '';
-            successEl.textContent = '';
-            if (!input) { errorEl.textContent = '⚠️ Insira a senha.'; return; }
-            if (input === CORRECT_PASSWORD) {
-                passwordSession = true;
-                successEl.textContent = '✅ Senha correta! Exportando...';
-                setTimeout(() => {
-                    closePasswordModal();
-                    if (pendingExportAction) { executeExport(pendingExportAction); pendingExportAction = null; }
-                }, 400);
-            } else {
-                errorEl.textContent = '❌ Senha incorreta.';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
-            }
-        }
-
-        function closePasswordModal() {
-            document.getElementById('passwordModal').classList.remove('show');
-            pendingExportAction = null;
-        }
-
-        function executeExport(action) {
-            if (action === 'pdf') exportPDF();
-        }
-
-        // ==================== EXPORT PDF (fiel, múltiplas páginas) ====================
-        function exportPDF() {
-            closePasswordModal();
-            const cv = document.getElementById('cv-capture-area');
-            const currentTransform = cv.style.transform;
-            cv.style.transform = 'none';
-            const contentHeight = cv.offsetHeight;
-            cv.style.transform = currentTransform;
-            const A4_HEIGHT_PX = 1122.52;
-            const pages = Math.ceil(contentHeight / A4_HEIGHT_PX);
-            const pageMsg = pages > 1 ? ` (${pages} páginas)` : ' (1 página)';
-            showToast(`📄 Gerando PDF${pageMsg}. Use o diálogo para salvar.`);
-            setTimeout(() => {
-                window.print();
-            }, 300);
-        }
-
-        // ==================== VIEW MODE ====================
-        function toggleViewMode() {
-            state.viewMode = state.viewMode === 'cv' ? 'cover' : 'cv';
-            const icon = document.getElementById('viewToggleIcon');
-            const label = document.getElementById('viewToggleLabel');
-            if (state.viewMode === 'cv') { icon.textContent = '📄'; label.textContent = 'CV'; }
-            else { icon.textContent = '✉️'; label.textContent = 'Carta'; }
-            updateStateAndRender();
-            showToast(state.viewMode === 'cv' ? 'Modo: Currículo' : 'Modo: Carta');
-        }
-
-        // ==================== SIDEBAR ====================
-        let sidebarCollapsed = false;
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth <= 1024) {
-                sidebar.classList.toggle('mobile-open');
-                const overlay = document.getElementById('mobile-sidebar-overlay');
-                if (sidebar.classList.contains('mobile-open')) { overlay.classList.add('show'); document.body.style.overflow = 'hidden'; }
-                else { overlay.classList.remove('show'); document.body.style.overflow = ''; }
-            } else {
-                sidebarCollapsed = !sidebarCollapsed;
-                const toggleBtn = document.getElementById('sidebar-toggle');
-                if (sidebarCollapsed) { sidebar.classList.add('collapsed'); toggleBtn.innerHTML = '▶'; toggleBtn.style.right = '-40px'; toggleBtn.style.borderRadius = '0 8px 8px 0'; }
-                else { sidebar.classList.remove('collapsed'); toggleBtn.innerHTML = '◀'; toggleBtn.style.right = '-16px'; toggleBtn.style.borderRadius = '50%'; }
-            }
-        }
-        function openMobileSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.add('mobile-open');
-            document.getElementById('mobile-sidebar-overlay').classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeMobileSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('mobile-open');
-            document.getElementById('mobile-sidebar-overlay').classList.remove('show');
-            document.body.style.overflow = '';
-        }
-
-        // ==================== FONT SIZE ====================
-        function changeFontSize(delta) {
-            state.cvFontSize = Math.max(9, Math.min(14, state.cvFontSize + delta));
-            document.getElementById('fontSizeDisplay').textContent = state.cvFontSize + 'pt';
-            document.documentElement.style.setProperty('--cv-font-size', state.cvFontSize + 'pt');
-            updateStateAndRender();
-        }
-
-        // ==================== FONT SELECTOR ====================
-        function openFontSelector() {
-            const sheet = document.getElementById('fontSheet');
-            const content = document.getElementById('fontSheetContent');
-            let html = '';
-            Object.entries(fontCategories).forEach(([cat, fonts]) => {
-                html += `<p style="font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;margin:12px 0 5px;">${cat==='serif'?'🔤 Serif':cat==='sans'?'✨ Sans-Serif':'🎯 Display'}</p>`;
-                fonts.forEach(f => {
-                    const isActive = state.selectedFont === f.family;
-                    html += `<div class="font-list-item ${isActive?'active':''}" onclick="selectFont('${f.family.replace(/'/g,"\\'")}','${f.name}')"><div class="font-preview-box" style="font-family:${f.family}">Aa</div><div><p style="font-family:${f.family};font-size:13px;font-weight:600;">${f.name}</p><p style="font-size:10px;color:#64748b">${cat}</p></div>${isActive?'<span style="color:#3b82f6;font-size:18px;margin-left:auto">✓</span>':''}</div>`;
-                });
-            });
-            content.innerHTML = html;
-            sheet.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeFontSheet(event) {
-            if (event && event.target !== document.getElementById('fontSheet')) return;
-            const sheet = document.getElementById('fontSheet');
-            sheet.classList.add('hiding');
-            setTimeout(() => { sheet.classList.remove('show','hiding'); document.body.style.overflow = ''; }, 300);
-        }
-        function selectFont(family, name) {
-            state.selectedFont = family;
-            state.selectedFontName = name;
-            document.getElementById('cv-capture-area').style.fontFamily = family;
-            updateStateAndRender();
-            document.getElementById('fontSheet').classList.remove('show');
-            document.body.style.overflow = '';
-            showToast(`Fonte: ${name} ✓`);
-        }
-
-        // ==================== TEMPLATES ====================
-        const templateDefinitions = [
-            { id: 'classic', name: 'Clássico', icon: '📜' },
-            { id: 'minimalist', name: 'Minimalista', icon: '✨' },
-            { id: 'vince-murray', name: 'Vince Murray', icon: '👨‍💼' },
-            { id: 'executive-classic', name: 'Executive Classic', icon: '🎩' },
-            { id: 'compact-pro', name: 'Compact Pro', icon: '📊' },
-            { id: 'modern-split', name: 'Modern Split', icon: '🔷' },
-            { id: 'elegant-pro', name: 'Elegant Pro', icon: '🌸' },
-            { id: 'corporate-classic', name: 'Corporate Classic', icon: '🏢' },
-            { id: 'executive-minimal', name: 'Executive Minimal', icon: '💼' },
-            { id: 'modern-classic', name: 'Modern Classic', icon: '🖋️' }
-        ];
-
-        function openTemplateSelector() {
-            const sheet = document.getElementById('templateSheet');
-            const grid = document.getElementById('templateSheetGrid');
-            grid.innerHTML = templateDefinitions.map(t => `
-                <button onclick="setTemplate('${t.id}');document.getElementById('templateSheet').classList.remove('show');document.body.style.overflow='';" class="template-card-mobile ${state.template===t.id?'active':''}">
-                    <span class="icon">${t.icon}</span>
-                    <span class="name">${t.name}</span>
-                </button>`).join('');
-            sheet.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeTemplateSheet(event) {
-            if (event && event.target !== document.getElementById('templateSheet')) return;
-            const sheet = document.getElementById('templateSheet');
-            sheet.classList.add('hiding');
-            setTimeout(() => { sheet.classList.remove('show','hiding'); document.body.style.overflow = ''; }, 300);
-        }
-
-        // ==================== HELPERS ====================
-        function skillBadges(s) { return s?.length ? s.map(x => `<span class="skill-tag">${x}</span>`).join(' ') : ''; }
-        function certBadges(c) { return c?.length ? c.map(x => `<span class="cert-tag">${x}</span>`).join(' ') : ''; }
-        function expList(exp) { return exp?.length ? exp.map(e => `<div style="margin-bottom:12px"><p class="job-title">${e.title}</p><p class="job-company">${e.company} <span class="job-date">| ${e.period}</span></p><ul>${e.description.split('.').filter(s=>s.trim().length>0).map(s=>`<li>${s.trim()}</li>`).join('')}</ul></div>`).join('') : ''; }
-        function eduList(edu) { return edu?.length ? edu.map(e => `<div style="margin-bottom:6px"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.02)">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${e.school}, ${e.year}</p></div>`).join('') : ''; }
-        function projectList(items) { return items?.length ? items.map(p => `<div style="margin-bottom:8px"><p style="font-weight:700">${p.name}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${p.description}</p></div>`).join('') : ''; }
-        function publicationList(items) { return items?.length ? items.map(p => `<div style="margin-bottom:8px"><p style="font-weight:700">${p.title}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${p.publisher}, ${p.year}</p></div>`).join('') : ''; }
-        function volunteeringList(items) { return items?.length ? items.map(v => `<div style="margin-bottom:8px"><p style="font-weight:700">${v.role}</p><p style="font-size:calc(var(--cv-font-size)*0.9)">${v.organization}, ${v.period}</p></div>`).join('') : ''; }
-        function interestsList(items) { return items?.length ? items.map(i => `<span class="skill-tag">${i}</span>`).join(' ') : ''; }
-        function contactLine(p) { return `${p.email} | ${p.phone} | ${p.location}`; }
-        const paperBg = { white:'#ffffff', cream:'#faf8f5', ivory:'#fffff0', gray:'#f8f9fa', dark:'#1a1a2e', warm:'#fdf6e3', cool:'#f0f4f8' };
-        const paperFg = { white:'#0f172a', cream:'#1c1917', ivory:'#1e1b4b', gray:'#1a1a2e', dark:'#e2e8f0', warm:'#1a1a1a', cool:'#1a202c' };
-        const alignClass = () => state.align === 'justify' ? 'text-justify' : 'text-left';
-
-        // ==================== EXTRA SECTIONS HTML ====================
-        function extraSectionsHTML() {
-            let html = '';
-            if (state.projects.length) html += `<div class="section-title" style="text-align:${state.align}">${t('projects_section')}</div><div class="${alignClass()}">${projectList(state.projects)}</div>`;
-            if (state.publications.length) html += `<div class="section-title" style="text-align:${state.align}; margin-top:15px;">${t('publications_section')}</div><div class="${alignClass()}">${publicationList(state.publications)}</div>`;
-            if (state.volunteering.length) html += `<div class="section-title" style="text-align:${state.align}; margin-top:15px;">${t('volunteering_section')}</div><div class="${alignClass()}">${volunteeringList(state.volunteering)}</div>`;
-            if (state.interests.length) html += `<div class="section-title" style="text-align:${state.align}; margin-top:15px;">${t('interests_section')}</div><div class="${alignClass()}">${interestsList(state.interests)}</div>`;
-            return html;
-        }
-
-        // ==================== TEMPLATE RENDERERS (10 modelos) ====================
         const renderers = {
             'classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};">
-                <div style="text-align:center;border-bottom:2px solid ${state.accentColor};padding:30px 30px 20px;">
+                <div class="header-centered" style="border-bottom:2px solid ${state.accentColor};padding:30px 30px 20px;">
                     <h1 style="font-size:calc(var(--cv-font-size)*2.2);letter-spacing:1px;margin:0;color:#222;font-family:'Playfair Display', serif;">${p.name.toUpperCase()}</h1>
                     <div style="font-size:calc(var(--cv-font-size)*1.1);color:#555;margin:3px 0 10px;">${p.title}</div>
-                    <div style="display:flex;justify-content:center;gap:15px;font-size:calc(var(--cv-font-size)*0.85);color:#666;flex-wrap:wrap;">
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.85);color:#666;">
                         <span>${p.email}</span><span>|</span><span>${p.phone}</span><span>|</span><span>${p.location}</span>
                     </div>
                     ${p.photo ? `<div style="margin-top:10px;"><img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;"></div>` : ''}
@@ -1476,7 +480,7 @@
             'minimalist': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:row;padding:30px;min-height:100%;">
                 <div style="flex:2;padding-right:30px;border-right:1px solid #ebebeb;">
-                    <div style="margin-bottom:20px;text-align:center;">
+                    <div class="header-centered" style="margin-bottom:20px;">
                         <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:300;margin:0 0 3px;letter-spacing:1px;color:#111;">${p.name.split(' ')[0]} <span style="font-weight:600;">${p.name.split(' ').slice(1).join(' ')}</span></h1>
                         <h2 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:400;color:#666;margin:0 0 15px;">${p.title}</h2>
                     </div>
@@ -1492,7 +496,7 @@
                                 <div style="margin-bottom:15px;">
                                     <h4 style="font-size:calc(var(--cv-font-size)*1.05);font-weight:600;margin:0 0 2px;color:#222;">${e.title}</h4>
                                     <span style="font-size:calc(var(--cv-font-size)*0.85);color:#777;margin-bottom:5px;display:block;">${e.company} | ${e.period}</span>
-                                    <p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;margin:0;text-align:justify;">${e.description}</p>
+                                    <div style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${e.description}</div>
                                 </div>
                             `).join('')}
                         </div>
@@ -1536,13 +540,15 @@
             </div>`,
             'vince-murray': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:column;background:#fff;min-height:100%;">
-                <div style="background-color:${state.accentColor};color:#fff;padding:20px 25px 10px 25px;margin:0 0 20px 0;display:flex;flex-direction:row;align-items:center;gap:15px;flex-wrap:wrap;">
-                    ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;object-fit:cover;">` : `<div style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;background:#fff;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cv-font-size)*1.5);color:${state.accentColor};">${p.name.charAt(0)}</div>`}
-                    <div style="flex:1;">
-                        <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:700;margin:0;">${p.name}</h1>
-                        <h2 style="font-size:calc(var(--cv-font-size)*0.9);font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin:2px 0 0 0;opacity:0.8;">${p.title}</h2>
+                <div class="header-centered" style="background-color:${state.accentColor};color:#fff;padding:20px 25px 10px 25px;margin:0 0 20px 0;display:flex;flex-direction:column;align-items:center;gap:15px;flex-wrap:wrap;">
+                    <div style="display:flex;flex-direction:row;align-items:center;gap:15px;flex-wrap:wrap;text-align:center;">
+                        ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;object-fit:cover;">` : `<div style="width:70px;height:70px;border-radius:50%;border:3px solid #fff;background:#fff;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cv-font-size)*1.5);color:${state.accentColor};">${p.name.charAt(0)}</div>`}
+                        <div>
+                            <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:700;margin:0;">${p.name}</h1>
+                            <h2 style="font-size:calc(var(--cv-font-size)*0.9);font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin:2px 0 0 0;opacity:0.8;">${p.title}</h2>
+                        </div>
                     </div>
-                    <div style="display:flex;justify-content:flex-end;gap:12px;font-size:calc(var(--cv-font-size)*0.8);padding-bottom:10px;flex-wrap:wrap;color:rgba(255,255,255,0.9);width:100%;">
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.8);color:rgba(255,255,255,0.9);">
                         <span>✉️ ${p.email}</span>
                         <span>📍 ${p.location}</span>
                         <span>📞 ${p.phone}</span>
@@ -1558,9 +564,7 @@
                                 <div style="margin-bottom:15px;">
                                     <div style="font-size:calc(var(--cv-font-size)*1.05);font-weight:700;color:#222;margin-bottom:0px;">${e.title}</div>
                                     <span style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin-bottom:5px;display:block;">${e.company} | ${e.period}</span>
-                                    <ul style="list-style-type:disc;padding-left:16px;margin:0;font-size:var(--cv-font-size);line-height:1.5;color:#333;">
-                                        ${e.description.split('.').filter(s=>s.trim().length>0).map(s => `<li style="margin-bottom:3px;">${s.trim()}</li>`).join('')}
-                                    </ul>
+                                    <div style="font-size:var(--cv-font-size);line-height:1.5;color:#333;">${e.description}</div>
                                 </div>
                             `).join('')}
                         `:''}
@@ -1589,12 +593,12 @@
             </div>`,
             'executive-classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:25px;">
-                <div style="border-bottom:3px solid ${state.accentColor};padding-bottom:15px;margin-bottom:20px;text-align:center;">
+                <div class="header-centered" style="border-bottom:3px solid ${state.accentColor};padding-bottom:15px;margin-bottom:20px;">
                     ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;border:3px solid ${state.accentColor};object-fit:cover;display:block;margin:0 auto 10px;">` : ''}
                     <h1 style="font-size:calc(var(--cv-font-size)*2);font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
                     <p style="font-size:calc(var(--cv-font-size)*1);color:#555;margin:5px 0 8px;letter-spacing:1px;text-transform:uppercase;">${p.title}</p>
-                    <div style="font-size:calc(var(--cv-font-size)*0.85);color:#777;">
-                        <span>✉️ ${p.email}</span> · <span>📱 ${p.phone}</span> · <span>📍 ${p.location}</span>
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.85);color:#777;">
+                        <span>✉️ ${p.email}</span><span>📱 ${p.phone}</span><span>📍 ${p.location}</span>
                     </div>
                 </div>
                 <div style="max-width:800px;margin:0 auto;">
@@ -1602,7 +606,7 @@
                     <p style="font-size:var(--cv-font-size);line-height:1.6;color:#444;text-align:justify;">${p.summary}</p>
                     ${skills.length?`<div style="margin:15px 0;"><span style="font-weight:700;font-size:calc(var(--cv-font-size)*1);color:${state.accentColor};text-transform:uppercase;">${t('skills_section')}</span><div style="margin-top:5px;">${skillBadges(skills)}</div></div>`:''}
                     ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('professional_experience')}</h3>
-                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#888;margin:2px 0;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#888;margin:2px 0;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                     ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('education_section')}</h3>
                         ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:700;font-size:calc(var(--cv-font-size)*1.05);color:#222;">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #ddd;padding-bottom:5px;text-transform:uppercase;margin-top:20px;">${t('languages_section')}</h3>
@@ -1614,10 +618,10 @@
             </div>`,
             'compact-pro': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:15px;font-size:var(--cv-font-size);">
-                <div style="border-bottom:2px solid ${state.accentColor};padding-bottom:10px;margin-bottom:15px;">
+                <div class="header-centered" style="border-bottom:2px solid ${state.accentColor};padding-bottom:10px;margin-bottom:15px;">
                     <h1 style="font-size:calc(var(--cv-font-size)*1.6);font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
                     <p style="font-size:calc(var(--cv-font-size)*0.9);color:#666;margin:2px 0 5px;">${p.title}</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:calc(var(--cv-font-size)*0.8);color:#777;">
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.8);color:#777;">
                         <span>${p.email}</span><span>•</span><span>${p.phone}</span><span>•</span><span>${p.location}</span>
                     </div>
                 </div>
@@ -1626,7 +630,7 @@
                         <p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;">${t('professional_summary')}</p>
                         <p style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${p.summary}</p>
                         ${exp.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('professional_experience')}</p>
-                            ${exp.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*0.9);margin:0;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.8);color:#999;margin:1px 0;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                            ${exp.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*0.9);margin:0;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.8);color:#999;margin:1px 0;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                         ${edu.length?`<p style="font-weight:700;font-size:calc(var(--cv-font-size)*0.9);color:${state.accentColor};text-transform:uppercase;border-bottom:1px solid #eee;padding-bottom:3px;margin-top:15px;">${t('education_section')}</p>
                             ${edu.map(e => `<div style="margin-bottom:6px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*0.9);margin:0;">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.8);color:#999;margin:1px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     </div>
@@ -1643,11 +647,11 @@
             </div>`,
             'modern-split': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};display:flex;flex-direction:column;background:#fff;min-height:100%;">
-                <div style="padding:20px 25px;background:#f8f9fa;border-bottom:3px solid ${state.accentColor};text-align:center;">
+                <div class="header-centered" style="padding:20px 25px;background:#f8f9fa;border-bottom:3px solid ${state.accentColor};">
                     <h1 style="font-size:calc(var(--cv-font-size)*1.8);font-weight:600;margin:0;color:#1a1a1a;">${p.name}</h1>
                     <p style="font-size:calc(var(--cv-font-size)*1);color:#666;margin:2px 0;">${p.title}</p>
-                    <div style="font-size:calc(var(--cv-font-size)*0.85);color:#777;margin-top:5px;">
-                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.85);color:#777;margin-top:5px;">
+                        <span>${p.email}</span><span>•</span><span>${p.phone}</span><span>•</span><span>${p.location}</span>
                     </div>
                     ${p.photo ? `<div style="margin-top:10px;"><img src="${p.photo}" style="width:60px;height:60px;border-radius:50%;border:2px solid ${state.accentColor};object-fit:cover;"></div>` : ''}
                 </div>
@@ -1656,7 +660,7 @@
                         <p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;">${t('professional_summary')}</p>
                         <p style="font-size:var(--cv-font-size);line-height:1.5;color:#444;text-align:justify;">${p.summary}</p>
                         ${exp.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('professional_experience')}</p>
-                            ${exp.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*1.05);margin:0;color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin:2px 0;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                            ${exp.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*1.05);margin:0;color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin:2px 0;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size);line-height:1.4;color:#444;text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                         ${edu.length?`<p style="font-size:calc(var(--cv-font-size)*1.1);font-weight:700;color:${state.accentColor};border-bottom:1px solid #eee;padding-bottom:5px;text-transform:uppercase;margin-top:15px;">${t('education_section')}</p>
                             ${edu.map(e => `<div style="margin-bottom:8px;"><p style="font-weight:600;font-size:calc(var(--cv-font-size)*1.05);margin:0;">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85);color:#999;margin:2px 0;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     </div>
@@ -1673,10 +677,10 @@
             </div>`,
             'elegant-pro': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont};background:#fff;padding:25px;">
-                <div style="text-align:center;margin-bottom:30px;">
+                <div class="header-centered" style="margin-bottom:30px;">
                     <div style="font-family:'Playfair Display', serif; font-size:calc(var(--cv-font-size)*2.4); font-weight:600; color:#1a1a1a;">${p.name}</div>
                     <div style="color:${state.accentColor}; font-size:calc(var(--cv-font-size)*1); letter-spacing:2px; text-transform:uppercase; margin-top:5px;">${p.title}</div>
-                    <div style="display:flex; justify-content:center; gap:15px; margin-top:10px; font-size:calc(var(--cv-font-size)*0.85); color:#777;">
+                    <div class="contact-line" style="margin-top:10px; font-size:calc(var(--cv-font-size)*0.85); color:#777;">
                         <span>${p.email}</span><span>${p.phone}</span><span>${p.location}</span>
                     </div>
                     ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin-top:15px;">` : ''}
@@ -1686,7 +690,7 @@
                         <h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase;">${t('professional_summary')}</h3>
                         <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
                         ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
-                            ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                            ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                         ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.1); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
                             ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     </div>
@@ -1703,11 +707,11 @@
             </div>`,
             'corporate-classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont}; background:#fff; padding:0;">
-                <div style="background:${state.accentColor}; color:white; padding:20px 30px; text-align:center;">
+                <div class="header-centered" style="background:${state.accentColor}; color:white; padding:20px 30px;">
                     <h1 style="font-size:calc(var(--cv-font-size)*2); font-weight:700; margin:0;">${p.name}</h1>
                     <p style="margin:5px 0 0; opacity:0.9; font-size:calc(var(--cv-font-size)*1);">${p.title}</p>
-                    <div style="font-size:calc(var(--cv-font-size)*0.85); opacity:0.9; margin-top:10px;">
-                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.85); opacity:0.9; margin-top:10px;">
+                        <span>${p.email}</span><span>${p.phone}</span><span>${p.location}</span>
                     </div>
                 </div>
                 <div style="padding:25px 30px;">
@@ -1715,7 +719,7 @@
                     <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
                     ${skills.length?`<div style="margin:15px 0;"><span style="font-weight:700; font-size:calc(var(--cv-font-size)*1); color:${state.accentColor}; text-transform:uppercase;">${t('skills_section')}</span><div style="margin-top:5px;">${skillBadges(skills)}</div></div>`:''}
                     ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
-                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                     ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
                         ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     ${langs.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; border-bottom:1px solid #ddd; padding-bottom:5px; text-transform:uppercase; margin-top:20px;">${t('languages_section')}</h3>
@@ -1727,11 +731,11 @@
             </div>`,
             'executive-minimal': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont}; background:#fff; padding:25px;">
-                <div style="text-align:center; margin-bottom:25px;">
+                <div class="header-centered" style="margin-bottom:25px;">
                     <h1 style="font-size:calc(var(--cv-font-size)*2); font-weight:600; color:#1a1a1a;">${p.name}</h1>
                     <p style="color:${state.accentColor}; font-size:calc(var(--cv-font-size)*1); letter-spacing:1px; text-transform:uppercase; margin-top:5px;">${p.title}</p>
-                    <div style="font-size:calc(var(--cv-font-size)*0.85); color:#777; margin-top:10px;">
-                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.85); color:#777; margin-top:10px;">
+                        <span>${p.email}</span><span>${p.phone}</span><span>${p.location}</span>
                     </div>
                     ${p.photo ? `<div style="margin-top:15px;"><img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;"></div>` : ''}
                 </div>
@@ -1739,7 +743,7 @@
                     <h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-bottom:10px;">${t('professional_summary')}</h3>
                     <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
                     ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
-                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                     ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
                         ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     ${skills.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('skills_section')}</h3>
@@ -1753,11 +757,11 @@
             </div>`,
             'modern-classic': (p, exp, edu, skills, langs, certs) => `
             <div class="cv-content" style="font-family:${state.selectedFont}; background:#fff; padding:25px;">
-                <div style="text-align:center; margin-bottom:25px;">
+                <div class="header-centered" style="margin-bottom:25px;">
                     <h1 style="font-size:calc(var(--cv-font-size)*2.2); font-weight:600; color:#1a1a1a;">${p.name}</h1>
                     <p style="color:${state.accentColor}; font-size:calc(var(--cv-font-size)*1); letter-spacing:2px; text-transform:uppercase; margin-top:5px;">${p.title}</p>
-                    <div style="font-size:calc(var(--cv-font-size)*0.85); color:#777; margin-top:10px;">
-                        <span>${p.email}</span> · <span>${p.phone}</span> · <span>${p.location}</span>
+                    <div class="contact-line" style="font-size:calc(var(--cv-font-size)*0.85); color:#777; margin-top:10px;">
+                        <span>${p.email}</span><span>${p.phone}</span><span>${p.location}</span>
                     </div>
                     ${p.photo ? `<img src="${p.photo}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin-top:15px;">` : ''}
                 </div>
@@ -1765,7 +769,7 @@
                     <h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-bottom:10px;">${t('professional_summary')}</h3>
                     <p style="font-size:var(--cv-font-size); line-height:1.6; color:#444; text-align:justify;">${p.summary}</p>
                     ${exp.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('professional_experience')}</h3>
-                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><p style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</p></div>`).join('')}`:''}
+                        ${exp.map(e => `<div style="margin-bottom:15px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05); color:#222;">${e.title}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.company} | ${e.period}</p><div style="font-size:var(--cv-font-size); color:#444; text-align:justify;">${e.description}</div></div>`).join('')}`:''}
                     ${edu.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('education_section')}</h3>
                         ${edu.map(e => `<div style="margin-bottom:10px;"><p style="font-weight:600; font-size:calc(var(--cv-font-size)*1.05);">${e.degree}</p><p style="font-size:calc(var(--cv-font-size)*0.85); color:#888;">${e.school}${e.year ? ', ' + e.year : ''}</p></div>`).join('')}`:''}
                     ${skills.length?`<h3 style="font-size:calc(var(--cv-font-size)*1.2); font-weight:700; color:${state.accentColor}; text-transform:uppercase; margin-top:20px;">${t('skills_section')}</h3>
@@ -1781,13 +785,12 @@
 
         const fallbackRenderer = renderers['classic'];
 
-        // ==================== COVER LETTER ====================
         function renderCoverLetter() {
             const p = state.personal;
             const exp = state.experience;
-            const today = new Date().toLocaleDateString(currentLang === 'pt' ? 'pt-PT' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const today = new Date().toLocaleDateString(currentLang === 'pt' ? 'pt-PT' : 'en-US', { year:'numeric', month:'long', day:'numeric' });
             let bodyText = t('cover_letter_body');
-            if (exp.length > 0) bodyText += `<br><br>In my current role as <strong>${exp[0].title}</strong> at <strong>${exp[0].company}</strong>, I have successfully ${exp[0].description.toLowerCase().replace(/^lead/, 'led').replace(/^managed/, 'managed')}.`;
+            if (exp.length > 0) bodyText += `<br><br>In my current role as <strong>${exp[0].title}</strong> at <strong>${exp[0].company}</strong>, I have successfully ${exp[0].description.toLowerCase().replace(/^lead/,'led').replace(/^managed/,'managed')}.`;
             bodyText += `<br><br>I am eager to bring my expertise in ${state.skills.slice(0,3).join(', ')} to your organization.`;
             return `
             <div class="cv-content" style="font-family:${state.selectedFont}; max-width:100%;">
@@ -1801,7 +804,6 @@
             </div>`;
         }
 
-        // ==================== RENDER CV ====================
         function renderCV() {
             const preview = document.getElementById('cv-capture-area');
             const paperClassMap = { white:'paper-white', cream:'paper-cream', ivory:'paper-ivory', gray:'paper-gray', dark:'paper-dark', warm:'paper-warm', cool:'paper-cool' };
@@ -1822,20 +824,20 @@
                 if (onclick.includes(`'${state.template}'`)) b.classList.add('active');
             });
         }
-
-        function setTemplate(t) {
-            state.template = t;
-            updateStateAndRender();
-            showToast(`Template: ${t}`);
-        }
-
+        function setTemplate(t) { state.template = t; updateStateAndRender(); showToast(`Template: ${t}`); }
         function changePaperColor(c) { state.paperColor = c; updateStateAndRender(); }
 
-        // ==================== UPDATE CV SCALE ====================
         function updateCVScale() {
             const wrapper = document.getElementById('cv-preview-wrapper');
             const cv = document.getElementById('cv-capture-area');
             if (!wrapper || !cv) return;
+            if (window.innerWidth <= 640) {
+                cv.style.transform = 'none';
+                cv.style.width = '100%';
+                cv.style.minHeight = 'auto';
+                cv.style.height = 'auto';
+                return;
+            }
             const wrapperRect = wrapper.getBoundingClientRect();
             const padding = 8;
             const availWidth = wrapperRect.width - padding * 2;
@@ -1855,7 +857,6 @@
             cv.style.transformOrigin = 'center center';
         }
 
-        // ==================== TOAST ====================
         function showToast(m) {
             const c = document.getElementById('toastContainer');
             const t = document.createElement('div');
@@ -1865,7 +866,6 @@
             setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.25s'; setTimeout(() => t.remove(), 250); }, 1600);
         }
 
-        // ==================== EDITORES ====================
         function initPersonalEditor() {
             const editor = document.getElementById('personalEditor');
             const fields = [
@@ -1938,7 +938,6 @@
         function addVolunteering() { state.volunteering.push({role:'',organization:'',period:''}); renderVolunteeringEditor(); updateStateAndRender(); }
         function removeVolunteering(i) { state.volunteering.splice(i,1); renderVolunteeringEditor(); updateStateAndRender(); }
 
-        // ==================== DRAG & DROP ORDER ====================
         function populateSectionOrderList() {
             const list = document.getElementById('sectionOrderList');
             list.innerHTML = state.sectionsOrder.map(sectionId => {
@@ -1983,7 +982,6 @@
             draggedItem = null;
         }
 
-        // ==================== TEMPLATE QUICK GRID ====================
         function populateTemplateQuickGrid() {
             const grid = document.getElementById('templateQuickGrid');
             const quickTemplates = templateDefinitions.slice(0, 6);
@@ -1992,7 +990,6 @@
             `).join('');
         }
 
-        // ==================== LOAD PROFILE ====================
         function loadProfile(profileId) {
             const profile = PROFILES[profileId];
             if (!profile) return;
@@ -2010,7 +1007,6 @@
             showToast(`Perfil ${profileId.replace('_',' ')} carregado!`);
         }
 
-        // ==================== MULTI-PAGE VIEWER ====================
         function openMultiPageViewer() {
             if (isViewerOpen) return;
             isViewerOpen = true;
@@ -2126,7 +1122,6 @@
             currentPage.style.transformOrigin = 'center center';
         }
 
-        // ==================== MISC ====================
         function copyEmolaNumber() {
             const num = document.getElementById('emolaNumberText').textContent.replace(/\s/g, '');
             navigator.clipboard.writeText(num).then(() => {
@@ -2156,7 +1151,6 @@
             }
         }
 
-        // ==================== INIT ====================
         function init() {
             const loaded = loadFromLocalStorage();
             if (!loaded) {
@@ -2204,7 +1198,7 @@
         }
 
         window.onload = init;
-        console.log('🚀 CV Builder Pro • 10 Templates, bloqueio ativo, exportação fiel!');
+        console.log('🚀 CV Builder Pro • Centralização concluída com sucesso!');
     </script>
 </body>
 </html>
